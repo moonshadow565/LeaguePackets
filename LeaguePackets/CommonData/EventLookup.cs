@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using LeaguePackets.CommonData.Events;
 namespace LeaguePackets.CommonData
 {
-    public abstract partial class Event
+    public static partial class EventExtension
     {
         private static readonly Dictionary<EventID, Func<PacketReader, Event>> _lookup
             = new Dictionary<EventID, Func<PacketReader, Event>>

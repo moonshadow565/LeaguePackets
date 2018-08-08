@@ -15,18 +15,21 @@ namespace LeaguePackets
         {
             writer.WriteByte((byte)ID);
         }
+    }
 
-        public static PayloadPacket CreatePayloadPacket(PacketReader reader, ChannelID channelID)
+    public static partial class PayloadPacketExtension
+    {
+        public static PayloadPacket ReadPayloadPacket(this PacketReader reader, ChannelID channelID)
         {
             byte rawID = reader.ReadByte();
-            return CreatePayloadPacket(reader, channelID, rawID);
+            return reader.ReadPayloadPacket(channelID, rawID);
         }
 
-        public static PayloadPacket CreatePayloadPacket(PacketReader reader, ChannelID channelID, byte rawID)
+        public static PayloadPacket ReadPayloadPacket(this PacketReader reader, ChannelID channelID, byte rawID)
         {
             var id = (PayloadPacketID)rawID;
             PayloadPacket packet;
-            if(!Enum.IsDefined(typeof(PayloadPacketID), id))
+            if (!Enum.IsDefined(typeof(PayloadPacketID), id))
             {
                 packet = new UnknownPayloadPacket(reader, channelID, id);
             }

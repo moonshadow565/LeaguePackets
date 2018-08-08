@@ -14,7 +14,8 @@ namespace LeaguePackets
 
         public KeyCheckPacket(PacketReader reader, ChannelID channelID) 
             : this(reader, channelID, reader.ReadByte())
-        {}
+        {
+        }
 
         public KeyCheckPacket(PacketReader reader, ChannelID channelID, byte rawID)
         {

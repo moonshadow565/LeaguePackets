@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace LeaguePackets
 {
-    public abstract partial class PayloadPacket
+    public static partial class PayloadPacketExtension
     {
         private static readonly Dictionary<PayloadPacketID, Func<PacketReader, ChannelID, PayloadPacket>> _lookup
         = new Dictionary<PayloadPacketID, Func<PacketReader, ChannelID, PayloadPacket>>

@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace LeaguePackets
 {
-    public abstract partial class GamePacket
+    public static partial class GamePacketExtension
     {
         private static readonly Dictionary<GamePacketID, Func<PacketReader, ChannelID, NetID, GamePacket>> _lookup
         = new Dictionary<GamePacketID, Func<PacketReader, ChannelID, NetID, GamePacket>>

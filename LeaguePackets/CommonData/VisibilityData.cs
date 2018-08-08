@@ -205,14 +205,15 @@ namespace LeaguePackets.CommonData
             base.ReadBodyInternal(reader);
             MovementDataType movementType = reader.ReadMovementDataType();
             MovementSyncID = reader.ReadInt32();
-            MovementData = MovementData.Create(reader, movementType);
+            MovementData = reader.ReadMovementData(movementType);
         }
+
         public override void WriteBodyInternal(PacketWriter writer)
         {
             base.WriteBodyInternal(writer);
             writer.WriteMovementDataType(MovementData.Type);
             writer.WriteInt32(MovementSyncID);
-            MovementData.Write(writer);
+            writer.WriteMovementData(MovementData);
         }
     }
 

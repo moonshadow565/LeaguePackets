@@ -41,7 +41,7 @@ namespace LeaguePackets.GamePackets
                 var data = new EventData();
                 data.Timestamp = reader.ReadFloat();
                 data.Count = reader.ReadUInt16();
-                data.Event = Event.Create(reader);
+                data.Event = reader.ReadEvent();
             }
 
             this.ExtraBytes = reader.ReadLeft();
@@ -56,7 +56,7 @@ namespace LeaguePackets.GamePackets
             {
                 writer.WriteFloat(data.Timestamp);
                 writer.WriteUInt16(data.Count);
-                data.Event.Write(writer);
+                writer.WriteEvent(data.Event);
             }
 
         }

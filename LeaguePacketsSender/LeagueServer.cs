@@ -231,7 +231,7 @@ namespace LeaguePacketsSender
             {
                 using(var reader = new PacketReader(rawData))
                 {
-                    var packet = BasePacket.Create(reader, channel);
+                    var packet = reader.ReadPacket(channel);
                     OnPacket(this, new LeaguePacketEventArgs(cid, channel, packet));
                 }
             }

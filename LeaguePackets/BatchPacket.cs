@@ -11,14 +11,15 @@ namespace LeaguePackets
     {
         public List<BasePacket> Packets { get; set; } = new List<BasePacket>();
 
-        public static BatchPacket CreateBody(PacketReader reader, ChannelID channel)
+        public BatchPacket() {}
+
+        public BatchPacket(PacketReader reader, ChannelID channel)
         {
-            var result = new BatchPacket();
             int count = reader.ReadByte();
             long totalSize = reader.Stream.Length - 2;
             if(totalSize < 1 || count == 0)
             {
-                return result;
+                return;
             }
 
 
@@ -41,8 +42,8 @@ namespace LeaguePackets
                 stream.Seek(0, SeekOrigin.Begin);
                 using(var packetReader = new PacketReader(stream, true))
                 {
-                    var packet = BasePacket.Create(reader, channel);
-                    result.Packets.Add(packet);
+                    var packet = reader.ReadPacket(channel);
+                    Packets.Add(packet);
                 }
             }
 
@@ -79,13 +80,11 @@ namespace LeaguePackets
                     stream.Seek(0, SeekOrigin.Begin);
                     using (var packetReader = new PacketReader(stream, true))
                     {
-                        var packet = BasePacket.Create(reader, channel);
-                        result.Packets.Add(packet);
+                        var packet = reader.ReadPacket(channel);
+                        Packets.Add(packet);
                     }
                 }
             }
-
-            return result;
         }
 
         public override void WriteHeader(PacketWriter writer)

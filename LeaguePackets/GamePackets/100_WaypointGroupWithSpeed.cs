@@ -25,7 +25,7 @@ namespace LeaguePackets.GamePackets
             int count = reader.ReadInt16();
             for (int i = 0; i < count; i++)
             {
-                this.Movements.Add(MovementDataWithSpeed.Create(reader));
+                this.Movements.Add(new MovementDataWithSpeed(reader));
             }
             this.ExtraBytes = reader.ReadLeft();
         }

@@ -28,29 +28,32 @@ namespace LeaguePackets
                 writer.WriteNetID(SenderNetID);
             }
         }
+    }
 
-        public static GamePacket CreateGamePacket(PacketReader reader, ChannelID channel)
+    public static partial class GamePacketExtension
+    {
+        public static GamePacket ReadGamePacket(this PacketReader reader, ChannelID channel)
         {
             byte rawID = reader.ReadByte();
-            return CreateGamePacket(reader, channel, rawID);
+            return reader.ReadGamePacket(channel, rawID);
         }
 
-        public static GamePacket CreateGamePacket(PacketReader reader, ChannelID channel, byte rawID)
+        public static GamePacket ReadGamePacket(this PacketReader reader, ChannelID channel, byte rawID)
         {
             var sender = reader.ReadNetID();
-            return CreateGamePacket(reader, channel, rawID, sender);
+            return reader.ReadGamePacket(channel, rawID, sender);
         }
 
-        public static GamePacket CreateGamePacket(PacketReader reader, ChannelID channelID, byte rawID, NetID sender)
+        public static GamePacket ReadGamePacket(this PacketReader reader, ChannelID channelID, byte rawID, NetID sender)
         {
             var id = (GamePacketID)rawID;
-            if( id == GamePacketID.ExtendedPacket)
+            if (id == GamePacketID.ExtendedPacket)
             {
                 id = (GamePacketID)reader.ReadUInt16();
             }
             GamePacket packet;
-            if (!Enum.IsDefined(typeof(GamePacketID), id) 
-                || id == GamePacketID.ExtendedPacket 
+            if (!Enum.IsDefined(typeof(GamePacketID), id)
+                || id == GamePacketID.ExtendedPacket
                 || id == GamePacketID.Batched)
             {
                 packet = new UnknownGamePacket(reader, channelID, sender, id);

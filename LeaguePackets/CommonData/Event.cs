@@ -15,9 +15,13 @@ namespace LeaguePackets.CommonData
             writer.WriteByte((byte)EventID);
             WriteArgs(writer);
         }
+    }
 
-        public static Event Create(EventID id, PacketReader reader)
+    public static partial class EventExtension
+    {
+        public static Event ReadEvent(this PacketReader reader)
         {
+            var id = (EventID)reader.ReadByte();
             if (!Enum.IsDefined(typeof(EventID), id))
             {
                 throw new IOException("Unknow event ID!");
@@ -27,10 +31,9 @@ namespace LeaguePackets.CommonData
             return ev;
         }
 
-        public static Event Create(PacketReader reader)
+        public static void WriteEvent(this PacketWriter writer, Event ev)
         {
-            var id = (EventID)reader.ReadByte();
-            return Create(id, reader);
+            ev.Write(writer);
         }
     }
 }

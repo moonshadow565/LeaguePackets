@@ -19,22 +19,31 @@ namespace LeaguePackets.CommonData
     {
         public abstract void Write(PacketWriter writer);
         public abstract MovementDataType Type { get; }
+    }
 
-        public static MovementData Create(PacketReader reader, MovementDataType type)
+    public static class MovementDataExtension
+    {
+        public static MovementData ReadMovementData(this PacketReader reader, MovementDataType type)
         {
-            switch(type)
+            switch (type)
             {
                 case MovementDataType.Stop:
-                    return MovementDataStop.Create(reader);
+                    return new MovementDataStop(reader);
                 case MovementDataType.Normal:
-                    return MovementDataNormal.Create(reader);
+                    return new MovementDataNormal(reader);
                 case MovementDataType.WithSpeed:
-                    return MovementDataWithSpeed.Create(reader);
+                    return new MovementDataWithSpeed(reader);
                 default:
-                    return MovementDataNone.Create(reader);
+                    return new MovementDataNone(reader);
             }
         }
+
+        public static void WriteMovementData(this PacketWriter writer, MovementData data)
+        {
+            data.Write(writer);
+        }
     }
+
 
     public class MovementDataNone : MovementData
     {
@@ -43,10 +52,9 @@ namespace LeaguePackets.CommonData
         public override void Write(PacketWriter writer)
         {
         }
-        public static MovementDataNone Create(PacketReader reader)
+        public MovementDataNone() {}
+        public MovementDataNone(PacketReader reader)
         {
-            var data = new MovementDataNone();
-            return data;
         }
     }
 
@@ -61,12 +69,11 @@ namespace LeaguePackets.CommonData
             writer.WriteVector2(Position);
             writer.WriteVector2(Forward);
         }
-        public static MovementDataStop Create(PacketReader reader)
+        public MovementDataStop() {}
+        public MovementDataStop(PacketReader reader)
         {
-            var data = new MovementDataStop();
-            data.Position = reader.ReadVector2();
-            data.Forward = reader.ReadVector2();
-            return data;
+            Position = reader.ReadVector2();
+            Forward = reader.ReadVector2();
         }
     }
 
@@ -77,6 +84,7 @@ namespace LeaguePackets.CommonData
         public bool HasTeleportID { get; set; }
         public byte TeleportID { get; set; }
         public List<Tuple<short, short>> Waypoints { get; set; }
+
         public override void Write(PacketWriter writer)
         {
             int waypointsSize = Waypoints.Count;
@@ -104,22 +112,23 @@ namespace LeaguePackets.CommonData
                 writer.WriteCompressedWaypoints(Waypoints);
             }
         }
-        public static MovementDataNormal Create(PacketReader reader)
+
+        public MovementDataNormal() {}
+
+        public MovementDataNormal(PacketReader reader)
         {
-            var data = new MovementDataNormal();
             byte bitfield = reader.ReadByte();
             byte size = (byte)(bitfield >> 1);
-            data.HasTeleportID = (bitfield & 1) != 0;
+            HasTeleportID = (bitfield & 1) != 0;
             if(size >= 2)
             {
-                data.TeleportNetID = reader.ReadNetID();
-                if (data.HasTeleportID)
+                TeleportNetID = reader.ReadNetID();
+                if (HasTeleportID)
                 {
-                    data.TeleportID = reader.ReadByte();
+                    TeleportID = reader.ReadByte();
                 }
-                data.Waypoints = reader.ReadCompressedWaypoints(size / 2u);
+                Waypoints = reader.ReadCompressedWaypoints(size / 2u);
             }
-            return data;
         }
     }
 
@@ -155,23 +164,22 @@ namespace LeaguePackets.CommonData
                 writer.WriteCompressedWaypoints(Waypoints);
             }
         }
-        public new static MovementDataWithSpeed Create(PacketReader reader)
+        public MovementDataWithSpeed() {}
+        public MovementDataWithSpeed(PacketReader reader)
         {
-            var data = new MovementDataWithSpeed();
             byte bitfield = reader.ReadByte();
             byte size = (byte)(bitfield >> 1);
-            data.HasTeleportID = (bitfield & 1) != 0;
+            HasTeleportID = (bitfield & 1) != 0;
             if (size >= 2)
             {
-                data.TeleportNetID = reader.ReadNetID();
-                if(data.HasTeleportID)
+                TeleportNetID = reader.ReadNetID();
+                if(HasTeleportID)
                 {
-                    data.TeleportID = reader.ReadByte();
+                    TeleportID = reader.ReadByte();
                 }
-                data.SpeedParams = reader.ReadWaypointSpeedParams();
-                data.Waypoints = reader.ReadCompressedWaypoints(size / 2u);
+                SpeedParams = reader.ReadWaypointSpeedParams();
+                Waypoints = reader.ReadCompressedWaypoints(size / 2u);
             }
-            return data;
         }
     }
 

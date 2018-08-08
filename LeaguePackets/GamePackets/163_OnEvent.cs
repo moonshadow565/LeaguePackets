@@ -20,12 +20,12 @@ namespace LeaguePackets.GamePackets
             this.SenderNetID = senderNetID;
             this.ChannelID = channelID;
 
-            this.Event = Event.Create(reader);
+            this.Event = reader.ReadEvent();
             this.ExtraBytes = reader.ReadLeft();
         }
         public override void WriteBody(PacketWriter writer)
         {
-            Event.Write(writer);
+            writer.WriteEvent(Event);
         }
     }
 }

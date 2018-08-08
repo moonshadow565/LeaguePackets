@@ -32,7 +32,7 @@ namespace LeaguePackets.GamePackets
                 byte[] data = reader.ReadBytes(size);
                 using (var reader2 = new PacketReader(new MemoryStream(data)))
                 {
-                    this.Packets.Add(GamePacket.CreateGamePacket(reader2, channelID));
+                    this.Packets.Add(reader2.ReadGamePacket(channelID));
                 }
                 totalSize -= 2;
                 totalSize -= size;

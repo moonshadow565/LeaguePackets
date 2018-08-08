@@ -36,18 +36,16 @@ namespace LeaguePackets
             }
             return buffer;
         }
+    }
 
-        public static BasePacket Create(PacketReader reader, ChannelID channel)
+    public static class BasePacketExtension
+    {
+        public static BasePacket ReadPacket(this PacketReader reader, ChannelID channel)
         {
             byte rawID = reader.ReadByte();
-            return Create(reader, channel, rawID);
-        }
-
-        public static BasePacket Create(PacketReader reader, ChannelID channel, byte rawID)
-        {
-            if(rawID == 0xFF)
+            if (rawID == 0xFF)
             {
-                return BatchPacket.CreateBody(reader, channel);
+                return new BatchPacket(reader, channel);
             }
             switch (channel)
             {
@@ -57,16 +55,21 @@ namespace LeaguePackets
                 case ChannelID.SynchClock:
                 case ChannelID.Broadcast:
                 case ChannelID.BroadcastUnreliable:
-                    return GamePacket.CreateGamePacket(reader, channel, rawID);
+                    return reader.ReadGamePacket(channel, rawID);
                 case ChannelID.Chat:
                     return new Chat(reader, channel);
                 case ChannelID.QuickChat:
                     return new QuickChat(reader, channel);
                 case ChannelID.LoadingScreen:
-                    return PayloadPacket.CreatePayloadPacket(reader, channel, rawID);
+                    return reader.ReadPayloadPacket(channel, rawID);
                 default:
                     return new UnknownPacket(reader, channel, rawID);
             }
+        }
+
+        public static void WritePacket(this PacketWriter writer, BasePacket packet)
+        {
+            packet.Write(writer);
         }
     }
 }
