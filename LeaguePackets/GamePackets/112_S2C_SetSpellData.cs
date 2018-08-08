@@ -20,13 +20,16 @@ namespace LeaguePackets.GamePackets
             result.SenderNetID = senderNetID;
             result.ChannelID = channelID;
 
-            throw new NotImplementedException("S2C_SetSpellData.Read");
-        
+            result.ObjectNetID = reader.ReadNetID();
+            result.HashedSpellName = reader.ReadUInt32();
+            result.SpellSlot = reader.ReadByte();
             return result;
         }
         public override void WriteBody(PacketWriter writer)
         {
-            throw new NotImplementedException("S2C_SetSpellData.Write");
+            writer.WriteNetID(ObjectNetID);
+            writer.WriteUInt32(HashedSpellName);
+            writer.WriteByte(SpellSlot);
         }
     }
 }

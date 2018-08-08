@@ -10,8 +10,6 @@ namespace LeaguePackets
     public class PacketReader : IDisposable
     {
         private BinaryReader _reader;
-        private byte _bits = 0;
-        private byte _bitsLeft = 0;
         public Stream Stream => _reader.BaseStream;
 
         public PacketReader(Stream stream, bool leaveOpen = false) 

@@ -10,8 +10,6 @@ namespace LeaguePackets
     {
         private BinaryWriter _writer;
         public Stream Stream => _writer.BaseStream;
-        private byte _bits = 0;
-        private byte _bitsLeft = 0;
         public PacketWriter(Stream stream, bool leaveOpen = false)
         {
             _writer = new BinaryWriter(stream, Encoding.UTF8, leaveOpen);

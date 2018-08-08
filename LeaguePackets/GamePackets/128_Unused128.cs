@@ -16,14 +16,10 @@ namespace LeaguePackets.GamePackets
             var result = new Unused128();
             result.SenderNetID = senderNetID;
             result.ChannelID = channelID;
-
-            throw new NotImplementedException("Unused128.Read");
-        
             return result;
         }
         public override void WriteBody(PacketWriter writer)
         {
-            throw new NotImplementedException("Unused128.Write");
         }
     }
 }
