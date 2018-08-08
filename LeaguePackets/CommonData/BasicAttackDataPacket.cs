@@ -8,7 +8,7 @@ namespace LeaguePackets.CommonData
     {
         public NetID TargetNetID { get; set; }
         public Vector3 TargetPosition { get; set; }
-        public byte ExtraTime { get; set; }
+        public SByte ExtraTime { get; set; }
         public NetID MissileNextID { get; set; }
         public byte AttackSlot { get; set; }
     }
@@ -19,7 +19,7 @@ namespace LeaguePackets.CommonData
             var attack = new BasicAttackDataPacket();
             attack.TargetNetID = reader.ReadNetID();
             attack.TargetPosition = reader.ReadVector3();
-            attack.ExtraTime = reader.ReadByte();
+            attack.ExtraTime = (sbyte)(reader.ReadSByte() - 128);
             attack.MissileNextID = reader.ReadNetID();
             attack.AttackSlot = reader.ReadByte();
             return attack;
@@ -33,7 +33,7 @@ namespace LeaguePackets.CommonData
             }
             writer.WriteNetID(attack.TargetNetID);
             writer.WriteVector3(attack.TargetPosition);
-            writer.WriteByte(attack.ExtraTime);
+            writer.WriteSByte((sbyte)(attack.ExtraTime + 128));
             writer.WriteNetID(attack.MissileNextID);
             writer.WriteByte(attack.AttackSlot);
         }
