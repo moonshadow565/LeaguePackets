@@ -13,13 +13,15 @@ namespace LeaguePackets.PayloadPackets
         public override PayloadPacketID ID => PayloadPacketID.RequestJoinTeam;
         public ClientID PlayerID { get; set; }
         public NetTeam Team { get; set; }
-        public static RequestJoinTeam CreateBody(PacketReader reader, ChannelID channelID)
+
+        public RequestJoinTeam() {}
+
+        public RequestJoinTeam(PacketReader reader, ChannelID channelID)
         {
-            var result = new RequestJoinTeam();
-            result.ChannelID = channelID;
-            result.PlayerID = reader.ReadClientID();
-            result.Team = reader.ReadNetTeam();
-            return result;
+            ChannelID = channelID;
+            PlayerID = reader.ReadClientID();
+            Team = reader.ReadNetTeam();
+            ExtraBytes = reader.ReadLeft();
         }
         public override void WriteBody(PacketWriter writer)
         {

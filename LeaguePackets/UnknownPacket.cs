@@ -5,12 +5,13 @@ namespace LeaguePackets
     {
         public byte RawID { get; set; }
 
-        public static UnknownPacket CreateUnknownPacket(PacketReader reader, ChannelID channelID, byte rawID)
+        public UnknownPacket() {}
+
+        public UnknownPacket(PacketReader reader, ChannelID channelID, byte rawID)
         {
-            var result = new UnknownPacket();
-            result.ChannelID = channelID;
-            result.RawID = rawID;
-            return result;
+            ChannelID = channelID;
+            RawID = rawID;
+            ExtraBytes = reader.ReadLeft();
         }
 
         public override void WriteHeader(PacketWriter writer)

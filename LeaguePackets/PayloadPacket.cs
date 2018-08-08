@@ -28,13 +28,12 @@ namespace LeaguePackets
             PayloadPacket packet;
             if(!Enum.IsDefined(typeof(PayloadPacketID), id))
             {
-                packet = UnknownPayloadPacket.CreateBody(reader, channelID, id);
+                packet = new UnknownPayloadPacket(reader, channelID, id);
             }
             else
             {
                 packet = _lookup[id](reader, channelID);
             }
-            packet.ExtraBytes = reader.ReadLeft();
             return packet;
         }
     }

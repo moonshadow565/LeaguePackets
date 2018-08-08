@@ -15,15 +15,17 @@ namespace LeaguePackets.PayloadPackets
         public int SkinID { get; set; }
         public string SkinName { get; set; } = "";
 
-        public static RequestReskin CreateBody(PacketReader reader, ChannelID channelID)
+        public RequestReskin(){}
+
+        public RequestReskin(PacketReader reader, ChannelID channelID)
         {
-            var result = new RequestReskin();
-            result.ChannelID = channelID;
-            result.PlayerID = reader.ReadPlayerID();
-            result.SkinID = reader.ReadInt32();
-            result.SkinName = reader.ReadSizedFixedString(128);
-            return result;
+            ChannelID = channelID;
+            PlayerID = reader.ReadPlayerID();
+            SkinID = reader.ReadInt32();
+            SkinName = reader.ReadSizedFixedString(128);
+            ExtraBytes = reader.ReadLeft();
         }
+
         public override void WriteBody(PacketWriter writer)
         {
             writer.WritePlayerID(PlayerID);

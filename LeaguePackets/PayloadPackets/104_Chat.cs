@@ -17,14 +17,16 @@ namespace LeaguePackets.PayloadPackets
         public ChatType ChatType { get; set; }
         public string Params { get; set; } = "";
         public string Message { get; set; } = "";
-        public static Chat CreateBody(PacketReader reader, ChannelID channelID)
+
+        public Chat(){}
+
+        public Chat(PacketReader reader, ChannelID channelID)
         {
-            var result = new Chat();
-            result.ChannelID = channelID;
-            result.ClientID = reader.ReadClientID();
-            result.NetID = reader.ReadNetID();
-            result.Localized = reader.ReadBool();
-            result.ChatType = reader.ReadChatType();
+            ChannelID = channelID;
+            ClientID = reader.ReadClientID();
+            NetID = reader.ReadNetID();
+            Localized = reader.ReadBool();
+            ChatType = reader.ReadChatType();
             var paramsSize = reader.ReadInt32();
             var messageSize = reader.ReadInt32();
             if (paramsSize > 32)
@@ -33,18 +35,19 @@ namespace LeaguePackets.PayloadPackets
                 throw new IOException("Message size too big!");
             var pars = reader.ReadBytes(32).Take(paramsSize).ToArray();
             var msg = reader.ReadBytes(messageSize);
-            if (result.Localized)
+            if (Localized)
             {
-                result.Params = Encoding.UTF8.GetString(pars);
-                result.Message = Encoding.UTF8.GetString(msg);
+                Params = Encoding.UTF8.GetString(pars);
+                Message = Encoding.UTF8.GetString(msg);
             }
             else
             {
-                result.Params = Encoding.ASCII.GetString(pars);
-                result.Message = Encoding.ASCII.GetString(msg);
+                Params = Encoding.ASCII.GetString(pars);
+                Message = Encoding.ASCII.GetString(msg);
             }
-            return result;
+            ExtraBytes = reader.ReadLeft();
         }
+
         public override void WriteBody(PacketWriter writer)
         {
             writer.WriteClientID(ClientID);

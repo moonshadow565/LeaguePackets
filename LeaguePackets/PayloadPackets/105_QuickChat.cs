@@ -13,14 +13,17 @@ namespace LeaguePackets
         public override PayloadPacketID ID => PayloadPacketID.QuickChat;
         public ClientID ClientID { get; set; }
         public short MessageId { get; set; }
-        public static QuickChat CreateBody(PacketReader reader, ChannelID channelID)
+
+        public QuickChat(){}
+
+        public QuickChat(PacketReader reader, ChannelID channelID)
         {
-            var result = new QuickChat();
-            result.ChannelID = channelID;
-            result.ClientID = reader.ReadClientID();
-            result.MessageId = reader.ReadInt16();
-            return result;
+            ChannelID = channelID;
+            ClientID = reader.ReadClientID();
+            MessageId = reader.ReadInt16();
+            ExtraBytes = reader.ReadLeft();
         }
+
         public override void WriteBody(PacketWriter writer)
         {
             writer.WriteClientID(ClientID);

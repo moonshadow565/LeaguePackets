@@ -52,20 +52,20 @@ namespace LeaguePackets
             switch (channel)
             {
                 case ChannelID.Default:
-                    return KeyCheckPacket.CreateKeyCheckPacket(reader, channel, rawID);
+                    return new KeyCheckPacket(reader, channel, rawID);
                 case ChannelID.ClientToServer:
                 case ChannelID.SynchClock:
                 case ChannelID.Broadcast:
                 case ChannelID.BroadcastUnreliable:
                     return GamePacket.CreateGamePacket(reader, channel, rawID);
                 case ChannelID.Chat:
-                    return Chat.CreateBody(reader, channel);
+                    return new Chat(reader, channel);
                 case ChannelID.QuickChat:
-                    return QuickChat.CreateBody(reader, channel);
+                    return new QuickChat(reader, channel);
                 case ChannelID.LoadingScreen:
                     return PayloadPacket.CreatePayloadPacket(reader, channel, rawID);
                 default:
-                    return UnknownPacket.CreateUnknownPacket(reader, channel, rawID);
+                    return new UnknownPacket(reader, channel, rawID);
             }
         }
     }

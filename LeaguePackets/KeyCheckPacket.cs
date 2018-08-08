@@ -10,23 +10,21 @@ namespace LeaguePackets
         public uint VersionNumber { get; set; }
         public ulong CheckSum { get; set; }
 
-        public static KeyCheckPacket Create(PacketReader reader, ChannelID channelID)
-        {
-            byte rawID = reader.ReadByte();
-            return CreateKeyCheckPacket(reader, channelID, rawID);
-        }
+        public KeyCheckPacket() {}
 
-        public static KeyCheckPacket CreateKeyCheckPacket(PacketReader reader, ChannelID channelID, byte rawID)
+        public KeyCheckPacket(PacketReader reader, ChannelID channelID) 
+            : this(reader, channelID, reader.ReadByte())
+        {}
+
+        public KeyCheckPacket(PacketReader reader, ChannelID channelID, byte rawID)
         {
-            var result = new KeyCheckPacket();
-            result.ChannelID = channelID;
+            ChannelID = channelID;
             reader.ReadPad(3);
-            result.ClientID = reader.ReadClientID();
-            result.PlayerID = reader.ReadPlayerID();
-            result.VersionNumber = reader.ReadUInt32();
-            result.CheckSum = reader.ReadUInt64();
-            result.ExtraBytes = reader.ReadLeft();
-            return result;
+            ClientID = reader.ReadClientID();
+            PlayerID = reader.ReadPlayerID();
+            VersionNumber = reader.ReadUInt32();
+            CheckSum = reader.ReadUInt64();
+            ExtraBytes = reader.ReadLeft();
         }
 
         public override void WriteHeader(PacketWriter writer)

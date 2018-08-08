@@ -16,27 +16,27 @@ namespace LeaguePackets
         {
             {
                 PayloadPacketID.RequestJoinTeam,
-                (r, c) => RequestJoinTeam.CreateBody(r, c)
+                (r, c) => new RequestJoinTeam(r, c)
             },
             {
                 PayloadPacketID.RequestResking,
-                (r, c) => RequestReskin.CreateBody(r, c)
+                (r, c) => new RequestReskin(r, c)
             },
             {
                 PayloadPacketID.RequestRename,
-                (r, c) => RequestRename.CreateBody(r, c)
+                (r, c) => new RequestRename(r, c)
             },
             {
                 PayloadPacketID.TeamRosterUpdate,
-                (r, c) => TeamRosterUpdate.CreateBody(r, c)
+                (r, c) => new TeamRosterUpdate(r, c)
             },
             {
                 PayloadPacketID.Chat,
-                (r, c) => Chat.CreateBody(r, c)
+                (r, c) => new Chat(r, c)
             },
             {
                 PayloadPacketID.QuickChat,
-                (r, c) => QuickChat.CreateBody(r, c)
+                (r, c) => new QuickChat(r, c)
             },
         };
     }

@@ -17,14 +17,14 @@ namespace LeaguePackets.PayloadPackets
             get => _id;
             set => _id = value;
         }
-        public UnknownPayloadPacket(PayloadPacketID id) => _id = id;
+
         public UnknownPayloadPacket(){}
 
-        public static UnknownPayloadPacket CreateBody(PacketReader reader, ChannelID channelID, PayloadPacketID id)
+        public UnknownPayloadPacket(PacketReader reader, ChannelID channelID, PayloadPacketID id)
         {
-            var result = new UnknownPayloadPacket(id);
-            result.ChannelID = channelID;
-            return result;
+            _id = id;
+            ChannelID = channelID;
+            ExtraBytes = reader.ReadLeft();
         }
 
         public override void WriteBody(PacketWriter writer)

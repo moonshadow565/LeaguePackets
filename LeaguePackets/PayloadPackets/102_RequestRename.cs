@@ -15,14 +15,15 @@ namespace LeaguePackets.PayloadPackets
         public int SkinID { get; set; }
         public string PlayerName { get; set; } = "";
 
-        public static RequestRename CreateBody(PacketReader reader, ChannelID channelID)
+        public RequestRename(){}
+
+        public RequestRename(PacketReader reader, ChannelID channelID)
         {
-            var result = new RequestRename();
-            result.ChannelID = channelID;
-            result.PlayerID = reader.ReadPlayerID();
-            result.SkinID = reader.ReadInt32();
-            result.PlayerName = reader.ReadSizedFixedString(128);
-            return result;
+            ChannelID = channelID;
+            PlayerID = reader.ReadPlayerID();
+            SkinID = reader.ReadInt32();
+            PlayerName = reader.ReadSizedFixedString(128);
+            ExtraBytes = reader.ReadLeft();
         }
         public override void WriteBody(PacketWriter writer)
         {

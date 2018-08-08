@@ -13,7 +13,6 @@ namespace LeaguePackets.PayloadPackets
         public override PayloadPacketID ID => PayloadPacketID.TeamRosterUpdate;
         private PlayerID[] _orderMembers = new PlayerID[24];
         private PlayerID[] _chaosMembers = new PlayerID[24];
-
         public uint TeamSizeOrder { get; set; }
         public uint TeamSizeChaos { get; set; }
         public PlayerID[] OrderMembers => _orderMembers;
@@ -21,23 +20,24 @@ namespace LeaguePackets.PayloadPackets
         public uint TeamSizeOrderCurrent { get; set; }
         public uint TeamSIzeChaosCurrent { get; set; }
 
-        public static TeamRosterUpdate CreateBody(PacketReader reader, ChannelID channelID)
+        public TeamRosterUpdate(){}
+
+        public TeamRosterUpdate(PacketReader reader, ChannelID channelID)
         {
-            var result = new TeamRosterUpdate();
-            result.ChannelID = channelID;
-            result.TeamSizeOrder = reader.ReadUInt32();
-            result.TeamSizeChaos = reader.ReadUInt32();
-            for (int i = 0; i < result.OrderMembers.Length; i++)
+            ChannelID = channelID;
+            TeamSizeOrder = reader.ReadUInt32();
+            TeamSizeChaos = reader.ReadUInt32();
+            for (int i = 0; i < OrderMembers.Length; i++)
             {
-                result.OrderMembers[i] = reader.ReadPlayerID(); 
+                OrderMembers[i] = reader.ReadPlayerID(); 
             }
-            for (int i = 0; i < result.ChaosMembers.Length; i++)
+            for (int i = 0; i < ChaosMembers.Length; i++)
             {
-                result.ChaosMembers[i] = reader.ReadPlayerID();
+                ChaosMembers[i] = reader.ReadPlayerID();
             }
-            result.TeamSizeOrderCurrent = reader.ReadUInt32();
-            result.TeamSIzeChaosCurrent = reader.ReadUInt32();
-            return result;
+            TeamSizeOrderCurrent = reader.ReadUInt32();
+            TeamSIzeChaosCurrent = reader.ReadUInt32();
+            ExtraBytes = reader.ReadLeft();
         }
         public override void WriteBody(PacketWriter writer)
         {
