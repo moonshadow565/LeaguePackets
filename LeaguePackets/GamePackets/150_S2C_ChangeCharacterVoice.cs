@@ -22,8 +22,7 @@ namespace LeaguePackets.GamePackets
 
             byte bitfield = reader.ReadByte();
             this.Unknown1 = (bitfield) != 0;
-            this.VoiceOverride = reader.ReadFixedString(128);
-        
+            this.VoiceOverride = reader.ReadFixedStringLast(128);
             this.ExtraBytes = reader.ReadLeft();
         }
         public override void WriteBody(PacketWriter writer)
@@ -34,7 +33,7 @@ namespace LeaguePackets.GamePackets
                 bitfield |= 1;
             }
             writer.WriteByte(bitfield);
-            writer.WriteFixedString(VoiceOverride, 128);
+            writer.WriteFixedStringLast(VoiceOverride, 128);
         }
     }
 }

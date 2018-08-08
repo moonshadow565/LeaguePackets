@@ -32,10 +32,10 @@ namespace LeaguePackets.GamePackets
             this.IsError = reader.ReadBool();
             this.ColorIndex = reader.ReadByte();
             this.FloatingTextType = reader.ReadFloatTextType();
-            this.Message = reader.ReadSizedFixedString(1024);
-        
+            this.Message = reader.ReadSizedFixedStringLast(1024);
             this.ExtraBytes = reader.ReadLeft();
         }
+
         public override void WriteBody(PacketWriter writer)
         {
             writer.WriteFloat(BubbleDelay);
@@ -43,7 +43,7 @@ namespace LeaguePackets.GamePackets
             writer.WriteBool(IsError);
             writer.WriteByte(ColorIndex);
             writer.WriteFloatTextType(FloatingTextType);
-            writer.WriteSizedFixedString(Message, 1024);
+            writer.WriteSizedFixedStringLast(Message, 1024);
         }
     }
 }

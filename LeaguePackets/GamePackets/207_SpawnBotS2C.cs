@@ -37,7 +37,7 @@ namespace LeaguePackets.GamePackets
 
             this.SkinID = reader.ReadInt32();
             this.Name = reader.ReadFixedString(64);
-            this.SkinName = reader.ReadFixedString(64);
+            this.SkinName = reader.ReadFixedStringLast(64);
         
             this.ExtraBytes = reader.ReadLeft();
         }
@@ -53,7 +53,7 @@ namespace LeaguePackets.GamePackets
 
             writer.WriteInt32(SkinID);
             writer.WriteFixedString(Name, 64);
-            writer.WriteFixedString(SkinName, 64);
+            writer.WriteFixedStringLast(SkinName, 64);
         }
     }
 }

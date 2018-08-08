@@ -60,7 +60,7 @@ namespace LeaguePackets.GamePackets
             this.SpawnDuration = reader.ReadFloat();
             this.SpawnTime = reader.ReadFloat();
             this.BehaviorTree = reader.ReadByte();
-            this.AIscript = reader.ReadFixedString(32);
+            this.AIscript = reader.ReadFixedStringLast(32);
         
             this.ExtraBytes = reader.ReadLeft();
         }
@@ -86,7 +86,7 @@ namespace LeaguePackets.GamePackets
             writer.WriteFloat(SpawnDuration);
             writer.WriteFloat(SpawnTime);
             writer.WriteByte(BehaviorTree);
-            writer.WriteFixedString(AIscript, 32);
+            writer.WriteFixedStringLast(AIscript, 32);
         }
     }
 }

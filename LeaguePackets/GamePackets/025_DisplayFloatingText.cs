@@ -26,7 +26,7 @@ namespace LeaguePackets.GamePackets
             this.TargetNetID = reader.ReadNetID();
             this.FloatingTextType = reader.ReadFloatTextType();
             this.Param = reader.ReadInt32();
-            this.Message = reader.ReadFixedString(128);
+            this.Message = reader.ReadFixedStringLast(128);
         
             this.ExtraBytes = reader.ReadLeft();
         }
@@ -35,7 +35,7 @@ namespace LeaguePackets.GamePackets
             writer.WriteNetID(TargetNetID);
             writer.WriteFloatTextType(FloatingTextType);
             writer.WriteInt32(Param);
-            writer.WriteFixedString(Message, 128);
+            writer.WriteFixedStringLast(Message, 128);
         }
     }
 }

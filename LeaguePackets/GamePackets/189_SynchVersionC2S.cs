@@ -21,14 +21,13 @@ namespace LeaguePackets.GamePackets
             this.ChannelID = channelID;
 
             this.ClientIDNet = reader.ReadClientID();
-            this.Version = reader.ReadFixedString(256);
-        
+            this.Version = reader.ReadFixedStringLast(256);
             this.ExtraBytes = reader.ReadLeft();
         }
         public override void WriteBody(PacketWriter writer)
         {
             writer.WriteClientID(ClientIDNet);
-            writer.WriteFixedString(Version, 256);
+            writer.WriteFixedStringLast(Version, 256);
         }
     }
 }

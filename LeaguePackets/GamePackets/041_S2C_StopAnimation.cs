@@ -26,8 +26,7 @@ namespace LeaguePackets.GamePackets
             this.Fade = (flags & 1) != 0;
             this.Unlock = (flags & 2) != 0;
             this.StopAll = (flags & 4) != 0;
-            this.AnimationName = reader.ReadFixedString(64);
-        
+            this.AnimationName = reader.ReadFixedStringLast(64);
             this.ExtraBytes = reader.ReadLeft();
         }
         public override void WriteBody(PacketWriter writer)
@@ -40,7 +39,7 @@ namespace LeaguePackets.GamePackets
             if (StopAll)
                 flags |= 4;
             writer.WriteByte(flags);
-            writer.WriteFixedString(AnimationName, 64);
+            writer.WriteFixedStringLast(AnimationName, 64);
         }
     }
 }

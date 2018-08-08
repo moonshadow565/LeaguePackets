@@ -74,6 +74,25 @@ namespace LeaguePackets
             return Encoding.ASCII.GetString(data);
         }
 
+        public string ReadFixedStringLast(int maxLength)
+        {
+            var data = new List<byte>();
+            var taken = 0;
+            while (true)
+            {
+                byte c = ReadByte();
+                taken++;
+                if (c == 0)
+                {
+                    break;
+                }
+                data.Add(c);
+            }
+            var left = Stream.Length - Stream.Position;
+            ReadPad(Math.Min((int)left, Math.Max(0, maxLength - data.Count)));
+            return Encoding.ASCII.GetString(data.ToArray());
+        }
+
         public string ReadSizedString()
         {
             var count = ReadInt32();
@@ -96,6 +115,21 @@ namespace LeaguePackets
             ReadPad(maxLength - count);
             return Encoding.ASCII.GetString(data);
         }
+
+        public string ReadSizedFixedStringLast(int maxLength)
+        {
+            var count = ReadInt32();
+            if (count >= (maxLength - 1))
+            {
+                throw new IOException("Data count too big!");
+            }
+            var data = ReadBytes(count);
+            var left = Stream.Length - Stream.Position;
+            ReadPad(Math.Min((int)left, (int)(maxLength - count)));
+            //ReadPad(maxLength - count);
+            return Encoding.ASCII.GetString(data);
+        }
+
 
         public string ReadZeroTerminatedString()
         {

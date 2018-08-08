@@ -22,7 +22,7 @@ namespace LeaguePackets.PayloadPackets
             ChannelID = channelID;
             PlayerID = reader.ReadPlayerID();
             SkinID = reader.ReadInt32();
-            SkinName = reader.ReadSizedFixedString(128);
+            SkinName = reader.ReadSizedFixedStringLast(128);
             ExtraBytes = reader.ReadLeft();
         }
 
@@ -30,7 +30,7 @@ namespace LeaguePackets.PayloadPackets
         {
             writer.WritePlayerID(PlayerID);
             writer.WriteInt32(SkinID);
-            writer.WriteSizedFixedString(SkinName, 128);
+            writer.WriteSizedFixedStringLast(SkinName, 128);
         }
     }
 }

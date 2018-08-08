@@ -21,14 +21,14 @@ namespace LeaguePackets.GamePackets
             this.ChannelID = channelID;
 
             this.UpdateTimeStep = reader.ReadFloat();
-            this.AnimationName = reader.ReadFixedString(64);
-        
+            this.AnimationName = reader.ReadFixedStringLast(64);
             this.ExtraBytes = reader.ReadLeft();
         }
+
         public override void WriteBody(PacketWriter writer)
         {
             writer.WriteFloat(UpdateTimeStep);
-            writer.WriteFixedString(AnimationName, 64);
+            writer.WriteFixedStringLast(AnimationName, 64);
         }
     }
 }

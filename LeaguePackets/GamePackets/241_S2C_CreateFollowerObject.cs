@@ -27,17 +27,18 @@ namespace LeaguePackets.GamePackets
             this.NetNodeID = reader.ReadNetNodeID();
             this.SkinID = reader.ReadInt32();
             this.InternalName = reader.ReadFixedString(64);
-            this.CharacterName = reader.ReadFixedString(64);
+            this.CharacterName = reader.ReadFixedStringLast(64);
         
             this.ExtraBytes = reader.ReadLeft();
         }
+
         public override void WriteBody(PacketWriter writer)
         {
             writer.WriteNetID(NetID);
             writer.WriteNetNodeID(NetNodeID);
             writer.WriteInt32(SkinID);
             writer.WriteFixedString(InternalName, 64);
-            writer.WriteFixedString(CharacterName, 64);
+            writer.WriteFixedStringLast(CharacterName, 64);
         }
     }
 }

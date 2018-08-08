@@ -21,13 +21,13 @@ namespace LeaguePackets.GamePackets
             this.ChannelID = channelID;
 
             this.GameID = reader.ReadInt64();
-            this.SummonerName = reader.ReadFixedString(128);
+            this.SummonerName = reader.ReadFixedStringLast(128);
             this.ExtraBytes = reader.ReadLeft();
         }
         public override void WriteBody(PacketWriter writer)
         {
             writer.WriteInt64(GameID);
-            writer.WriteFixedString(SummonerName, 128);
+            writer.WriteFixedStringLast(SummonerName, 128);
         }
     }
 }

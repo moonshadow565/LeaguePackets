@@ -13,14 +13,6 @@ namespace LeaguePackets.GamePackets
     {
         public override GamePacketID ID => GamePacketID.S2C_ChangeCharacterData;
         public CharacterStackData Data { get; set; } = new CharacterStackData();
-        /*
-        public uint IDToChange { get; set; }
-        public bool UseSpells { get; set; }
-        public bool ModelOnly { get; set; }
-        public bool ReplaceCharacterPackage { get; set; }
-        public uint SkinID { get; set; }
-        public string SkinName { get; set; } = "";
-        */
         public S2C_ChangeCharacterData(){}
 
         public S2C_ChangeCharacterData(PacketReader reader, ChannelID channelID, NetID senderNetID)
@@ -35,8 +27,7 @@ namespace LeaguePackets.GamePackets
             this.Data.ReplaceCharacterPackage = (bitfield & 4) != 0;
 
             this.Data.SkinID = reader.ReadUInt32();
-            this.Data.SkinName = reader.ReadFixedString(64);
-        
+            this.Data.SkinName = reader.ReadFixedStringLast(64);
             this.ExtraBytes = reader.ReadLeft();
         }
         public override void WriteBody(PacketWriter writer)
@@ -58,7 +49,7 @@ namespace LeaguePackets.GamePackets
             writer.WriteByte(bitfield);
 
             writer.WriteUInt32(Data.SkinID);
-            writer.WriteFixedString(Data.SkinName, 64);
+            writer.WriteFixedStringLast(Data.SkinName, 64);
         }
     }
 }

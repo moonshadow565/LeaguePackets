@@ -19,13 +19,12 @@ namespace LeaguePackets.GamePackets
             this.SenderNetID = senderNetID;
             this.ChannelID = channelID;
 
-            this.Command = reader.ReadFixedString(128);
-        
+            this.Command = reader.ReadFixedStringLast(128);
             this.ExtraBytes = reader.ReadLeft();
         }
         public override void WriteBody(PacketWriter writer)
         {
-            writer.WriteFixedString(Command, 128);
+            writer.WriteFixedStringLast(Command, 128);
         }
     }
 }

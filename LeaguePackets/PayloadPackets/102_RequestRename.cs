@@ -22,14 +22,14 @@ namespace LeaguePackets.PayloadPackets
             ChannelID = channelID;
             PlayerID = reader.ReadPlayerID();
             SkinID = reader.ReadInt32();
-            PlayerName = reader.ReadSizedFixedString(128);
+            PlayerName = reader.ReadSizedFixedStringLast(128);
             ExtraBytes = reader.ReadLeft();
         }
         public override void WriteBody(PacketWriter writer)
         {
             writer.WritePlayerID(PlayerID);
             writer.WriteInt32(SkinID);
-            writer.WriteSizedFixedString(PlayerName, 128);
+            writer.WriteSizedFixedStringLast(PlayerName, 128);
         }
     }
 }

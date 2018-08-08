@@ -30,7 +30,7 @@ namespace LeaguePackets.GamePackets
             this.IconCategory = reader.ReadFixedString(64);
             this.ChangeBorder = reader.ReadBool();
             this.BorderCategory = reader.ReadFixedString(64);
-            this.BorderScriptName = reader.ReadFixedString(64);
+            this.BorderScriptName = reader.ReadFixedStringLast(64);
         
             this.ExtraBytes = reader.ReadLeft();
         }
@@ -41,7 +41,7 @@ namespace LeaguePackets.GamePackets
             writer.WriteFixedString(IconCategory, 64);
             writer.WriteBool(ChangeBorder);
             writer.WriteFixedString(BorderCategory, 64);
-            writer.WriteFixedString(BorderScriptName, 64);
+            writer.WriteFixedStringLast(BorderScriptName, 64);
         }
     }
 }

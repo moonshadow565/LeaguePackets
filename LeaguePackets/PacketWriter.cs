@@ -68,10 +68,29 @@ namespace LeaguePackets
             WritePad(maxLength - count);
         }
 
+        public void WriteSizedFixedStringLast(string str, int maxLength)
+        {
+            var data = string.IsNullOrEmpty(str) ? new byte[0] : Encoding.ASCII.GetBytes(str);
+            var count = data.Length;
+            if (count >= (maxLength - 1))
+            {
+                throw new IOException("Data count too big!");
+            }
+            WriteInt32(count);
+            WriteBytes(data);
+            WritePad(1);
+            //WritePad(maxLength - count);
+        }
+
         public void WriteZeroTerminatedString(string str)
         {
             WriteBytes(string.IsNullOrEmpty(str) ? new byte[0] : Encoding.ASCII.GetBytes(str));
             WriteByte(0);
+        }
+
+        public void WriteFixedStringLast(string str, int maxLength)
+        {
+            WriteZeroTerminatedString(str);
         }
 
         public void WriteVector2(Vector2 data)

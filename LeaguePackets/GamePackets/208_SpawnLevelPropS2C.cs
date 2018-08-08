@@ -45,7 +45,7 @@ namespace LeaguePackets.GamePackets
             this.SkillLevel = reader.ReadByte();
             this.Type = reader.ReadByte();
             this.Name = reader.ReadFixedString(64);
-            this.PropName = reader.ReadFixedString(64);
+            this.PropName = reader.ReadFixedStringLast(64);
         
             this.ExtraBytes = reader.ReadLeft();
         }
@@ -63,7 +63,7 @@ namespace LeaguePackets.GamePackets
             writer.WriteByte(SkillLevel);
             writer.WriteByte(Type);
             writer.WriteFixedString(Name, 64);
-            writer.WriteFixedString(PropName, 64);
+            writer.WriteFixedStringLast(PropName, 64);
         }
     }
 }

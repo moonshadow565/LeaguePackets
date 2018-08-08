@@ -51,7 +51,7 @@ namespace LeaguePackets.GamePackets
             byte bitfield = reader.ReadByte();
             this.CloneInventory = (bitfield & 1) != 0;
             this.ShowMinimapIconIfClone = (bitfield & 2) != 0;
-            this.AIscript = reader.ReadFixedString(32);
+            this.AIscript = reader.ReadFixedStringLast(32);
 
             this.ExtraBytes = reader.ReadLeft();
         }
@@ -76,7 +76,7 @@ namespace LeaguePackets.GamePackets
             if (ShowMinimapIconIfClone)
                 bitfield |= 2;
             writer.WriteByte(bitfield);
-            writer.WriteFixedString(AIscript, 32);            
+            writer.WriteFixedStringLast(AIscript, 32);            
         }
     }
 }

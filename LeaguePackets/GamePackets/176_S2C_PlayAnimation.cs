@@ -16,6 +16,7 @@ namespace LeaguePackets.GamePackets
         public float StartProgress { get; set; }
         public float SpeedRatio { get; set; }
         public string AnimationName { get; set; } = "";
+
         public S2C_PlayAnimation(){}
 
         public S2C_PlayAnimation(PacketReader reader, ChannelID channelID, NetID senderNetID)
@@ -27,17 +28,17 @@ namespace LeaguePackets.GamePackets
             this.ScaleTime = reader.ReadFloat();
             this.StartProgress = reader.ReadFloat();
             this.SpeedRatio = reader.ReadFloat();
-            this.AnimationName = reader.ReadFixedString(64);
-        
+            this.AnimationName = reader.ReadFixedStringLast(64);
             this.ExtraBytes = reader.ReadLeft();
         }
+
         public override void WriteBody(PacketWriter writer)
         {
             writer.WriteAnimationFlags(AnimationFlags);
             writer.WriteFloat(ScaleTime);
             writer.WriteFloat(StartProgress);
             writer.WriteFloat(SpeedRatio);
-            writer.WriteFixedString(AnimationName, 64);
+            writer.WriteFixedStringLast(AnimationName, 64);
         }
     }
 }

@@ -42,7 +42,7 @@ namespace LeaguePackets.GamePackets
             this.Color = reader.ReadColor();
             this.MaxSize = reader.ReadUInt32();
             this.Bitfield = reader.ReadByte();
-            this.StringBuffer = reader.ReadFixedString(128);
+            this.StringBuffer = reader.ReadFixedStringLast(128);
 
             this.ExtraBytes = reader.ReadLeft();
         }
@@ -59,7 +59,7 @@ namespace LeaguePackets.GamePackets
             writer.WriteColor(Color);
             writer.WriteUInt32(MaxSize);
             writer.WriteByte(Bitfield);
-            writer.WriteFixedString(StringBuffer, 128);
+            writer.WriteFixedStringLast(StringBuffer, 128);
         }
     }
 }
