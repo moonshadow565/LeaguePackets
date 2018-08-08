@@ -5,21 +5,19 @@ using System.Linq;
 using System.IO;
 using System.Text;
 using System.Threading.Tasks;
+using LeaguePackets.CommonData;
 
 namespace LeaguePackets.GamePackets
 {
-    public abstract class OnEnterLocalVisiblityClient : GamePacket // 0xAE
+    public class OnEnterLocalVisiblityClient : GamePacket // 0xAE
     {
         public override GamePacketID ID => GamePacketID.OnEnterLocalVisiblityClient;
         public List<GamePacket> Packets { get; set; } = new List<GamePacket>();
-
-        public abstract void ReadBodyInternal(PacketReader reader);
-        protected abstract void WriteBodyInternal(PacketWriter writer);
-
+        public LocalVisibilityData LocalVisibilityData { get; set; } = new LocalVisibilityDataUnknown();
 
         public static OnEnterLocalVisiblityClient CreateBody(PacketReader reader, ChannelID channelID, NetID senderNetID)
         {
-            var result = new OnEnterLocalVisiblityClientUnknown();
+            var result = new OnEnterLocalVisiblityClient();
             result.SenderNetID = senderNetID;
             result.ChannelID = channelID;
 
@@ -35,6 +33,7 @@ namespace LeaguePackets.GamePackets
                 totalSize -= 2;
                 totalSize -= size;
             }
+            result.LocalVisibilityData = reader.ReadLocalVisibilityData();
             return result;
         }
 
@@ -65,47 +64,7 @@ namespace LeaguePackets.GamePackets
             }
             writer.WriteUInt16((ushort)(buffer.Length & 0x1FFF));
             writer.WriteBytes(buffer);
-            WriteBodyInternal(writer);
+            writer.WriteLocalVisibilityData(LocalVisibilityData);
         }
-    }
-
-    public class OnEnterLocalVisiblityClientUnknown : OnEnterLocalVisiblityClient
-    {
-        public override void ReadBodyInternal(PacketReader reader) { }
-        protected override void WriteBodyInternal(PacketWriter writer) { }
-    }
-
-    public class OnEnterLocalVisiblityClientAIBase : OnEnterLocalVisiblityClient
-    {
-        public float MaxHealth { get; set; }
-        public float Health { get; set; }
-        public override void ReadBodyInternal(PacketReader reader) 
-        {
-            MaxHealth = reader.ReadFloat();
-            Health = reader.ReadFloat();
-        }
-        protected override void WriteBodyInternal(PacketWriter writer) 
-        { 
-            writer.WriteFloat(MaxHealth);
-            writer.WriteFloat(Health);
-        }
-    }
-
-    public class OnEnterLocalVisiblityClientNeutralMinionHUD : OnEnterLocalVisiblityClient
-    {
-        public override void ReadBodyInternal(PacketReader reader) { }
-        protected override void WriteBodyInternal(PacketWriter writer) { }
-    }
-
-    public class OnEnterLocalVisiblityClientSpellMissile : OnEnterLocalVisiblityClient
-    {
-        public override void ReadBodyInternal(PacketReader reader) { }
-        protected override void WriteBodyInternal(PacketWriter writer) { }
-    }
-
-    public class OnEnterLocalVisiblityClientClientBuilding : OnEnterLocalVisiblityClient
-    {
-        public override void ReadBodyInternal(PacketReader reader) { }
-        protected override void WriteBodyInternal(PacketWriter writer) { }
     }
 }

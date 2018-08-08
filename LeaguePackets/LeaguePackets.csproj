@@ -481,6 +481,11 @@
     <Compile Include="BatchPacket.cs" />
     <Compile Include="IUnknownPacket.cs" />
     <Compile Include="UnknownPacket.cs" />
+    <Compile Include="CommonData\ChangeSpellData.cs" />
+    <Compile Include="CommonData\QuestUpdateData.cs" />
+    <Compile Include="CommonData\UpdateLevelPropData.cs" />
+    <Compile Include="CommonData\LocalVisibilityData.cs" />
+    <Compile Include="CommonData\VisibilityData.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

@@ -24,15 +24,16 @@ namespace LeaguePacketsSender
 
         public static string EnterVision(LeagueServer server, ClientID client, string args)
         {
-            var packet = new OnEnterVisibilityClientAIHero();
+            var packet = new OnEnterVisiblityClient();
             packet.SenderNetID = (NetID)0x40000001;
-            packet.UnknownIsHero = false;
-            packet.MovementData = new MovementDataStop
+            var visibility = new VisibilityDataAIHero();
+            visibility.MovementData = new MovementDataStop
             {
                 Position = new Vector2(26, 280),
                 Forward = new Vector2(26, 280),
             };
-            packet.MovementSyncID = 14;
+            visibility.MovementSyncID = 14;
+            packet.VisibilityData = visibility;
             server.SendEncrypted(client, ChannelID.Broadcast, packet);
             return "EnterVision?";
         }
