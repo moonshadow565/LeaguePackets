@@ -254,7 +254,7 @@ namespace LeaguePacketsSender
                 KeyCheckPacket clientAuthPacket;
                 using (var reader = new PacketReader(rawData))
                 {
-                    clientAuthPacket = KeyCheckPacket.Create(reader);
+                    clientAuthPacket = KeyCheckPacket.Create(reader, ChannelID.Default);
                 }
                 if(_blowfish.Encrypt((ulong)clientAuthPacket.PlayerID) != clientAuthPacket.CheckSum)
                 {

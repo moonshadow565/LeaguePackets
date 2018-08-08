@@ -10,15 +10,16 @@ namespace LeaguePackets
         public uint VersionNumber { get; set; }
         public ulong CheckSum { get; set; }
 
-        public static KeyCheckPacket Create(PacketReader reader)
+        public static KeyCheckPacket Create(PacketReader reader, ChannelID channelID)
         {
             byte rawID = reader.ReadByte();
-            return CreateKeyCheckPacket(reader, rawID);
+            return CreateKeyCheckPacket(reader, channelID, rawID);
         }
 
-        public static KeyCheckPacket CreateKeyCheckPacket(PacketReader reader, byte rawID)
+        public static KeyCheckPacket CreateKeyCheckPacket(PacketReader reader, ChannelID channelID, byte rawID)
         {
             var result = new KeyCheckPacket();
+            result.ChannelID = channelID;
             reader.ReadPad(3);
             result.ClientID = reader.ReadClientID();
             result.PlayerID = reader.ReadPlayerID();

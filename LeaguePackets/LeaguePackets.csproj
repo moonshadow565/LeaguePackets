@@ -480,6 +480,7 @@
     <Compile Include="CommonData\ReplicationData.cs" />
     <Compile Include="BatchPacket.cs" />
     <Compile Include="IUnknownPacket.cs" />
+    <Compile Include="UnknownPacket.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

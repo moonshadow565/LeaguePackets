@@ -52,7 +52,7 @@ namespace LeaguePackets
             switch (channel)
             {
                 case ChannelID.Default:
-                    return KeyCheckPacket.CreateKeyCheckPacket(reader, rawID);
+                    return KeyCheckPacket.CreateKeyCheckPacket(reader, channel, rawID);
                 case ChannelID.ClientToServer:
                 case ChannelID.SynchClock:
                 case ChannelID.Broadcast:
@@ -65,7 +65,7 @@ namespace LeaguePackets
                 case ChannelID.LoadingScreen:
                     return PayloadPacket.CreatePayloadPacket(reader, channel, rawID);
                 default:
-                    return null;
+                    return UnknownPacket.CreateUnknownPacket(reader, channel, rawID);
             }
         }
     }
