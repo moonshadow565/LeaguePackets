@@ -12,15 +12,16 @@ namespace LeaguePackets.GamePackets
     {
         public override GamePacketID ID => GamePacketID.S2C_UnitSetPARType;
         public PARType PARType { get; set; }
-        public static S2C_UnitSetPARType CreateBody(PacketReader reader, ChannelID channelID, NetID senderNetID)
-        {
-            var result = new S2C_UnitSetPARType();
-            result.SenderNetID = senderNetID;
-            result.ChannelID = channelID;
+        public S2C_UnitSetPARType(){}
 
-            result.PARType = reader.ReadPARType();
+        public S2C_UnitSetPARType(PacketReader reader, ChannelID channelID, NetID senderNetID)
+        {
+            this.SenderNetID = senderNetID;
+            this.ChannelID = channelID;
+
+            this.PARType = reader.ReadPARType();
         
-            return result;
+            this.ExtraBytes = reader.ReadLeft();
         }
         public override void WriteBody(PacketWriter writer)
         {

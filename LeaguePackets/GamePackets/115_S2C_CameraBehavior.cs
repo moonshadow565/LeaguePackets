@@ -13,15 +13,16 @@ namespace LeaguePackets.GamePackets
     {
         public override GamePacketID ID => GamePacketID.S2C_CameraBehavior;
         public Vector3 Position { get; set; }
-        public static S2C_CameraBehavior CreateBody(PacketReader reader, ChannelID channelID, NetID senderNetID)
-        {
-            var result = new S2C_CameraBehavior();
-            result.SenderNetID = senderNetID;
-            result.ChannelID = channelID;
+        public S2C_CameraBehavior(){}
 
-            result.Position = reader.ReadVector3();
+        public S2C_CameraBehavior(PacketReader reader, ChannelID channelID, NetID senderNetID)
+        {
+            this.SenderNetID = senderNetID;
+            this.ChannelID = channelID;
+
+            this.Position = reader.ReadVector3();
         
-            return result;
+            this.ExtraBytes = reader.ReadLeft();
         }
         public override void WriteBody(PacketWriter writer)
         {

@@ -12,16 +12,17 @@ namespace LeaguePackets.GamePackets
     {
         public override GamePacketID ID => GamePacketID.C2S_TeamSurrenderVote;
         public bool VotedYes { get; set; }
-        public static C2S_TeamSurrenderVote CreateBody(PacketReader reader, ChannelID channelID, NetID senderNetID)
+        public C2S_TeamSurrenderVote(){}
+
+        public C2S_TeamSurrenderVote(PacketReader reader, ChannelID channelID, NetID senderNetID)
         {
-            var result = new C2S_TeamSurrenderVote();
-            result.SenderNetID = senderNetID;
-            result.ChannelID = channelID;
+            this.SenderNetID = senderNetID;
+            this.ChannelID = channelID;
 
             byte bitfield = reader.ReadByte();
-            result.VotedYes = (bitfield & 1) != 0;
+            this.VotedYes = (bitfield & 1) != 0;
         
-            return result;
+            this.ExtraBytes = reader.ReadLeft();
         }
         public override void WriteBody(PacketWriter writer)
         {

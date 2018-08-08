@@ -21,13 +21,12 @@ namespace LeaguePackets.GamePackets
         public UnknownGamePacket(GamePacketID id) => _id = id;
         public UnknownGamePacket() {}
 
-        public static UnknownGamePacket CreateBody(PacketReader reader, ChannelID channelID, NetID senderNetID, GamePacketID id)
+        public UnknownGamePacket(PacketReader reader, ChannelID channelID, NetID senderNetID, GamePacketID id)
         {
             var result = new UnknownGamePacket(id);
-            result.SenderNetID = senderNetID;
-            result.ChannelID = channelID;
-
-            return result;
+            this.SenderNetID = senderNetID;
+            this.ChannelID = channelID;
+            this.ExtraBytes = reader.ReadLeft();
         }
 
         public override void WriteBody(PacketWriter writer)

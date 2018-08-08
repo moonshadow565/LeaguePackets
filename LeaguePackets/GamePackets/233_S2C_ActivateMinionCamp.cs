@@ -16,18 +16,19 @@ namespace LeaguePackets.GamePackets
         public float SpawnDuration { get; set; }
         public byte CampIndex { get; set; }
         public int TimerType { get; set; }
-        public static S2C_ActivateMinionCamp CreateBody(PacketReader reader, ChannelID channelID, NetID senderNetID)
-        {
-            var result = new S2C_ActivateMinionCamp();
-            result.SenderNetID = senderNetID;
-            result.ChannelID = channelID;
+        public S2C_ActivateMinionCamp(){}
 
-            result.Position = reader.ReadVector3();
-            result.SpawnDuration = reader.ReadFloat();
-            result.CampIndex = reader.ReadByte();
-            result.TimerType = reader.ReadInt32();
+        public S2C_ActivateMinionCamp(PacketReader reader, ChannelID channelID, NetID senderNetID)
+        {
+            this.SenderNetID = senderNetID;
+            this.ChannelID = channelID;
+
+            this.Position = reader.ReadVector3();
+            this.SpawnDuration = reader.ReadFloat();
+            this.CampIndex = reader.ReadByte();
+            this.TimerType = reader.ReadInt32();
         
-            return result;
+            this.ExtraBytes = reader.ReadLeft();
         }
         public override void WriteBody(PacketWriter writer)
         {

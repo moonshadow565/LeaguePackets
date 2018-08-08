@@ -15,19 +15,20 @@ namespace LeaguePackets.GamePackets
         public NetID TargetID { get; set; }
         public bool HighlightPlayerIcon { get; set; }
         public bool FromPing { get; set; } 
-        public static S2C_PlayVOCommand CreateBody(PacketReader reader, ChannelID channelID, NetID senderNetID)
+        public S2C_PlayVOCommand(){}
+
+        public S2C_PlayVOCommand(PacketReader reader, ChannelID channelID, NetID senderNetID)
         {
-            var result = new S2C_PlayVOCommand();
-            result.SenderNetID = senderNetID;
-            result.ChannelID = channelID;
+            this.SenderNetID = senderNetID;
+            this.ChannelID = channelID;
 
-            result.CommandID = reader.ReadUInt32();
-            result.TargetID = reader.ReadNetID();
+            this.CommandID = reader.ReadUInt32();
+            this.TargetID = reader.ReadNetID();
             byte bitfield = reader.ReadByte();
-            result.HighlightPlayerIcon = (bitfield & 0x01u) != 0x00u;
-            result.FromPing = (bitfield & 0x02u) != 0x00u;
+            this.HighlightPlayerIcon = (bitfield & 0x01u) != 0x00u;
+            this.FromPing = (bitfield & 0x02u) != 0x00u;
 
-            return result;
+            this.ExtraBytes = reader.ReadLeft();
         }
         public override void WriteBody(PacketWriter writer)
         {

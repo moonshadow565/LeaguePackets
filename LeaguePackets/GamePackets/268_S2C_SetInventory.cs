@@ -19,26 +19,27 @@ namespace LeaguePackets.GamePackets
         public float[] ItemCooldowns => _itemCooldowns;
         public float[] ItemMaxCooldowns => _itemMaxCooldowns;
 
-        public static S2C_SetInventory CreateBody(PacketReader reader, ChannelID channelID, NetID senderNetID)
-        {
-            var result = new S2C_SetInventory();
-            result.SenderNetID = senderNetID;
-            result.ChannelID = channelID;
+        public S2C_SetInventory(){}
 
-            for (var i = 0; i < result.Items.Length; i++)
+        public S2C_SetInventory(PacketReader reader, ChannelID channelID, NetID senderNetID)
+        {
+            this.SenderNetID = senderNetID;
+            this.ChannelID = channelID;
+
+            for (var i = 0; i < this.Items.Length; i++)
             {
-                result.Items[i] = reader.ReadItemPacket();
+                this.Items[i] = reader.ReadItemPacket();
             }
-            for (var i = 0; i < result.ItemCooldowns.Length; i++)
+            for (var i = 0; i < this.ItemCooldowns.Length; i++)
             {
-                result.ItemCooldowns[i] = reader.ReadFloat();
+                this.ItemCooldowns[i] = reader.ReadFloat();
             }
-            for (var i = 0; i < result.ItemMaxCooldowns.Length; i++)
+            for (var i = 0; i < this.ItemMaxCooldowns.Length; i++)
             {
-                result.ItemMaxCooldowns[i] = reader.ReadFloat();
+                this.ItemMaxCooldowns[i] = reader.ReadFloat();
             }
         
-            return result;
+            this.ExtraBytes = reader.ReadLeft();
         }
         public override void WriteBody(PacketWriter writer)
         {

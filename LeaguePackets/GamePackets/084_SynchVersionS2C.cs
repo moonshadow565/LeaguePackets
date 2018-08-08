@@ -47,50 +47,51 @@ namespace LeaguePackets.GamePackets
         public uint[] DisabledItems => _disabledItems;
         public bool[] EnabledDradisMessages => _enabledDradisMessages;
 
-        public static SynchVersionS2C CreateBody(PacketReader reader, ChannelID channelID, NetID senderNetID)
+        public SynchVersionS2C(){}
+
+        public SynchVersionS2C(PacketReader reader, ChannelID channelID, NetID senderNetID)
         {
-            var result = new SynchVersionS2C();
-            result.SenderNetID = senderNetID;
-            result.ChannelID = channelID;
+            this.SenderNetID = senderNetID;
+            this.ChannelID = channelID;
 
             byte bitfield = reader.ReadByte();
-            result.VersionMatches = (bitfield & 1) != 0;
-            result.WriteToClientFile = (bitfield & 2) != 0;
-            result.MatchedGame = (bitfield & 4) != 0;
-            result.DradisInit = (bitfield & 8) != 0;
+            this.VersionMatches = (bitfield & 1) != 0;
+            this.WriteToClientFile = (bitfield & 2) != 0;
+            this.MatchedGame = (bitfield & 4) != 0;
+            this.DradisInit = (bitfield & 8) != 0;
 
-            result.MapToLoad = reader.ReadInt32();
-            for (var i = 0; i < result.PlayerInfo.Length; i++)
+            this.MapToLoad = reader.ReadInt32();
+            for (var i = 0; i < this.PlayerInfo.Length; i++)
             {
-                result.PlayerInfo[i] = reader.ReadPlayerInfo();
+                this.PlayerInfo[i] = reader.ReadPlayerInfo();
             }
-            result.VersionString = reader.ReadFixedString(256);
-            result.MapMode = reader.ReadFixedString(128);
-            result.PlatformID = reader.ReadFixedString(32);
-            for (var i = 0; i < result.Mutators.Length; i++)
-                result.Mutators[i] = reader.ReadFixedString(64);
-            result.MutatorsNum = reader.ReadByte();
-            result.OrderRankedTeamName = reader.ReadFixedString(97);
-            result.OrderRankedTeamTag = reader.ReadFixedString(25);
-            result.ChaosRankedTeamName = reader.ReadFixedString(97);
-            result.ChaosRankedTeamTag = reader.ReadFixedString(25);
-            result.MetricsServerWebAddress = reader.ReadFixedString(256);
-            result.MetricsServerWebPath = reader.ReadFixedString(256);
-            result.MetricsServerPort = reader.ReadUInt16();
-            result.DradisProdAddress = reader.ReadFixedString(256);
-            result.DradisProdResource = reader.ReadFixedString(256);
-            result.DradisProdPort = reader.ReadUInt16();
-            result.DradisTestAddress = reader.ReadFixedString(256);
-            result.DradisTestResource = reader.ReadFixedString(256);
-            result.DradisTestPort = reader.ReadUInt16();
-            result.TipConfig = reader.ReadTipConfig();
-            result.GameFeatures = reader.ReadGameFeatures();
-            for (var i = 0; i < result.DisabledItems.Length; i++)
-                result.DisabledItems[i] = reader.ReadUInt32();
-            for (var i = 0; i < result.EnabledDradisMessages.Length; i++)
-                result.EnabledDradisMessages[i] = reader.ReadBool();
+            this.VersionString = reader.ReadFixedString(256);
+            this.MapMode = reader.ReadFixedString(128);
+            this.PlatformID = reader.ReadFixedString(32);
+            for (var i = 0; i < this.Mutators.Length; i++)
+                this.Mutators[i] = reader.ReadFixedString(64);
+            this.MutatorsNum = reader.ReadByte();
+            this.OrderRankedTeamName = reader.ReadFixedString(97);
+            this.OrderRankedTeamTag = reader.ReadFixedString(25);
+            this.ChaosRankedTeamName = reader.ReadFixedString(97);
+            this.ChaosRankedTeamTag = reader.ReadFixedString(25);
+            this.MetricsServerWebAddress = reader.ReadFixedString(256);
+            this.MetricsServerWebPath = reader.ReadFixedString(256);
+            this.MetricsServerPort = reader.ReadUInt16();
+            this.DradisProdAddress = reader.ReadFixedString(256);
+            this.DradisProdResource = reader.ReadFixedString(256);
+            this.DradisProdPort = reader.ReadUInt16();
+            this.DradisTestAddress = reader.ReadFixedString(256);
+            this.DradisTestResource = reader.ReadFixedString(256);
+            this.DradisTestPort = reader.ReadUInt16();
+            this.TipConfig = reader.ReadTipConfig();
+            this.GameFeatures = reader.ReadGameFeatures();
+            for (var i = 0; i < this.DisabledItems.Length; i++)
+                this.DisabledItems[i] = reader.ReadUInt32();
+            for (var i = 0; i < this.EnabledDradisMessages.Length; i++)
+                this.EnabledDradisMessages[i] = reader.ReadBool();
         
-            return result;
+            this.ExtraBytes = reader.ReadLeft();
         }
 
         public override void WriteBody(PacketWriter writer)

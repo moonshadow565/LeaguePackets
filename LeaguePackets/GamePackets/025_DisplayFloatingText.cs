@@ -16,18 +16,19 @@ namespace LeaguePackets.GamePackets
         public FloatTextType FloatingTextType { get; set; }
         public int Param { get; set; }
         public string Message { get; set; } = "";
-        public static DisplayFloatingText CreateBody(PacketReader reader, ChannelID channelID, NetID senderNetID)
-        {
-            var result = new DisplayFloatingText();
-            result.SenderNetID = senderNetID;
-            result.ChannelID = channelID;
+        public DisplayFloatingText(){}
 
-            result.TargetNetID = reader.ReadNetID();
-            result.FloatingTextType = reader.ReadFloatTextType();
-            result.Param = reader.ReadInt32();
-            result.Message = reader.ReadFixedString(128);
+        public DisplayFloatingText(PacketReader reader, ChannelID channelID, NetID senderNetID)
+        {
+            this.SenderNetID = senderNetID;
+            this.ChannelID = channelID;
+
+            this.TargetNetID = reader.ReadNetID();
+            this.FloatingTextType = reader.ReadFloatTextType();
+            this.Param = reader.ReadInt32();
+            this.Message = reader.ReadFixedString(128);
         
-            return result;
+            this.ExtraBytes = reader.ReadLeft();
         }
         public override void WriteBody(PacketWriter writer)
         {

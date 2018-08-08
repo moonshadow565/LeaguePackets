@@ -12,15 +12,16 @@ namespace LeaguePackets.GamePackets
     {
         public override GamePacketID ID => GamePacketID.UseObjectC2S;
         public NetID TargetNetID { get; set; }
-        public static UseObjectC2S CreateBody(PacketReader reader, ChannelID channelID, NetID senderNetID)
-        {
-            var result = new UseObjectC2S();
-            result.SenderNetID = senderNetID;
-            result.ChannelID = channelID;
+        public UseObjectC2S(){}
 
-            result.TargetNetID = reader.ReadNetID();
+        public UseObjectC2S(PacketReader reader, ChannelID channelID, NetID senderNetID)
+        {
+            this.SenderNetID = senderNetID;
+            this.ChannelID = channelID;
+
+            this.TargetNetID = reader.ReadNetID();
         
-            return result;
+            this.ExtraBytes = reader.ReadLeft();
         }
         public override void WriteBody(PacketWriter writer)
         {

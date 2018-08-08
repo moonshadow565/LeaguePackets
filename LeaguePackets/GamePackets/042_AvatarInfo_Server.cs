@@ -14,15 +14,16 @@ namespace LeaguePackets.GamePackets
         public override GamePacketID ID => GamePacketID.AvatarInfo_Server;
         public AvatarInfo AvatarInfo { get; set; } = new AvatarInfo();
 
-        public static AvatarInfo_Server CreateBody(PacketReader reader, ChannelID channelID, NetID senderNetID)
-        {
-            var result = new AvatarInfo_Server();
-            result.SenderNetID = senderNetID;
-            result.ChannelID = channelID;
+        public AvatarInfo_Server(){}
 
-            result.AvatarInfo = reader.ReadAvatarInfo();
+        public AvatarInfo_Server(PacketReader reader, ChannelID channelID, NetID senderNetID)
+        {
+            this.SenderNetID = senderNetID;
+            this.ChannelID = channelID;
+
+            this.AvatarInfo = reader.ReadAvatarInfo();
         
-            return result;
+            this.ExtraBytes = reader.ReadLeft();
         }
         public override void WriteBody(PacketWriter writer)
         {

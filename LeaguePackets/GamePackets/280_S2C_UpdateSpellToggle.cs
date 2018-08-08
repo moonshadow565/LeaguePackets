@@ -13,16 +13,17 @@ namespace LeaguePackets.GamePackets
         public override GamePacketID ID => GamePacketID.S2C_UpdateSpellToggle;
         public int SpellSlot { get; set; }
         public bool ToggleValue { get; set; }
-        public static S2C_UpdateSpellToggle CreateBody(PacketReader reader, ChannelID channelID, NetID senderNetID)
-        {
-            var result = new S2C_UpdateSpellToggle();
-            result.SenderNetID = senderNetID;
-            result.ChannelID = channelID;
+        public S2C_UpdateSpellToggle(){}
 
-            result.SpellSlot = reader.ReadInt32();
-            result.ToggleValue = reader.ReadBool();
+        public S2C_UpdateSpellToggle(PacketReader reader, ChannelID channelID, NetID senderNetID)
+        {
+            this.SenderNetID = senderNetID;
+            this.ChannelID = channelID;
+
+            this.SpellSlot = reader.ReadInt32();
+            this.ToggleValue = reader.ReadBool();
         
-            return result;
+            this.ExtraBytes = reader.ReadLeft();
         }
         public override void WriteBody(PacketWriter writer)
         {

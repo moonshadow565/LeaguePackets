@@ -13,16 +13,17 @@ namespace LeaguePackets.GamePackets
         public override GamePacketID ID => GamePacketID.S2C_ModifyDebugObjectColor;
         public int ObjectID { get; set; }
         public Color Color { get; set; }
-        public static S2C_ModifyDebugObjectColor CreateBody(PacketReader reader, ChannelID channelID, NetID senderNetID)
-        {
-            var result = new S2C_ModifyDebugObjectColor();
-            result.SenderNetID = senderNetID;
-            result.ChannelID = channelID;
+        public S2C_ModifyDebugObjectColor(){}
 
-            result.ObjectID = reader.ReadInt32();
-            result.Color = reader.ReadColor();
+        public S2C_ModifyDebugObjectColor(PacketReader reader, ChannelID channelID, NetID senderNetID)
+        {
+            this.SenderNetID = senderNetID;
+            this.ChannelID = channelID;
+
+            this.ObjectID = reader.ReadInt32();
+            this.Color = reader.ReadColor();
         
-            return result;
+            this.ExtraBytes = reader.ReadLeft();
         }
         public override void WriteBody(PacketWriter writer)
         {

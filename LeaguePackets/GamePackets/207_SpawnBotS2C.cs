@@ -21,24 +21,25 @@ namespace LeaguePackets.GamePackets
         public int SkinID { get; set; }
         public string Name { get; set; } = "";
         public string SkinName { get; set; } = "";
-        public static SpawnBotS2C CreateBody(PacketReader reader, ChannelID channelID, NetID senderNetID)
+        public SpawnBotS2C(){}
+
+        public SpawnBotS2C(PacketReader reader, ChannelID channelID, NetID senderNetID)
         {
-            var result = new SpawnBotS2C();
-            result.SenderNetID = senderNetID;
-            result.ChannelID = channelID;
+            this.SenderNetID = senderNetID;
+            this.ChannelID = channelID;
 
-            result.NetID = reader.ReadNetID();
-            result.NetNodeID = reader.ReadNetNodeID();
-            result.Position = reader.ReadVector3();
-            result.BotRank = reader.ReadByte();
+            this.NetID = reader.ReadNetID();
+            this.NetNodeID = reader.ReadNetNodeID();
+            this.Position = reader.ReadVector3();
+            this.BotRank = reader.ReadByte();
             ushort bitfield = reader.ReadUInt16();
-            result.TeamID = (TeamID)(bitfield & 0x1FF);
+            this.TeamID = (TeamID)(bitfield & 0x1FF);
 
-            result.SkinID = reader.ReadInt32();
-            result.Name = reader.ReadFixedString(64);
-            result.SkinName = reader.ReadFixedString(64);
+            this.SkinID = reader.ReadInt32();
+            this.Name = reader.ReadFixedString(64);
+            this.SkinName = reader.ReadFixedString(64);
         
-            return result;
+            this.ExtraBytes = reader.ReadLeft();
         }
         public override void WriteBody(PacketWriter writer)
         {

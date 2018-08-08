@@ -24,26 +24,27 @@ namespace LeaguePackets.GamePackets
         public uint MaxSize { get; set; }
         public byte Bitfield { get; set; }
         public string StringBuffer { get; set; } = "";
-        public static S2C_AddDebugObject CreateBody(PacketReader reader, ChannelID channelID, NetID senderNetID)
+        public S2C_AddDebugObject(){}
+
+        public S2C_AddDebugObject(PacketReader reader, ChannelID channelID, NetID senderNetID)
         {
-            var result = new S2C_AddDebugObject();
-            result.SenderNetID = senderNetID;
-            result.ChannelID = channelID;
+            this.SenderNetID = senderNetID;
+            this.ChannelID = channelID;
 
-            result.DebugID = reader.ReadInt32();
-            result.Lifetime = reader.ReadFloat();
-            result.Type = reader.ReadByte();
-            result.NetID1 = reader.ReadNetID();
-            result.NetID2 = reader.ReadNetID();
-            result.Radius = reader.ReadFloat();
-            result.Point1 = reader.ReadVector3();
-            result.Point2 = reader.ReadVector3();
-            result.Color = reader.ReadColor();
-            result.MaxSize = reader.ReadUInt32();
-            result.Bitfield = reader.ReadByte();
-            result.StringBuffer = reader.ReadFixedString(128);
+            this.DebugID = reader.ReadInt32();
+            this.Lifetime = reader.ReadFloat();
+            this.Type = reader.ReadByte();
+            this.NetID1 = reader.ReadNetID();
+            this.NetID2 = reader.ReadNetID();
+            this.Radius = reader.ReadFloat();
+            this.Point1 = reader.ReadVector3();
+            this.Point2 = reader.ReadVector3();
+            this.Color = reader.ReadColor();
+            this.MaxSize = reader.ReadUInt32();
+            this.Bitfield = reader.ReadByte();
+            this.StringBuffer = reader.ReadFixedString(128);
 
-            return result;
+            this.ExtraBytes = reader.ReadLeft();
         }
         public override void WriteBody(PacketWriter writer)
         {

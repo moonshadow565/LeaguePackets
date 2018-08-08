@@ -16,21 +16,22 @@ namespace LeaguePackets.GamePackets
         public bool DoPlayVO { get; set; } 
         public int TimerType { get; set; }
         public float TimerExpire { get; set; }
-        public static S2C_Neutral_Camp_Empty CreateBody(PacketReader reader, ChannelID channelID, NetID senderNetID)
+        public S2C_Neutral_Camp_Empty(){}
+
+        public S2C_Neutral_Camp_Empty(PacketReader reader, ChannelID channelID, NetID senderNetID)
         {
-            var result = new S2C_Neutral_Camp_Empty();
-            result.SenderNetID = senderNetID;
-            result.ChannelID = channelID;
+            this.SenderNetID = senderNetID;
+            this.ChannelID = channelID;
 
-            result.KillerNetID = reader.ReadNetID();
-            result.CampIndex = reader.ReadInt32();
+            this.KillerNetID = reader.ReadNetID();
+            this.CampIndex = reader.ReadInt32();
             byte bitfield = reader.ReadByte();
-            result.DoPlayVO = (bitfield & 1) != 0;
+            this.DoPlayVO = (bitfield & 1) != 0;
 
-            result.TimerType = reader.ReadInt32();
-            result.TimerExpire = reader.ReadFloat();
+            this.TimerType = reader.ReadInt32();
+            this.TimerExpire = reader.ReadFloat();
         
-            return result;
+            this.ExtraBytes = reader.ReadLeft();
         }
         public override void WriteBody(PacketWriter writer)
         {

@@ -15,18 +15,19 @@ namespace LeaguePackets.GamePackets
         public byte ForVote { get; set; }
         public byte AgainstVote { get; set; }
         public TeamID TeamID { get; set; }
-        public static S2C_TeamSurrenderStatus CreateBody(PacketReader reader, ChannelID channelID, NetID senderNetID)
-        {
-            var result = new S2C_TeamSurrenderStatus();
-            result.SenderNetID = senderNetID;
-            result.ChannelID = channelID;
+        public S2C_TeamSurrenderStatus(){}
 
-            result.Reason = reader.ReadSurrenderReason();
-            result.ForVote = reader.ReadByte();
-            result.AgainstVote = reader.ReadByte();
-            result.TeamID = reader.ReadTeamID();
+        public S2C_TeamSurrenderStatus(PacketReader reader, ChannelID channelID, NetID senderNetID)
+        {
+            this.SenderNetID = senderNetID;
+            this.ChannelID = channelID;
+
+            this.Reason = reader.ReadSurrenderReason();
+            this.ForVote = reader.ReadByte();
+            this.AgainstVote = reader.ReadByte();
+            this.TeamID = reader.ReadTeamID();
         
-            return result;
+            this.ExtraBytes = reader.ReadLeft();
         }
         public override void WriteBody(PacketWriter writer)
         {

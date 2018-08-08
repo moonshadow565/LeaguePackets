@@ -35,30 +35,31 @@ namespace LeaguePackets.GamePackets
         public CreateHeroDeath CreateHeroDeath { get; set; }
         public bool Unknown8 { get; set; } // something with scripts
 
-        public static S2C_CreateHero CreateBody(PacketReader reader, ChannelID channelID, NetID senderNetID)
-        {
-            var result = new S2C_CreateHero();
-            result.SenderNetID = senderNetID;
-            result.ChannelID = channelID;
+        public S2C_CreateHero(){}
 
-            result.NetID = reader.ReadNetID();
-            result.PlayerUID = reader.ReadClientID();
-            result.NetNodeID = reader.ReadNetNodeID();
-            result.SkillLevel = reader.ReadByte();
-            result.TeamIsOrder = reader.ReadBool();
-            result.IsBot = reader.ReadBool();
-            result.BotRank = reader.ReadByte();
-            result.SpawnPositionIndex = reader.ReadByte();
-            result.SkinID = reader.ReadInt32();
-            result.Name = reader.ReadFixedString(128);
-            result.Skin = reader.ReadFixedString(40);
-            result.DeathDurationRemaining = reader.ReadFloat();
-            result.TimeSinceDeath = reader.ReadFloat();
+        public S2C_CreateHero(PacketReader reader, ChannelID channelID, NetID senderNetID)
+        {
+            this.SenderNetID = senderNetID;
+            this.ChannelID = channelID;
+
+            this.NetID = reader.ReadNetID();
+            this.PlayerUID = reader.ReadClientID();
+            this.NetNodeID = reader.ReadNetNodeID();
+            this.SkillLevel = reader.ReadByte();
+            this.TeamIsOrder = reader.ReadBool();
+            this.IsBot = reader.ReadBool();
+            this.BotRank = reader.ReadByte();
+            this.SpawnPositionIndex = reader.ReadByte();
+            this.SkinID = reader.ReadInt32();
+            this.Name = reader.ReadFixedString(128);
+            this.Skin = reader.ReadFixedString(40);
+            this.DeathDurationRemaining = reader.ReadFloat();
+            this.TimeSinceDeath = reader.ReadFloat();
             byte bitfield = reader.ReadByte();
-            result.CreateHeroDeath = (CreateHeroDeath)(bitfield & 7);
-            result.Unknown8 = (bitfield & 8) != 0;
+            this.CreateHeroDeath = (CreateHeroDeath)(bitfield & 7);
+            this.Unknown8 = (bitfield & 8) != 0;
         
-            return result;
+            this.ExtraBytes = reader.ReadLeft();
         }
         public override void WriteBody(PacketWriter writer)
         {

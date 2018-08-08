@@ -12,15 +12,16 @@ namespace LeaguePackets.GamePackets
     {
         public override GamePacketID ID => GamePacketID.AI_Command;
         public string Command { get; set; } = "";
-        public static AI_Command CreateBody(PacketReader reader, ChannelID channelID, NetID senderNetID)
-        {
-            var result = new AI_Command();
-            result.SenderNetID = senderNetID;
-            result.ChannelID = channelID;
+        public AI_Command(){}
 
-            result.Command = reader.ReadFixedString(128);
+        public AI_Command(PacketReader reader, ChannelID channelID, NetID senderNetID)
+        {
+            this.SenderNetID = senderNetID;
+            this.ChannelID = channelID;
+
+            this.Command = reader.ReadFixedString(128);
         
-            return result;
+            this.ExtraBytes = reader.ReadLeft();
         }
         public override void WriteBody(PacketWriter writer)
         {

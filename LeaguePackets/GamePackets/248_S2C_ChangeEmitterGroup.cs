@@ -14,17 +14,18 @@ namespace LeaguePackets.GamePackets
         public string GroupName { get; set; } = "";
         public int OperationData { get; set; }
         public byte GroupOperation { get; set; }
-        public static S2C_ChangeEmitterGroup CreateBody(PacketReader reader, ChannelID channelID, NetID senderNetID)
-        {
-            var result = new S2C_ChangeEmitterGroup();
-            result.SenderNetID = senderNetID;
-            result.ChannelID = channelID;
+        public S2C_ChangeEmitterGroup(){}
 
-            result.GroupName = reader.ReadFixedString(256);
-            result.OperationData = reader.ReadInt32();
-            result.GroupOperation = reader.ReadByte();
+        public S2C_ChangeEmitterGroup(PacketReader reader, ChannelID channelID, NetID senderNetID)
+        {
+            this.SenderNetID = senderNetID;
+            this.ChannelID = channelID;
+
+            this.GroupName = reader.ReadFixedString(256);
+            this.OperationData = reader.ReadInt32();
+            this.GroupOperation = reader.ReadByte();
         
-            return result;
+            this.ExtraBytes = reader.ReadLeft();
         }
         public override void WriteBody(PacketWriter writer)
         {

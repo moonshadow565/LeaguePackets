@@ -11,14 +11,15 @@ namespace LeaguePackets.GamePackets
     public class C2S_QueryStatusReq : GamePacket // 0x14
     {
         public override GamePacketID ID => GamePacketID.C2S_QueryStatusReq;
-        public static C2S_QueryStatusReq CreateBody(PacketReader reader, ChannelID channelID, NetID senderNetID)
+        public C2S_QueryStatusReq(){}
+
+        public C2S_QueryStatusReq(PacketReader reader, ChannelID channelID, NetID senderNetID)
         {
-            var result = new C2S_QueryStatusReq();
-            result.SenderNetID = senderNetID;
-            result.ChannelID = channelID;
+            this.SenderNetID = senderNetID;
+            this.ChannelID = channelID;
 
 
-            return result;
+            this.ExtraBytes = reader.ReadLeft();
         }
         public override void WriteBody(PacketWriter writer) {}
     }

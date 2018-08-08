@@ -11,13 +11,14 @@ namespace LeaguePackets.GamePackets
     public class SPM_RemoveListener : GamePacket, IUnusedPacket // 0x8B
     {
         public override GamePacketID ID => GamePacketID.SPM_RemoveListener;
-        public static SPM_RemoveListener CreateBody(PacketReader reader, ChannelID channelID, NetID senderNetID)
-        {
-            var result = new SPM_RemoveListener();
-            result.SenderNetID = senderNetID;
-            result.ChannelID = channelID;
+        public SPM_RemoveListener(){}
 
-            return result;
+        public SPM_RemoveListener(PacketReader reader, ChannelID channelID, NetID senderNetID)
+        {
+            this.SenderNetID = senderNetID;
+            this.ChannelID = channelID;
+
+            this.ExtraBytes = reader.ReadLeft();
         }
         public override void WriteBody(PacketWriter writer) {}
     }

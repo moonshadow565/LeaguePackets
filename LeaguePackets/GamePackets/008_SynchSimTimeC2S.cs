@@ -13,16 +13,17 @@ namespace LeaguePackets.GamePackets
         public override GamePacketID ID => GamePacketID.SynchSimTimeC2S;
         public float TimeLastServer { get; set; }
         public float TimeLastClient { get; set; }
-        public static SynchSimTimeC2S CreateBody(PacketReader reader, ChannelID channelID, NetID senderNetID)
-        {
-            var result = new SynchSimTimeC2S();
-            result.SenderNetID = senderNetID;
-            result.ChannelID = channelID;
+        public SynchSimTimeC2S(){}
 
-            result.TimeLastServer = reader.ReadFloat();
-            result.TimeLastClient = reader.ReadFloat();
+        public SynchSimTimeC2S(PacketReader reader, ChannelID channelID, NetID senderNetID)
+        {
+            this.SenderNetID = senderNetID;
+            this.ChannelID = channelID;
+
+            this.TimeLastServer = reader.ReadFloat();
+            this.TimeLastClient = reader.ReadFloat();
         
-            return result;
+            this.ExtraBytes = reader.ReadLeft();
         }
         public override void WriteBody(PacketWriter writer)
         {

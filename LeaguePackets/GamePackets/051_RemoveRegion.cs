@@ -12,15 +12,16 @@ namespace LeaguePackets.GamePackets
     {
         public override GamePacketID ID => GamePacketID.RemoveRegion;
         public NetID RegionNetID { get; set; }
-        public static RemoveRegion CreateBody(PacketReader reader, ChannelID channelID, NetID senderNetID)
-        {
-            var result = new RemoveRegion();
-            result.SenderNetID = senderNetID;
-            result.ChannelID = channelID;
+        public RemoveRegion(){}
 
-            result.RegionNetID = reader.ReadNetID();
+        public RemoveRegion(PacketReader reader, ChannelID channelID, NetID senderNetID)
+        {
+            this.SenderNetID = senderNetID;
+            this.ChannelID = channelID;
+
+            this.RegionNetID = reader.ReadNetID();
         
-            return result;
+            this.ExtraBytes = reader.ReadLeft();
         }
         public override void WriteBody(PacketWriter writer)
         {

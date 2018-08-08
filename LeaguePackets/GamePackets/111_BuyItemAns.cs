@@ -15,16 +15,17 @@ namespace LeaguePackets.GamePackets
         public ItemDataPacket Item { get; set; } = new ItemDataPacket();
         // TODO: change bitfield to enum or variables
         public byte Bitfield { get; set; }
-        public static BuyItemAns CreateBody(PacketReader reader, ChannelID channelID, NetID senderNetID)
-        {
-            var result = new BuyItemAns();
-            result.SenderNetID = senderNetID;
-            result.ChannelID = channelID;
+        public BuyItemAns(){}
 
-            result.Item = reader.ReadItemPacket();
-            result.Bitfield = reader.ReadByte();
+        public BuyItemAns(PacketReader reader, ChannelID channelID, NetID senderNetID)
+        {
+            this.SenderNetID = senderNetID;
+            this.ChannelID = channelID;
+
+            this.Item = reader.ReadItemPacket();
+            this.Bitfield = reader.ReadByte();
         
-            return result;
+            this.ExtraBytes = reader.ReadLeft();
         }
         public override void WriteBody(PacketWriter writer)
         {

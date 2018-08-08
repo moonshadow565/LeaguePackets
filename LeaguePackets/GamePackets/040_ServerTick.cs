@@ -12,15 +12,16 @@ namespace LeaguePackets.GamePackets
     {
         public override GamePacketID ID => GamePacketID.ServerTick;
         public float Delta { get; set; }
-        public static ServerTick CreateBody(PacketReader reader, ChannelID channelID, NetID senderNetID)
-        {
-            var result = new ServerTick();
-            result.SenderNetID = senderNetID;
-            result.ChannelID = channelID;
+        public ServerTick(){}
 
-            result.Delta = reader.ReadFloat();
+        public ServerTick(PacketReader reader, ChannelID channelID, NetID senderNetID)
+        {
+            this.SenderNetID = senderNetID;
+            this.ChannelID = channelID;
+
+            this.Delta = reader.ReadFloat();
         
-            return result;
+            this.ExtraBytes = reader.ReadLeft();
         }
         public override void WriteBody(PacketWriter writer)
         {

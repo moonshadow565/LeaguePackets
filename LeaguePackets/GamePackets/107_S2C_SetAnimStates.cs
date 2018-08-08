@@ -12,20 +12,21 @@ namespace LeaguePackets.GamePackets
     {
         public override GamePacketID ID => GamePacketID.S2C_SetAnimStates;
         public Dictionary<string, string> AnimationOverrides { get; set; } = new Dictionary<string, string>();
-        public static S2C_SetAnimStates CreateBody(PacketReader reader, ChannelID channelID, NetID senderNetID)
+        public S2C_SetAnimStates(){}
+
+        public S2C_SetAnimStates(PacketReader reader, ChannelID channelID, NetID senderNetID)
         {
-            var result = new S2C_SetAnimStates();
-            result.SenderNetID = senderNetID;
-            result.ChannelID = channelID;
+            this.SenderNetID = senderNetID;
+            this.ChannelID = channelID;
 
             int number = reader.ReadByte();
             for (int i = 0; i < number; i++)
             {
                 var fromAnim = reader.ReadSizedString();
                 var toAnim = reader.ReadSizedString();
-                result.AnimationOverrides[fromAnim] = toAnim;
+                this.AnimationOverrides[fromAnim] = toAnim;
             }
-            return result;
+            this.ExtraBytes = reader.ReadLeft();
         }
         public override void WriteBody(PacketWriter writer)
         {

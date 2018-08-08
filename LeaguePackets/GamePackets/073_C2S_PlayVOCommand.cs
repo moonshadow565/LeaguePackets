@@ -17,22 +17,23 @@ namespace LeaguePackets.GamePackets
         public bool HighlightPlayerIcon { get; set; }
         public bool FromPing { get; set; }
         public bool AlliesOnly { get; set; }
-        public static C2S_PlayVOCommand CreateBody(PacketReader reader, ChannelID channelID, NetID senderNetID)
-        {
-            var result = new C2S_PlayVOCommand();
-            result.SenderNetID = senderNetID;
-            result.ChannelID = channelID;
+        public C2S_PlayVOCommand(){}
 
-            result.CommandID = reader.ReadUInt32();
-            result.TargetNetID = reader.ReadNetID();
-            result.EventHash = reader.ReadUInt32();
+        public C2S_PlayVOCommand(PacketReader reader, ChannelID channelID, NetID senderNetID)
+        {
+            this.SenderNetID = senderNetID;
+            this.ChannelID = channelID;
+
+            this.CommandID = reader.ReadUInt32();
+            this.TargetNetID = reader.ReadNetID();
+            this.EventHash = reader.ReadUInt32();
             byte bitfield = reader.ReadByte();
-            result.HighlightPlayerIcon = (bitfield & 1) != 0;
-            result.FromPing = (bitfield & 2) != 0;
-            result.AlliesOnly = (bitfield & 4) != 0;
+            this.HighlightPlayerIcon = (bitfield & 1) != 0;
+            this.FromPing = (bitfield & 2) != 0;
+            this.AlliesOnly = (bitfield & 4) != 0;
             reader.ReadPad(3);
         
-            return result;
+            this.ExtraBytes = reader.ReadLeft();
         }
         public override void WriteBody(PacketWriter writer)
         {

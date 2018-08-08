@@ -11,13 +11,14 @@ namespace LeaguePackets.GamePackets
     public class C2S_CharSelected : GamePacket // 0xBE
     {
         public override GamePacketID ID => GamePacketID.C2S_CharSelected;
-        public static C2S_CharSelected CreateBody(PacketReader reader, ChannelID channelID, NetID senderNetID) 
-        {
-            var result = new C2S_CharSelected();
-            result.SenderNetID = senderNetID;
-            result.ChannelID = channelID;
+        public C2S_CharSelected(){}
 
-            return result;
+        public C2S_CharSelected(PacketReader reader, ChannelID channelID, NetID senderNetID) 
+        {
+            this.SenderNetID = senderNetID;
+            this.ChannelID = channelID;
+
+            this.ExtraBytes = reader.ReadLeft();
         }
         public override void WriteBody(PacketWriter writer) {}
     }

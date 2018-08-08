@@ -13,16 +13,17 @@ namespace LeaguePackets.GamePackets
         public override GamePacketID ID => GamePacketID.Building_Die;
         public NetID AttackerNetID { get; set; }
         public NetID LastHeroNetID { get; set; }
-        public static Building_Die CreateBody(PacketReader reader, ChannelID channelID, NetID senderNetID)
-        {
-            var result = new Building_Die();
-            result.SenderNetID = senderNetID;
-            result.ChannelID = channelID;
+        public Building_Die(){}
 
-            result.AttackerNetID = reader.ReadNetID();
-            result.LastHeroNetID = reader.ReadNetID();
+        public Building_Die(PacketReader reader, ChannelID channelID, NetID senderNetID)
+        {
+            this.SenderNetID = senderNetID;
+            this.ChannelID = channelID;
+
+            this.AttackerNetID = reader.ReadNetID();
+            this.LastHeroNetID = reader.ReadNetID();
         
-            return result;
+            this.ExtraBytes = reader.ReadLeft();
         }
         public override void WriteBody(PacketWriter writer)
         {

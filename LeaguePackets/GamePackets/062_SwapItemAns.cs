@@ -13,16 +13,17 @@ namespace LeaguePackets.GamePackets
         public override GamePacketID ID => GamePacketID.SwapItemAns;
         public byte Source { get; set; }
         public byte Destination { get; set; }
-        public static SwapItemAns CreateBody(PacketReader reader, ChannelID channelID, NetID senderNetID)
-        {
-            var result = new SwapItemAns();
-            result.SenderNetID = senderNetID;
-            result.ChannelID = channelID;
+        public SwapItemAns(){}
 
-            result.Source = reader.ReadByte();
-            result.Destination = reader.ReadByte();
+        public SwapItemAns(PacketReader reader, ChannelID channelID, NetID senderNetID)
+        {
+            this.SenderNetID = senderNetID;
+            this.ChannelID = channelID;
+
+            this.Source = reader.ReadByte();
+            this.Destination = reader.ReadByte();
         
-            return result;
+            this.ExtraBytes = reader.ReadLeft();
         }
         public override void WriteBody(PacketWriter writer)
         {

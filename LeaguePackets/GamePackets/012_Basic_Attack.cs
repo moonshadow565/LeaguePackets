@@ -13,15 +13,16 @@ namespace LeaguePackets.GamePackets
     {
         public override GamePacketID ID => GamePacketID.Basic_Attack;
         public BasicAttackDataPacket Attack { get; set; } = new BasicAttackDataPacket();
-        public static Basic_Attack CreateBody(PacketReader reader, ChannelID channelID, NetID senderNetID)
-        {
-            var result = new Basic_Attack();
-            result.SenderNetID = senderNetID;
-            result.ChannelID = channelID;
+        public Basic_Attack(){}
 
-            result.Attack = reader.ReadBasicAttackDataPacket();
+        public Basic_Attack(PacketReader reader, ChannelID channelID, NetID senderNetID)
+        {
+            this.SenderNetID = senderNetID;
+            this.ChannelID = channelID;
+
+            this.Attack = reader.ReadBasicAttackDataPacket();
         
-            return result;
+            this.ExtraBytes = reader.ReadLeft();
         }
         public override void WriteBody(PacketWriter writer)
         {

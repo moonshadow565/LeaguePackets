@@ -28,31 +28,32 @@ namespace LeaguePackets.GamePackets
         public bool CloneInventory { get; set; }
         public bool ShowMinimapIconIfClone { get; set; }
         string AIscript { get; set; }
-        public static CHAR_SpawnPet CreateBody(PacketReader reader, ChannelID channelID, NetID senderNetID)
+        public CHAR_SpawnPet(){}
+
+        public CHAR_SpawnPet(PacketReader reader, ChannelID channelID, NetID senderNetID)
         {
-            var result = new CHAR_SpawnPet();
-            result.SenderNetID = senderNetID;
-            result.ChannelID = channelID;
+            this.SenderNetID = senderNetID;
+            this.ChannelID = channelID;
 
-            result.OwnerNetID = reader.ReadNetID();
-            result.NetNodeID = reader.ReadNetNodeID();
-            result.Position = reader.ReadVector3();
-            result.CastSpellLevelPlusOne = reader.ReadInt32();
-            result.Duration = reader.ReadFloat();
-            result.TeamID = reader.ReadTeamID();
-            result.DamageBonus = reader.ReadInt32();
-            result.HealthBonus = reader.ReadInt32();
-            result.Name = reader.ReadFixedString(128);
-            result.Skin = reader.ReadFixedString(32);
-            result.SkinID = reader.ReadInt32();
-            result.BuffName = reader.ReadFixedString(64);
-            result.CloneID = reader.ReadNetID();
+            this.OwnerNetID = reader.ReadNetID();
+            this.NetNodeID = reader.ReadNetNodeID();
+            this.Position = reader.ReadVector3();
+            this.CastSpellLevelPlusOne = reader.ReadInt32();
+            this.Duration = reader.ReadFloat();
+            this.TeamID = reader.ReadTeamID();
+            this.DamageBonus = reader.ReadInt32();
+            this.HealthBonus = reader.ReadInt32();
+            this.Name = reader.ReadFixedString(128);
+            this.Skin = reader.ReadFixedString(32);
+            this.SkinID = reader.ReadInt32();
+            this.BuffName = reader.ReadFixedString(64);
+            this.CloneID = reader.ReadNetID();
             byte bitfield = reader.ReadByte();
-            result.CloneInventory = (bitfield & 1) != 0;
-            result.ShowMinimapIconIfClone = (bitfield & 2) != 0;
-            result.AIscript = reader.ReadFixedString(32);
+            this.CloneInventory = (bitfield & 1) != 0;
+            this.ShowMinimapIconIfClone = (bitfield & 2) != 0;
+            this.AIscript = reader.ReadFixedString(32);
 
-            return result;
+            this.ExtraBytes = reader.ReadLeft();
         }
         public override void WriteBody(PacketWriter writer)
         {

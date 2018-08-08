@@ -17,19 +17,20 @@ namespace LeaguePackets.GamePackets
         public bool ForceStop { get; set; }
 
         public Vector3 Position { get; set; }
-        public static C2S_SpellChargeUpdateReq CreateBody(PacketReader reader, ChannelID channelID, NetID senderNetID)
+        public C2S_SpellChargeUpdateReq(){}
+
+        public C2S_SpellChargeUpdateReq(PacketReader reader, ChannelID channelID, NetID senderNetID)
         {
-            var result = new C2S_SpellChargeUpdateReq();
-            result.SenderNetID = senderNetID;
-            result.ChannelID = channelID;
+            this.SenderNetID = senderNetID;
+            this.ChannelID = channelID;
 
             byte bitfield = reader.ReadByte();
-            result.Slot = (byte)(bitfield & 0x3F);
-            result.IsSummonerSpellBook = (bitfield & 0x40) != 0;
-            result.ForceStop = (bitfield & 0x80) != 0; 
-            result.Position = reader.ReadVector3();
+            this.Slot = (byte)(bitfield & 0x3F);
+            this.IsSummonerSpellBook = (bitfield & 0x40) != 0;
+            this.ForceStop = (bitfield & 0x80) != 0; 
+            this.Position = reader.ReadVector3();
         
-            return result;
+            this.ExtraBytes = reader.ReadLeft();
         }
         public override void WriteBody(PacketWriter writer)
         {

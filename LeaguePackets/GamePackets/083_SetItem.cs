@@ -13,15 +13,16 @@ namespace LeaguePackets.GamePackets
     {
         public override GamePacketID ID => GamePacketID.SetItem;
         public ItemDataPacket Item { get; set; } = new ItemDataPacket();
-        public static SetItem CreateBody(PacketReader reader, ChannelID channelID, NetID senderNetID)
-        {
-            var result = new SetItem();
-            result.SenderNetID = senderNetID;
-            result.ChannelID = channelID;
+        public SetItem(){}
 
-            result.Item = reader.ReadItemPacket();
+        public SetItem(PacketReader reader, ChannelID channelID, NetID senderNetID)
+        {
+            this.SenderNetID = senderNetID;
+            this.ChannelID = channelID;
+
+            this.Item = reader.ReadItemPacket();
         
-            return result;
+            this.ExtraBytes = reader.ReadLeft();
         }
         public override void WriteBody(PacketWriter writer)
         {

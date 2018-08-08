@@ -14,17 +14,18 @@ namespace LeaguePackets.GamePackets
         public NetID TargetNetID { get; set; }
         public DrawPathMode DrawPathMode { get; set; }
         public float UpdateRate { get; set; }
-        public static S2C_UnitSetDrawPathMode CreateBody(PacketReader reader, ChannelID channelID, NetID senderNetID)
-        {
-            var result = new S2C_UnitSetDrawPathMode();
-            result.SenderNetID = senderNetID;
-            result.ChannelID = channelID;
+        public S2C_UnitSetDrawPathMode(){}
 
-            result.TargetNetID = reader.ReadNetID();
-            result.DrawPathMode = reader.ReadDrawPathMode();
-            result.UpdateRate = reader.ReadFloat();
+        public S2C_UnitSetDrawPathMode(PacketReader reader, ChannelID channelID, NetID senderNetID)
+        {
+            this.SenderNetID = senderNetID;
+            this.ChannelID = channelID;
+
+            this.TargetNetID = reader.ReadNetID();
+            this.DrawPathMode = reader.ReadDrawPathMode();
+            this.UpdateRate = reader.ReadFloat();
         
-            return result;
+            this.ExtraBytes = reader.ReadLeft();
         }
         public override void WriteBody(PacketWriter writer)
         {

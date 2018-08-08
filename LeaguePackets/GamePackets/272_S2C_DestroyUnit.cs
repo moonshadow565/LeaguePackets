@@ -11,13 +11,14 @@ namespace LeaguePackets.GamePackets
     public class S2C_DestroyUnit : GamePacket // 0x110
     {
         public override GamePacketID ID => GamePacketID.S2C_DestroyUnit;
-        public static S2C_DestroyUnit CreateBody(PacketReader reader, ChannelID channelID, NetID senderNetID) 
-        {
-            var result = new S2C_DestroyUnit();
-            result.SenderNetID = senderNetID;
-            result.ChannelID = channelID;
+        public S2C_DestroyUnit(){}
 
-            return result;
+        public S2C_DestroyUnit(PacketReader reader, ChannelID channelID, NetID senderNetID) 
+        {
+            this.SenderNetID = senderNetID;
+            this.ChannelID = channelID;
+
+            this.ExtraBytes = reader.ReadLeft();
         }
         public override void WriteBody(PacketWriter writer) {}
     }

@@ -13,15 +13,16 @@ namespace LeaguePackets.GamePackets
         public override GamePacketID ID => GamePacketID.UpdateGoldRedirectTarget;
         public NetID TargetNetID { get; set; }
 
-        public static UpdateGoldRedirectTarget CreateBody(PacketReader reader, ChannelID channelID, NetID senderNetID)
+        public UpdateGoldRedirectTarget(){}
+
+        public UpdateGoldRedirectTarget(PacketReader reader, ChannelID channelID, NetID senderNetID)
         {
-            var result = new UpdateGoldRedirectTarget();
-            result.SenderNetID = senderNetID;
-            result.ChannelID = channelID;
+            this.SenderNetID = senderNetID;
+            this.ChannelID = channelID;
 
-            result.TargetNetID = reader.ReadNetID();
+            this.TargetNetID = reader.ReadNetID();
 
-            return result;
+            this.ExtraBytes = reader.ReadLeft();
         }
         public override void WriteBody(PacketWriter writer)
         {

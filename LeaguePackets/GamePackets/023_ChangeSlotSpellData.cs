@@ -16,19 +16,20 @@ namespace LeaguePackets.GamePackets
         public bool IsSummonerSpell { get; set; }
         public IChangeSpellData ChangeSpellData { get; set; } = null;
 
-        public static ChangeSlotSpellData CreateBody(PacketReader reader, ChannelID channelID, NetID senderNetID)
+        public ChangeSlotSpellData(){}
+
+        public ChangeSlotSpellData(PacketReader reader, ChannelID channelID, NetID senderNetID)
         {
-            var result = new ChangeSlotSpellData();
-            result.ChannelID = channelID;
-            result.SenderNetID = senderNetID;
+            this.ChannelID = channelID;
+            this.SenderNetID = senderNetID;
 
             byte bitfield = reader.ReadByte();
             byte spellSlot = (byte)(bitfield & 0x3F);
             bool isSummonerSpell = (bitfield & 0x40) != 0;
-            result.SpellSlot = spellSlot;
-            result.IsSummonerSpell = isSummonerSpell;
-            result.ChangeSpellData = reader.ReadChangeSpellData();
-            return result;
+            this.SpellSlot = spellSlot;
+            this.IsSummonerSpell = isSummonerSpell;
+            this.ChangeSpellData = reader.ReadChangeSpellData();
+            this.ExtraBytes = reader.ReadLeft();
         }
 
         public override void WriteBody(PacketWriter writer)

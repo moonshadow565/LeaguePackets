@@ -17,19 +17,20 @@ namespace LeaguePackets.GamePackets
         public TeamID TeamID { get; set; }
         public ClientID ClientID { get; set; }
         public Vector3 Position { get; set; }
-        public static S2C_HandleRespawnPointUpdate CreateBody(PacketReader reader, ChannelID channelID, NetID senderNetID)
-        {
-            var result = new S2C_HandleRespawnPointUpdate();
-            result.SenderNetID = senderNetID;
-            result.ChannelID = channelID;
+        public S2C_HandleRespawnPointUpdate(){}
 
-            result.RespawnPointCommand = reader.ReadRespawnPointCommand();
-            result.RespawnPointUIID = reader.ReadRespawnPointUIID();
-            result.TeamID = reader.ReadTeamID();
-            result.ClientID = reader.ReadClientID();
-            result.Position = reader.ReadVector3();
+        public S2C_HandleRespawnPointUpdate(PacketReader reader, ChannelID channelID, NetID senderNetID)
+        {
+            this.SenderNetID = senderNetID;
+            this.ChannelID = channelID;
+
+            this.RespawnPointCommand = reader.ReadRespawnPointCommand();
+            this.RespawnPointUIID = reader.ReadRespawnPointUIID();
+            this.TeamID = reader.ReadTeamID();
+            this.ClientID = reader.ReadClientID();
+            this.Position = reader.ReadVector3();
         
-            return result;
+            this.ExtraBytes = reader.ReadLeft();
         }
         public override void WriteBody(PacketWriter writer)
         {

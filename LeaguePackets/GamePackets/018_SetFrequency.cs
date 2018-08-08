@@ -12,15 +12,16 @@ namespace LeaguePackets.GamePackets
     {
         public override GamePacketID ID => GamePacketID.SetFrequency;
         public float NewFrequency { get; set; }
-        public static SetFrequency CreateBody(PacketReader reader, ChannelID channelID, NetID senderNetID)
-        {
-            var result = new SetFrequency();
-            result.SenderNetID = senderNetID;
-            result.ChannelID = channelID;
+        public SetFrequency(){}
 
-            result.NewFrequency = reader.ReadFloat();
+        public SetFrequency(PacketReader reader, ChannelID channelID, NetID senderNetID)
+        {
+            this.SenderNetID = senderNetID;
+            this.ChannelID = channelID;
+
+            this.NewFrequency = reader.ReadFloat();
         
-            return result;
+            this.ExtraBytes = reader.ReadLeft();
         }
         public override void WriteBody(PacketWriter writer)
         {

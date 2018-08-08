@@ -13,16 +13,17 @@ namespace LeaguePackets.GamePackets
         public override GamePacketID ID => GamePacketID.C2S_OnQuestEvent;
         public QuestEvent QuestEvent { get; set; }
         public QuestID QuestID { get; set; }
-        public static C2S_OnQuestEvent CreateBody(PacketReader reader, ChannelID channelID, NetID senderNetID)
-        {
-            var result = new C2S_OnQuestEvent();
-            result.SenderNetID = senderNetID;
-            result.ChannelID = channelID;
+        public C2S_OnQuestEvent(){}
 
-            result.QuestEvent = reader.ReadQuestEvent();
-            result.QuestID = reader.ReadQuestID();
+        public C2S_OnQuestEvent(PacketReader reader, ChannelID channelID, NetID senderNetID)
+        {
+            this.SenderNetID = senderNetID;
+            this.ChannelID = channelID;
+
+            this.QuestEvent = reader.ReadQuestEvent();
+            this.QuestID = reader.ReadQuestID();
         
-            return result;
+            this.ExtraBytes = reader.ReadLeft();
         }
         public override void WriteBody(PacketWriter writer)
         {

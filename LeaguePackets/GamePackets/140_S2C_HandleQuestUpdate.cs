@@ -20,20 +20,21 @@ namespace LeaguePackets.GamePackets
         public IQuestUpdateData QuestUpdateData { get; set; }
         public QuestID QuestID { get; set; }
 
-        public static S2C_HandleQuestUpdate CreateBody(PacketReader reader, ChannelID channelID, NetID senderNetID)
-        {
-            var result = new S2C_HandleQuestUpdate();
-            result.ChannelID = channelID;
-            result.SenderNetID = senderNetID;
+        public S2C_HandleQuestUpdate(){}
 
-            result.Objective = reader.ReadFixedString(128);
-            result.Icon = reader.ReadFixedString(128);
-            result.Tooltip = reader.ReadFixedString(128);
-            result.Reward = reader.ReadFixedString(128);
-            result.QuestType = reader.ReadQuestType();
-            result.QuestUpdateData = reader.ReadQuestUpdateData();
-            result.QuestID = reader.ReadQuestID();
-            return result;
+        public S2C_HandleQuestUpdate(PacketReader reader, ChannelID channelID, NetID senderNetID)
+        {
+            this.ChannelID = channelID;
+            this.SenderNetID = senderNetID;
+
+            this.Objective = reader.ReadFixedString(128);
+            this.Icon = reader.ReadFixedString(128);
+            this.Tooltip = reader.ReadFixedString(128);
+            this.Reward = reader.ReadFixedString(128);
+            this.QuestType = reader.ReadQuestType();
+            this.QuestUpdateData = reader.ReadQuestUpdateData();
+            this.QuestID = reader.ReadQuestID();
+            this.ExtraBytes = reader.ReadLeft();
         }
 
         public override void WriteBody(PacketWriter writer)

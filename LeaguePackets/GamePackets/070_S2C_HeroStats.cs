@@ -47,15 +47,16 @@ namespace LeaguePackets.GamePackets
             }
         }
 
-        public static S2C_HeroStats CreateBody(PacketReader reader, ChannelID channelID, NetID senderNetID)
+        public S2C_HeroStats(){}
+
+        public S2C_HeroStats(PacketReader reader, ChannelID channelID, NetID senderNetID)
         {
-            var result = new S2C_HeroStats();
-            result.SenderNetID = senderNetID;
-            result.ChannelID = channelID;
+            this.SenderNetID = senderNetID;
+            this.ChannelID = channelID;
 
             int size = reader.ReadInt32();
-            result.Data = reader.ReadBytes(size);
-            return result;
+            this.Data = reader.ReadBytes(size);
+            this.ExtraBytes = reader.ReadLeft();
         }
         public override void WriteBody(PacketWriter writer)
         {

@@ -14,17 +14,18 @@ namespace LeaguePackets.GamePackets
         public short FadeId { get; set; }
         public float FadeTime { get; set; }
         public float FadeTargetValue { get; set; }
-        public static SetFadeOut_Push CreateBody(PacketReader reader, ChannelID channelID, NetID senderNetID)
-        {
-            var result = new SetFadeOut_Push();
-            result.SenderNetID = senderNetID;
-            result.ChannelID = channelID;
+        public SetFadeOut_Push(){}
 
-            result.FadeId = reader.ReadInt16();
-            result.FadeTime = reader.ReadFloat();
-            result.FadeTargetValue = reader.ReadFloat();
+        public SetFadeOut_Push(PacketReader reader, ChannelID channelID, NetID senderNetID)
+        {
+            this.SenderNetID = senderNetID;
+            this.ChannelID = channelID;
+
+            this.FadeId = reader.ReadInt16();
+            this.FadeTime = reader.ReadFloat();
+            this.FadeTargetValue = reader.ReadFloat();
         
-            return result;
+            this.ExtraBytes = reader.ReadLeft();
         }
         public override void WriteBody(PacketWriter writer)
         {

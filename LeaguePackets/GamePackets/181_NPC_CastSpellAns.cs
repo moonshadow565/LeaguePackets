@@ -16,19 +16,20 @@ namespace LeaguePackets.GamePackets
         public bool Unknown1 { get; set; } //if this is false CasterPositionSyncID is used ?
         public CastInfo CastInfo { get; set; } = new CastInfo();
 
-        public static NPC_CastSpellAns CreateBody(PacketReader reader, ChannelID channelID, NetID senderNetID)
-        {
-            var result = new NPC_CastSpellAns();
-            result.SenderNetID = senderNetID;
-            result.ChannelID = channelID;
+        public NPC_CastSpellAns(){}
 
-            result.CasterPositionSyncID = reader.ReadInt32();
+        public NPC_CastSpellAns(PacketReader reader, ChannelID channelID, NetID senderNetID)
+        {
+            this.SenderNetID = senderNetID;
+            this.ChannelID = channelID;
+
+            this.CasterPositionSyncID = reader.ReadInt32();
 
             byte bitfield = reader.ReadByte();
-            result.Unknown1 = (bitfield & 1) != 0;
+            this.Unknown1 = (bitfield & 1) != 0;
 
-            result.CastInfo = reader.ReadCastInfo();
-            return result;
+            this.CastInfo = reader.ReadCastInfo();
+            this.ExtraBytes = reader.ReadLeft();
         }
         public override void WriteBody(PacketWriter writer)
         {

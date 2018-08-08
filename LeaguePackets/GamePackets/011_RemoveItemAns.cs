@@ -14,18 +14,19 @@ namespace LeaguePackets.GamePackets
         public byte Slot { get; set; }
         public bool NotifyInventoryChange { get; set; }
         public byte ItemsInSlot { get; set; }
-        public static RemoveItemAns CreateBody(PacketReader reader, ChannelID channelID, NetID senderNetID)
+        public RemoveItemAns(){}
+
+        public RemoveItemAns(PacketReader reader, ChannelID channelID, NetID senderNetID)
         {
-            var result = new RemoveItemAns();
-            result.SenderNetID = senderNetID;
-            result.ChannelID = channelID;
+            this.SenderNetID = senderNetID;
+            this.ChannelID = channelID;
 
             byte bitfield = reader.ReadByte();
-            result.Slot = (byte)(bitfield & 0x7Fu);
-            result.NotifyInventoryChange = (bitfield & 0x80) != 0;
-            result.ItemsInSlot = reader.ReadByte();
+            this.Slot = (byte)(bitfield & 0x7Fu);
+            this.NotifyInventoryChange = (bitfield & 0x80) != 0;
+            this.ItemsInSlot = reader.ReadByte();
         
-            return result;
+            this.ExtraBytes = reader.ReadLeft();
         }
         public override void WriteBody(PacketWriter writer)
         {

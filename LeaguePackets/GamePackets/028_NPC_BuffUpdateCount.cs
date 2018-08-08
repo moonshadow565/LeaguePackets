@@ -16,19 +16,20 @@ namespace LeaguePackets.GamePackets
         public float Duration { get; set; }
         public float RunningTime { get; set; }
         public NetID CasterNetID { get; set; }
-        public static NPC_BuffUpdateCount CreateBody(PacketReader reader, ChannelID channelID, NetID senderNetID)
-        {
-            var result = new NPC_BuffUpdateCount();
-            result.SenderNetID = senderNetID;
-            result.ChannelID = channelID;
+        public NPC_BuffUpdateCount(){}
 
-            result.BuffSlot = reader.ReadByte();
-            result.Count = reader.ReadByte();
-            result.Duration = reader.ReadFloat();
-            result.RunningTime = reader.ReadFloat();
-            result.CasterNetID = reader.ReadNetID();
+        public NPC_BuffUpdateCount(PacketReader reader, ChannelID channelID, NetID senderNetID)
+        {
+            this.SenderNetID = senderNetID;
+            this.ChannelID = channelID;
+
+            this.BuffSlot = reader.ReadByte();
+            this.Count = reader.ReadByte();
+            this.Duration = reader.ReadFloat();
+            this.RunningTime = reader.ReadFloat();
+            this.CasterNetID = reader.ReadNetID();
         
-            return result;
+            this.ExtraBytes = reader.ReadLeft();
         }
         public override void WriteBody(PacketWriter writer)
         {

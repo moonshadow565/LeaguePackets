@@ -13,16 +13,17 @@ namespace LeaguePackets.GamePackets
         public override GamePacketID ID => GamePacketID.ReplayOnly_GoldEarned;
         public NetID OwnerID { get; set; }
         public float Amount { get; set; }
-        public static ReplayOnly_GoldEarned CreateBody(PacketReader reader, ChannelID channelID, NetID senderNetID)
-        {
-            var result = new ReplayOnly_GoldEarned();
-            result.SenderNetID = senderNetID;
-            result.ChannelID = channelID;
+        public ReplayOnly_GoldEarned(){}
 
-            result.OwnerID = reader.ReadNetID();
-            result.Amount = reader.ReadFloat();
+        public ReplayOnly_GoldEarned(PacketReader reader, ChannelID channelID, NetID senderNetID)
+        {
+            this.SenderNetID = senderNetID;
+            this.ChannelID = channelID;
+
+            this.OwnerID = reader.ReadNetID();
+            this.Amount = reader.ReadFloat();
         
-            return result;
+            this.ExtraBytes = reader.ReadLeft();
         }
         public override void WriteBody(PacketWriter writer)
         {

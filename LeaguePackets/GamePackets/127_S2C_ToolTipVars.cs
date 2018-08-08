@@ -13,19 +13,20 @@ namespace LeaguePackets.GamePackets
     {
         public override GamePacketID ID => GamePacketID.S2C_ToolTipVars;
         public List<TooltipVars> Tooltips { get; set; } = new List<TooltipVars>();
-        public static S2C_ToolTipVars CreateBody(PacketReader reader, ChannelID channelID, NetID senderNetID)
+        public S2C_ToolTipVars(){}
+
+        public S2C_ToolTipVars(PacketReader reader, ChannelID channelID, NetID senderNetID)
         {
-            var result = new S2C_ToolTipVars();
-            result.SenderNetID = senderNetID;
-            result.ChannelID = channelID;
+            this.SenderNetID = senderNetID;
+            this.ChannelID = channelID;
 
             int size = reader.ReadUInt16() / 85;
             for (int i = 0; i < size; i++)
             {
-                result.Tooltips.Add(reader.ReadTooltipValues());
+                this.Tooltips.Add(reader.ReadTooltipValues());
             }
 
-            return result;
+            this.ExtraBytes = reader.ReadLeft();
         }
         public override void WriteBody(PacketWriter writer)
         {

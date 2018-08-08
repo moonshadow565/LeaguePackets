@@ -13,16 +13,17 @@ namespace LeaguePackets.GamePackets
         public override GamePacketID ID => GamePacketID.S2C_AI_TargetSelection;
         private NetID[] _targetNetIDs = new NetID[5];
         public NetID[] TargetNetIDs => _targetNetIDs;
-        public static S2C_AI_TargetSelection CreateBody(PacketReader reader, ChannelID channelID, NetID senderNetID)
-        {
-            var result = new S2C_AI_TargetSelection();
-            result.SenderNetID = senderNetID;
-            result.ChannelID = channelID;
+        public S2C_AI_TargetSelection(){}
 
-            for (var i = 0; i < result.TargetNetIDs.Length; i++)
-                result.TargetNetIDs[i] = reader.ReadNetID();
+        public S2C_AI_TargetSelection(PacketReader reader, ChannelID channelID, NetID senderNetID)
+        {
+            this.SenderNetID = senderNetID;
+            this.ChannelID = channelID;
+
+            for (var i = 0; i < this.TargetNetIDs.Length; i++)
+                this.TargetNetIDs[i] = reader.ReadNetID();
         
-            return result;
+            this.ExtraBytes = reader.ReadLeft();
         }
         public override void WriteBody(PacketWriter writer)
         {

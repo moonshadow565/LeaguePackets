@@ -13,16 +13,17 @@ namespace LeaguePackets.GamePackets
         public override GamePacketID ID => GamePacketID.S2C_UnitSetCursorReticle;
         public float Radius { get; set; }
         public float SecondaryRadius { get; set; }
-        public static S2C_UnitSetCursorReticle CreateBody(PacketReader reader, ChannelID channelID, NetID senderNetID)
-        {
-            var result = new S2C_UnitSetCursorReticle();
-            result.SenderNetID = senderNetID;
-            result.ChannelID = channelID;
+        public S2C_UnitSetCursorReticle(){}
 
-            result.Radius = reader.ReadFloat();
-            result.SecondaryRadius = reader.ReadFloat();
+        public S2C_UnitSetCursorReticle(PacketReader reader, ChannelID channelID, NetID senderNetID)
+        {
+            this.SenderNetID = senderNetID;
+            this.ChannelID = channelID;
+
+            this.Radius = reader.ReadFloat();
+            this.SecondaryRadius = reader.ReadFloat();
         
-            return result;
+            this.ExtraBytes = reader.ReadLeft();
         }
         public override void WriteBody(PacketWriter writer)
         {

@@ -23,26 +23,27 @@ namespace LeaguePackets.GamePackets
         public int ExperienceGranted { get; set; }
         public int TowersGranted { get; set; }
 
-        public static S2C_TeamBalanceVote CreateBody(PacketReader reader, ChannelID channelID, NetID senderNetID)
+        public S2C_TeamBalanceVote(){}
+
+        public S2C_TeamBalanceVote(PacketReader reader, ChannelID channelID, NetID senderNetID)
         {
-            var result = new S2C_TeamBalanceVote();
-            result.SenderNetID = senderNetID;
-            result.ChannelID = channelID;
+            this.SenderNetID = senderNetID;
+            this.ChannelID = channelID;
 
             byte bitfield = reader.ReadByte();
-            result.VoteYes = (bitfield & 1) != 0;
-            result.OpenVoteMenu = (bitfield & 2) != 0;
-            result.PlayerNetID = reader.ReadNetID();
-            result.ForVote = reader.ReadByte();
-            result.AgainstVote = reader.ReadByte();
-            result.NumPlayers = reader.ReadByte();
-            result.TeamID = reader.ReadTeamID();
-            result.TimeOut = reader.ReadFloat();
-            result.GoldGranted = reader.ReadFloat();
-            result.ExperienceGranted = reader.ReadInt32();
-            result.TowersGranted = reader.ReadInt32();
+            this.VoteYes = (bitfield & 1) != 0;
+            this.OpenVoteMenu = (bitfield & 2) != 0;
+            this.PlayerNetID = reader.ReadNetID();
+            this.ForVote = reader.ReadByte();
+            this.AgainstVote = reader.ReadByte();
+            this.NumPlayers = reader.ReadByte();
+            this.TeamID = reader.ReadTeamID();
+            this.TimeOut = reader.ReadFloat();
+            this.GoldGranted = reader.ReadFloat();
+            this.ExperienceGranted = reader.ReadInt32();
+            this.TowersGranted = reader.ReadInt32();
         
-            return result;
+            this.ExtraBytes = reader.ReadLeft();
         }
         public override void WriteBody(PacketWriter writer)
         {

@@ -12,14 +12,15 @@ namespace LeaguePackets.GamePackets
     {
         public override GamePacketID ID => GamePacketID.S2C_UnlockAnimation;
         //FIXME: 4.18+
-        public static S2C_UnlockAnimation CreateBody(PacketReader reader, ChannelID channelID, NetID senderNetID)
+        public S2C_UnlockAnimation(){}
+
+        public S2C_UnlockAnimation(PacketReader reader, ChannelID channelID, NetID senderNetID)
         {
-            var result = new S2C_UnlockAnimation();
-            result.SenderNetID = senderNetID;
-            result.ChannelID = channelID;
+            this.SenderNetID = senderNetID;
+            this.ChannelID = channelID;
 
         
-            return result;
+            this.ExtraBytes = reader.ReadLeft();
         }
         public override void WriteBody(PacketWriter writer)
         {

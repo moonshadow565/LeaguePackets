@@ -31,34 +31,35 @@ namespace LeaguePackets.GamePackets
         public string SkinName { get; set; } = "";
         public ushort InitialLevel { get; set; }
         public NetID OnlyVisibleToNetID { get; set; }
-        public static SpawnMinionS2C CreateBody(PacketReader reader, ChannelID channelID, NetID senderNetID)
+        public SpawnMinionS2C(){}
+
+        public SpawnMinionS2C(PacketReader reader, ChannelID channelID, NetID senderNetID)
         {
-            var result = new SpawnMinionS2C();
-            result.SenderNetID = senderNetID;
-            result.ChannelID = channelID;
+            this.SenderNetID = senderNetID;
+            this.ChannelID = channelID;
 
-            result.NetID = reader.ReadNetID();
-            result.OwnerNetID = reader.ReadNetID();
-            result.NetNodeID = reader.ReadNetNodeID();
-            result.Position = reader.ReadVector3();
-            result.SkinID = reader.ReadInt32();
-            result.CloneNetID = reader.ReadNetID();
+            this.NetID = reader.ReadNetID();
+            this.OwnerNetID = reader.ReadNetID();
+            this.NetNodeID = reader.ReadNetNodeID();
+            this.Position = reader.ReadVector3();
+            this.SkinID = reader.ReadInt32();
+            this.CloneNetID = reader.ReadNetID();
             ushort bitfield = reader.ReadUInt16();
-            result.TeamID = (TeamID)(bitfield & 0x1FF);
-            result.IgnoreCollision = (bitfield & 0x0200) != 0;
-            result.IsWard = (bitfield & 0x0400) != 0;
-            result.IsLaneMinion = (bitfield & 0x0800) != 0;
-            result.IsBot = (bitfield & 0x1000) != 0;
-            result.IsTargetable = (bitfield & 0x2000) != 0;
+            this.TeamID = (TeamID)(bitfield & 0x1FF);
+            this.IgnoreCollision = (bitfield & 0x0200) != 0;
+            this.IsWard = (bitfield & 0x0400) != 0;
+            this.IsLaneMinion = (bitfield & 0x0800) != 0;
+            this.IsBot = (bitfield & 0x1000) != 0;
+            this.IsTargetable = (bitfield & 0x2000) != 0;
 
-            result.IsTargetableToTeam = reader.ReadSpellFlags();
-            result.VisibilitySize = reader.ReadFloat();
-            result.Name = reader.ReadFixedString(64);
-            result.SkinName = reader.ReadFixedString(64);
-            result.InitialLevel = reader.ReadUInt16();
-            result.OnlyVisibleToNetID = reader.ReadNetID();
+            this.IsTargetableToTeam = reader.ReadSpellFlags();
+            this.VisibilitySize = reader.ReadFloat();
+            this.Name = reader.ReadFixedString(64);
+            this.SkinName = reader.ReadFixedString(64);
+            this.InitialLevel = reader.ReadUInt16();
+            this.OnlyVisibleToNetID = reader.ReadNetID();
         
-            return result;
+            this.ExtraBytes = reader.ReadLeft();
         }
         public override void WriteBody(PacketWriter writer)
         {

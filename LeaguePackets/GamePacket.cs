@@ -53,7 +53,7 @@ namespace LeaguePackets
                 || id == GamePacketID.ExtendedPacket 
                 || id == GamePacketID.Batched)
             {
-                packet = UnknownGamePacket.CreateBody(reader, channelID, sender, id);
+                packet = new UnknownGamePacket(reader, channelID, sender, id);
             }
             else
             {

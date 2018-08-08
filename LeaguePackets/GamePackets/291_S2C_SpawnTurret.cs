@@ -25,28 +25,29 @@ namespace LeaguePackets.GamePackets
         public bool IsInvulnerable { get; set; }
 
         public SpellFlags IsTargetableToTeam { get; set; }
-        public static S2C_SpawnTurret CreateBody(PacketReader reader, ChannelID channelID, NetID senderNetID)
+        public S2C_SpawnTurret(){}
+
+        public S2C_SpawnTurret(PacketReader reader, ChannelID channelID, NetID senderNetID)
         {
-            var result = new S2C_SpawnTurret();
-            result.SenderNetID = senderNetID;
-            result.ChannelID = channelID;
+            this.SenderNetID = senderNetID;
+            this.ChannelID = channelID;
 
-            result.NetID = reader.ReadNetID();
-            result.OwnerNetID = reader.ReadNetID();
-            result.NetNodeID = reader.ReadNetNodeID();
-            result.Name = reader.ReadFixedString(64);
-            result.SkinName = reader.ReadFixedString(64);
-            result.SkinID = reader.ReadInt32();
-            result.Position = reader.ReadVector3();
-            result.ModelDisappearOnDeathTime = reader.ReadFloat();
+            this.NetID = reader.ReadNetID();
+            this.OwnerNetID = reader.ReadNetID();
+            this.NetNodeID = reader.ReadNetNodeID();
+            this.Name = reader.ReadFixedString(64);
+            this.SkinName = reader.ReadFixedString(64);
+            this.SkinID = reader.ReadInt32();
+            this.Position = reader.ReadVector3();
+            this.ModelDisappearOnDeathTime = reader.ReadFloat();
             ushort bitfield = reader.ReadUInt16();
-            result.TeamID = (TeamID)(bitfield & 0x01FF);
-            result.IsTargetable = (bitfield & 0x0200) != 0;
-            result.IsInvulnerable = (bitfield & 0x400) != 0;
+            this.TeamID = (TeamID)(bitfield & 0x01FF);
+            this.IsTargetable = (bitfield & 0x0200) != 0;
+            this.IsInvulnerable = (bitfield & 0x400) != 0;
 
-            result.IsTargetableToTeam = reader.ReadSpellFlags();
+            this.IsTargetableToTeam = reader.ReadSpellFlags();
         
-            return result;
+            this.ExtraBytes = reader.ReadLeft();
         }
         public override void WriteBody(PacketWriter writer)
         {

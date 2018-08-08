@@ -12,15 +12,16 @@ namespace LeaguePackets.GamePackets
     {
         public override GamePacketID ID => GamePacketID.SetFadeOut_Pop;
         public short StackID { get; set; }
-        public static SetFadeOut_Pop CreateBody(PacketReader reader, ChannelID channelID, NetID senderNetID)
-        {
-            var result = new SetFadeOut_Pop();
-            result.SenderNetID = senderNetID;
-            result.ChannelID = channelID;
+        public SetFadeOut_Pop(){}
 
-            result.StackID = reader.ReadInt16();
+        public SetFadeOut_Pop(PacketReader reader, ChannelID channelID, NetID senderNetID)
+        {
+            this.SenderNetID = senderNetID;
+            this.ChannelID = channelID;
+
+            this.StackID = reader.ReadInt16();
         
-            return result;
+            this.ExtraBytes = reader.ReadLeft();
         }
         public override void WriteBody(PacketWriter writer)
         {

@@ -12,16 +12,17 @@ namespace LeaguePackets.GamePackets
     {
         public override GamePacketID ID => GamePacketID.S2C_PauseAnimation;
         public bool Pause { get; set; }
-        public static S2C_PauseAnimation CreateBody(PacketReader reader, ChannelID channelID, NetID senderNetID)
+        public S2C_PauseAnimation(){}
+
+        public S2C_PauseAnimation(PacketReader reader, ChannelID channelID, NetID senderNetID)
         {
-            var result = new S2C_PauseAnimation();
-            result.SenderNetID = senderNetID;
-            result.ChannelID = channelID;
+            this.SenderNetID = senderNetID;
+            this.ChannelID = channelID;
 
             byte bitfield = reader.ReadByte();
-            result.Pause = (bitfield & 1) != 0;
+            this.Pause = (bitfield & 1) != 0;
         
-            return result;
+            this.ExtraBytes = reader.ReadLeft();
         }
         public override void WriteBody(PacketWriter writer)
         {

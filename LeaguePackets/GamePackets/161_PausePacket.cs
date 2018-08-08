@@ -14,18 +14,19 @@ namespace LeaguePackets.GamePackets
         public ClientID ClientID { get; set; }
         public int PauseTimeRemaining { get; set; }
         public bool IsTournament { get; set; }
-        public static PausePacket CreateBody(PacketReader reader, ChannelID channelID, NetID senderNetID)
+        public PausePacket(){}
+
+        public PausePacket(PacketReader reader, ChannelID channelID, NetID senderNetID)
         {
-            var result = new PausePacket();
-            result.SenderNetID = senderNetID;
-            result.ChannelID = channelID;
+            this.SenderNetID = senderNetID;
+            this.ChannelID = channelID;
 
-            result.ClientID = reader.ReadClientID();
-            result.PauseTimeRemaining = reader.ReadInt32();
+            this.ClientID = reader.ReadClientID();
+            this.PauseTimeRemaining = reader.ReadInt32();
             byte bitfield = reader.ReadByte();
-            result.IsTournament = (bitfield & 1) != 0;
+            this.IsTournament = (bitfield & 1) != 0;
 
-            return result;
+            this.ExtraBytes = reader.ReadLeft();
         }
         public override void WriteBody(PacketWriter writer)
         {

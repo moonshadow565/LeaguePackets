@@ -18,24 +18,25 @@ namespace LeaguePackets.GamePackets
         public float RunningTime { get; set; }
         public float Duration { get; set; }
         public List<BuffInGroupAdd> Buffs { get; set; } = new List<BuffInGroupAdd>();
-        public static NPC_BuffAddGroup CreateBody(PacketReader reader, ChannelID channelID, NetID senderNetID)
-        {
-            var result = new NPC_BuffAddGroup();
-            result.SenderNetID = senderNetID;
-            result.ChannelID = channelID;
+        public NPC_BuffAddGroup(){}
 
-            result.BuffType = reader.ReadBuffType();
-            result.BuffNameHash = reader.ReadUInt32();
-            result.PackageHash = reader.ReadUInt32();
-            result.RunningTime = reader.ReadFloat();
-            result.Duration = reader.ReadFloat();
+        public NPC_BuffAddGroup(PacketReader reader, ChannelID channelID, NetID senderNetID)
+        {
+            this.SenderNetID = senderNetID;
+            this.ChannelID = channelID;
+
+            this.BuffType = reader.ReadBuffType();
+            this.BuffNameHash = reader.ReadUInt32();
+            this.PackageHash = reader.ReadUInt32();
+            this.RunningTime = reader.ReadFloat();
+            this.Duration = reader.ReadFloat();
             int numInGroup = reader.ReadByte();
             for (var i = 0; i < numInGroup; i++)
             {
-                result.Buffs.Add(reader.ReadBuffInGroupAdd());
+                this.Buffs.Add(reader.ReadBuffInGroupAdd());
             }
         
-            return result;
+            this.ExtraBytes = reader.ReadLeft();
         }
         public override void WriteBody(PacketWriter writer)
         {

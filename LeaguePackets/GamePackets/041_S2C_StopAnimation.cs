@@ -15,19 +15,20 @@ namespace LeaguePackets.GamePackets
         public bool Unlock { get; set; }
         public bool StopAll { get; set; }
         public string AnimationName { get; set; } = "";
-        public static S2C_StopAnimation CreateBody(PacketReader reader, ChannelID channelID, NetID senderNetID)
+        public S2C_StopAnimation(){}
+
+        public S2C_StopAnimation(PacketReader reader, ChannelID channelID, NetID senderNetID)
         {
-            var result = new S2C_StopAnimation();
-            result.SenderNetID = senderNetID;
-            result.ChannelID = channelID;
+            this.SenderNetID = senderNetID;
+            this.ChannelID = channelID;
 
             byte flags = reader.ReadByte();
-            result.Fade = (flags & 1) != 0;
-            result.Unlock = (flags & 2) != 0;
-            result.StopAll = (flags & 4) != 0;
-            result.AnimationName = reader.ReadFixedString(64);
+            this.Fade = (flags & 1) != 0;
+            this.Unlock = (flags & 2) != 0;
+            this.StopAll = (flags & 4) != 0;
+            this.AnimationName = reader.ReadFixedString(64);
         
-            return result;
+            this.ExtraBytes = reader.ReadLeft();
         }
         public override void WriteBody(PacketWriter writer)
         {

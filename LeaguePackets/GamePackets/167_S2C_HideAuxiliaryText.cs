@@ -11,13 +11,14 @@ namespace LeaguePackets.GamePackets
     public class S2C_HideAuxiliaryText : GamePacket // 0xA7
     {
         public override GamePacketID ID => GamePacketID.S2C_HideAuxiliaryText;
-        public static S2C_HideAuxiliaryText CreateBody(PacketReader reader, ChannelID channelID, NetID senderNetID) 
-        {
-            var result = new S2C_HideAuxiliaryText();
-            result.SenderNetID = senderNetID;
-            result.ChannelID = channelID;
+        public S2C_HideAuxiliaryText(){}
 
-            return result;
+        public S2C_HideAuxiliaryText(PacketReader reader, ChannelID channelID, NetID senderNetID) 
+        {
+            this.SenderNetID = senderNetID;
+            this.ChannelID = channelID;
+
+            this.ExtraBytes = reader.ReadLeft();
         }
         public override void WriteBody(PacketWriter writer) {}
     }

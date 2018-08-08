@@ -12,14 +12,15 @@ namespace LeaguePackets.GamePackets
     {
         public override GamePacketID ID => GamePacketID.S2C_DisableHUDForEndOfGame;
         //NOTE: Should be empty?
-        public static S2C_DisableHUDForEndOfGame CreateBody(PacketReader reader, ChannelID channelID, NetID senderNetID)
+        public S2C_DisableHUDForEndOfGame(){}
+
+        public S2C_DisableHUDForEndOfGame(PacketReader reader, ChannelID channelID, NetID senderNetID)
         {
-            var result = new S2C_DisableHUDForEndOfGame();
-            result.SenderNetID = senderNetID;
-            result.ChannelID = channelID;
+            this.SenderNetID = senderNetID;
+            this.ChannelID = channelID;
 
 
-            return result;
+            this.ExtraBytes = reader.ReadLeft();
         }
         public override void WriteBody(PacketWriter writer) {}
     }

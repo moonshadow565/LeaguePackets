@@ -12,15 +12,16 @@ namespace LeaguePackets.GamePackets
     {
         public override GamePacketID ID => GamePacketID.NPC_ForceDead;
         public float DeathDuration { get; set; }
-        public static NPC_ForceDead CreateBody(PacketReader reader, ChannelID channelID, NetID senderNetID)
-        {
-            var result = new NPC_ForceDead();
-            result.SenderNetID = senderNetID;
-            result.ChannelID = channelID;
+        public NPC_ForceDead(){}
 
-            result.DeathDuration = reader.ReadFloat();
+        public NPC_ForceDead(PacketReader reader, ChannelID channelID, NetID senderNetID)
+        {
+            this.SenderNetID = senderNetID;
+            this.ChannelID = channelID;
+
+            this.DeathDuration = reader.ReadFloat();
         
-            return result;
+            this.ExtraBytes = reader.ReadLeft();
         }
         public override void WriteBody(PacketWriter writer)
         {

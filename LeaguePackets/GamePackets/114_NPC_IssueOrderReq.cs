@@ -19,23 +19,24 @@ namespace LeaguePackets.GamePackets
         public NetID WaypointsNetID { get; set; }
         public List<Tuple<short, short>> Waypoints { get; set; } = new List<Tuple<short, short>>();
 
-        public static NPC_IssueOrderReq CreateBody(PacketReader reader, ChannelID channelID, NetID senderNetID)
-        {
-            var result = new NPC_IssueOrderReq();
-            result.SenderNetID = senderNetID;
-            result.ChannelID = channelID;
+        public NPC_IssueOrderReq(){}
 
-            result.OrderType = reader.ReadOrderType();
-            result.Position = reader.ReadVector2();
-            result.TargetNetID = reader.ReadNetID();
+        public NPC_IssueOrderReq(PacketReader reader, ChannelID channelID, NetID senderNetID)
+        {
+            this.SenderNetID = senderNetID;
+            this.ChannelID = channelID;
+
+            this.OrderType = reader.ReadOrderType();
+            this.Position = reader.ReadVector2();
+            this.TargetNetID = reader.ReadNetID();
             //TODO: do switch on OrderType to detrimine if we need to read waypoints and make child classes
             if((reader.Stream.Length - reader.Stream.Position) >= 5)
             {
                 byte count = reader.ReadByte();
-                result.WaypointsNetID = reader.ReadNetID();
-                result.Waypoints = reader.ReadCompressedWaypoints(count / 2u);
+                this.WaypointsNetID = reader.ReadNetID();
+                this.Waypoints = reader.ReadCompressedWaypoints(count / 2u);
             }
-            return result;
+            this.ExtraBytes = reader.ReadLeft();
         }
         public override void WriteBody(PacketWriter writer)
         {

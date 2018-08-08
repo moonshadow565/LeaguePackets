@@ -25,15 +25,16 @@ namespace LeaguePackets.GamePackets
         public List<EventData> Events { get; set; } = new List<EventData>();
 
 
-        public static NPC_Die_EventHistory CreateBody(PacketReader reader, ChannelID channelID, NetID senderNetID)
-        {
-            var result = new NPC_Die_EventHistory();
-            result.SenderNetID = senderNetID;
-            result.ChannelID = channelID;
+        public NPC_Die_EventHistory(){}
 
-            result.KillerNetID = reader.ReadNetID();
-            result.Duration = reader.ReadFloat();
-            result.EventSourceType = reader.ReadEventSourceType();
+        public NPC_Die_EventHistory(PacketReader reader, ChannelID channelID, NetID senderNetID)
+        {
+            this.SenderNetID = senderNetID;
+            this.ChannelID = channelID;
+
+            this.KillerNetID = reader.ReadNetID();
+            this.Duration = reader.ReadFloat();
+            this.EventSourceType = reader.ReadEventSourceType();
             int events = reader.ReadInt32();
             for (int i = 0; i < events; i++)
             {
@@ -43,7 +44,7 @@ namespace LeaguePackets.GamePackets
                 data.Event = Event.Create(reader);
             }
 
-            return result;
+            this.ExtraBytes = reader.ReadLeft();
         }
         public override void WriteBody(PacketWriter writer)
         {

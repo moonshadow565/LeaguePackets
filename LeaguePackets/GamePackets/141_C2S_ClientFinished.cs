@@ -11,14 +11,15 @@ namespace LeaguePackets.GamePackets
     public class C2S_ClientFinished : GamePacket // 0x8D
     {
         public override GamePacketID ID => GamePacketID.C2S_ClientFinished;
-        public static C2S_ClientFinished CreateBody(PacketReader reader, ChannelID channelID, NetID senderNetID)
+        public C2S_ClientFinished(){}
+
+        public C2S_ClientFinished(PacketReader reader, ChannelID channelID, NetID senderNetID)
         {
-            var result = new C2S_ClientFinished();
-            result.SenderNetID = senderNetID;
-            result.ChannelID = channelID;
+            this.SenderNetID = senderNetID;
+            this.ChannelID = channelID;
 
 
-            return result;
+            this.ExtraBytes = reader.ReadLeft();
         }
         public override void WriteBody(PacketWriter writer)
         {

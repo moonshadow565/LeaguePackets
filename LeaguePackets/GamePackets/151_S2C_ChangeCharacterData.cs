@@ -21,22 +21,23 @@ namespace LeaguePackets.GamePackets
         public uint SkinID { get; set; }
         public string SkinName { get; set; } = "";
         */
-        public static S2C_ChangeCharacterData CreateBody(PacketReader reader, ChannelID channelID, NetID senderNetID)
+        public S2C_ChangeCharacterData(){}
+
+        public S2C_ChangeCharacterData(PacketReader reader, ChannelID channelID, NetID senderNetID)
         {
-            var result = new S2C_ChangeCharacterData();
-            result.SenderNetID = senderNetID;
-            result.ChannelID = channelID;
+            this.SenderNetID = senderNetID;
+            this.ChannelID = channelID;
 
-            result.Data.ID = reader.ReadUInt32();
+            this.Data.ID = reader.ReadUInt32();
             byte bitfield = reader.ReadByte();
-            result.Data.OverrideSpells = (bitfield & 1) != 0;
-            result.Data.ModelOnly = (bitfield & 2) != 0;
-            result.Data.ReplaceCharacterPackage = (bitfield & 4) != 0;
+            this.Data.OverrideSpells = (bitfield & 1) != 0;
+            this.Data.ModelOnly = (bitfield & 2) != 0;
+            this.Data.ReplaceCharacterPackage = (bitfield & 4) != 0;
 
-            result.Data.SkinID = reader.ReadUInt32();
-            result.Data.SkinName = reader.ReadFixedString(64);
+            this.Data.SkinID = reader.ReadUInt32();
+            this.Data.SkinName = reader.ReadFixedString(64);
         
-            return result;
+            this.ExtraBytes = reader.ReadLeft();
         }
         public override void WriteBody(PacketWriter writer)
         {

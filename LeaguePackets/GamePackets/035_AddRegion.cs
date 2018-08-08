@@ -31,32 +31,33 @@ namespace LeaguePackets.GamePackets
 
         public float BaseRadius { get; set; }
 
-        public static AddRegion CreateBody(PacketReader reader, ChannelID channelID, NetID senderNetID)
+        public AddRegion(){}
+
+        public AddRegion(PacketReader reader, ChannelID channelID, NetID senderNetID)
         {
-            var result = new AddRegion();
-            result.SenderNetID = senderNetID;
-            result.ChannelID = channelID;
+            this.SenderNetID = senderNetID;
+            this.ChannelID = channelID;
 
-            result.TeamID = reader.ReadTeamID();
-            result.RegionType = reader.ReadInt32();
-            result.ClientID = reader.ReadClientID();
-            result.UnitNetID = reader.ReadNetID();
-            result.BubbleNetID = reader.ReadNetID();
-            result.VisionTargetNetID = reader.ReadNetID();
-            result.Position = reader.ReadVector2();
-            result.TimeToLive = reader.ReadFloat();
-            result.ColisionRadius = reader.ReadFloat();
-            result.GrassRadius = reader.ReadFloat();
-            result.SizeMultiplier = reader.ReadFloat();
-            result.SizeAdditive = reader.ReadFloat();
+            this.TeamID = reader.ReadTeamID();
+            this.RegionType = reader.ReadInt32();
+            this.ClientID = reader.ReadClientID();
+            this.UnitNetID = reader.ReadNetID();
+            this.BubbleNetID = reader.ReadNetID();
+            this.VisionTargetNetID = reader.ReadNetID();
+            this.Position = reader.ReadVector2();
+            this.TimeToLive = reader.ReadFloat();
+            this.ColisionRadius = reader.ReadFloat();
+            this.GrassRadius = reader.ReadFloat();
+            this.SizeMultiplier = reader.ReadFloat();
+            this.SizeAdditive = reader.ReadFloat();
             uint flags = reader.ReadUInt32();
-            result.HasCollision = (flags & 1) != 0;
-            result.GrantVision = (flags & 2) != 0;
-            result.RevealStealth = (flags & 4) != 0;
+            this.HasCollision = (flags & 1) != 0;
+            this.GrantVision = (flags & 2) != 0;
+            this.RevealStealth = (flags & 4) != 0;
 
-            result.BaseRadius = reader.ReadFloat();
+            this.BaseRadius = reader.ReadFloat();
         
-            return result;
+            this.ExtraBytes = reader.ReadLeft();
         }
         public override void WriteBody(PacketWriter writer)
         {

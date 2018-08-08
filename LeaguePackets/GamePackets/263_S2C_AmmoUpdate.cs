@@ -17,20 +17,21 @@ namespace LeaguePackets.GamePackets
         public int MaxAmmo { get; set; }
         public float AmmoRecharge { get; set; }
         public float AmmoRechargeTotalTime { get; set; }
-        public static S2C_AmmoUpdate CreateBody(PacketReader reader, ChannelID channelID, NetID senderNetID)
-        {
-            var result = new S2C_AmmoUpdate();
-            result.SenderNetID = senderNetID;
-            result.ChannelID = channelID;
+        public S2C_AmmoUpdate(){}
 
-            result.IsSummonerSpell = reader.ReadBool();
-            result.SpellSlot = reader.ReadInt32();
-            result.CurrentAmmo = reader.ReadInt32();
-            result.MaxAmmo = reader.ReadInt32();
-            result.AmmoRecharge = reader.ReadFloat();
-            result.AmmoRechargeTotalTime = reader.ReadFloat();
+        public S2C_AmmoUpdate(PacketReader reader, ChannelID channelID, NetID senderNetID)
+        {
+            this.SenderNetID = senderNetID;
+            this.ChannelID = channelID;
+
+            this.IsSummonerSpell = reader.ReadBool();
+            this.SpellSlot = reader.ReadInt32();
+            this.CurrentAmmo = reader.ReadInt32();
+            this.MaxAmmo = reader.ReadInt32();
+            this.AmmoRecharge = reader.ReadFloat();
+            this.AmmoRechargeTotalTime = reader.ReadFloat();
         
-            return result;
+            this.ExtraBytes = reader.ReadLeft();
         }
         public override void WriteBody(PacketWriter writer)
         {

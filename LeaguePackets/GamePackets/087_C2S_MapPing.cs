@@ -15,18 +15,19 @@ namespace LeaguePackets.GamePackets
         public Vector2 Position { get; set; }
         public NetID TargetNetID { get; set; }
         public PingCategory PingCategory { get; set; }
-        public static C2S_MapPing CreateBody(PacketReader reader, ChannelID channelID, NetID senderNetID)
-        {
-            var result = new C2S_MapPing();
-            result.SenderNetID = senderNetID;
-            result.ChannelID = channelID;
+        public C2S_MapPing(){}
 
-            result.Position = reader.ReadVector2();
-            result.TargetNetID = reader.ReadNetID();
+        public C2S_MapPing(PacketReader reader, ChannelID channelID, NetID senderNetID)
+        {
+            this.SenderNetID = senderNetID;
+            this.ChannelID = channelID;
+
+            this.Position = reader.ReadVector2();
+            this.TargetNetID = reader.ReadNetID();
             byte bitfield = reader.ReadByte();
-            result.PingCategory = (PingCategory)(bitfield & 0x0F);
+            this.PingCategory = (PingCategory)(bitfield & 0x0F);
         
-            return result;
+            this.ExtraBytes = reader.ReadLeft();
         }
         public override void WriteBody(PacketWriter writer)
         {

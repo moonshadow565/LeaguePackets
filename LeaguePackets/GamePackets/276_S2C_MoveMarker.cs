@@ -16,18 +16,19 @@ namespace LeaguePackets.GamePackets
         public Vector2 Goal { get; set; }
         public float Speed { get; set; }
         public bool FaceGoalPosition { get; set; }
-        public static S2C_MoveMarker CreateBody(PacketReader reader, ChannelID channelID, NetID senderNetID)
-        {
-            var result = new S2C_MoveMarker();
-            result.SenderNetID = senderNetID;
-            result.ChannelID = channelID;
+        public S2C_MoveMarker(){}
 
-            result.Position = reader.ReadVector2();
-            result.Goal = reader.ReadVector2();
-            result.Speed = reader.ReadFloat();
-            result.FaceGoalPosition = reader.ReadBool();
+        public S2C_MoveMarker(PacketReader reader, ChannelID channelID, NetID senderNetID)
+        {
+            this.SenderNetID = senderNetID;
+            this.ChannelID = channelID;
+
+            this.Position = reader.ReadVector2();
+            this.Goal = reader.ReadVector2();
+            this.Speed = reader.ReadFloat();
+            this.FaceGoalPosition = reader.ReadBool();
         
-            return result;
+            this.ExtraBytes = reader.ReadLeft();
         }
         public override void WriteBody(PacketWriter writer)
         {

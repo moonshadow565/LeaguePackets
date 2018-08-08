@@ -16,19 +16,20 @@ namespace LeaguePackets.GamePackets
         public TeamID TeamID { get; set; }
         public Color Color { get; set; }
         public float MaxWeight { get; set; }
-        public static S2C_ColorRemapFX CreateBody(PacketReader reader, ChannelID channelID, NetID senderNetID)
-        {
-            var result = new S2C_ColorRemapFX();
-            result.SenderNetID = senderNetID;
-            result.ChannelID = channelID;
+        public S2C_ColorRemapFX(){}
 
-            result.IsFadingIn = reader.ReadBool();
-            result.FadeTime = reader.ReadFloat();
-            result.TeamID = reader.ReadTeamID();
-            result.Color = reader.ReadColor();
-            result.MaxWeight = reader.ReadFloat();
+        public S2C_ColorRemapFX(PacketReader reader, ChannelID channelID, NetID senderNetID)
+        {
+            this.SenderNetID = senderNetID;
+            this.ChannelID = channelID;
+
+            this.IsFadingIn = reader.ReadBool();
+            this.FadeTime = reader.ReadFloat();
+            this.TeamID = reader.ReadTeamID();
+            this.Color = reader.ReadColor();
+            this.MaxWeight = reader.ReadFloat();
         
-            return result;
+            this.ExtraBytes = reader.ReadLeft();
         }
         public override void WriteBody(PacketWriter writer)
         {

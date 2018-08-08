@@ -16,19 +16,20 @@ namespace LeaguePackets.GamePackets
         public int SkinID { get; set; }
         public string InternalName { get; set; } = "";
         public string CharacterName { get; set; } = "";
-        public static S2C_CreateFollowerObject CreateBody(PacketReader reader, ChannelID channelID, NetID senderNetID)
-        {
-            var result = new S2C_CreateFollowerObject();
-            result.SenderNetID = senderNetID;
-            result.ChannelID = channelID;
+        public S2C_CreateFollowerObject(){}
 
-            result.NetID = reader.ReadNetID();
-            result.NetNodeID = reader.ReadNetNodeID();
-            result.SkinID = reader.ReadInt32();
-            result.InternalName = reader.ReadFixedString(64);
-            result.CharacterName = reader.ReadFixedString(64);
+        public S2C_CreateFollowerObject(PacketReader reader, ChannelID channelID, NetID senderNetID)
+        {
+            this.SenderNetID = senderNetID;
+            this.ChannelID = channelID;
+
+            this.NetID = reader.ReadNetID();
+            this.NetNodeID = reader.ReadNetNodeID();
+            this.SkinID = reader.ReadInt32();
+            this.InternalName = reader.ReadFixedString(64);
+            this.CharacterName = reader.ReadFixedString(64);
         
-            return result;
+            this.ExtraBytes = reader.ReadLeft();
         }
         public override void WriteBody(PacketWriter writer)
         {

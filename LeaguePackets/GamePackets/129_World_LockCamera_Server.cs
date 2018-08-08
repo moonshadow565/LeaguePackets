@@ -13,16 +13,17 @@ namespace LeaguePackets.GamePackets
         public override GamePacketID ID => GamePacketID.World_LockCamera_Server;
         public bool Locked { get; set; }
         public ClientID ClientID { get; set; }
-        public static World_LockCamera_Server CreateBody(PacketReader reader, ChannelID channelID, NetID senderNetID)
-        {
-            var result = new World_LockCamera_Server();
-            result.SenderNetID = senderNetID;
-            result.ChannelID = channelID;
+        public World_LockCamera_Server(){}
 
-            result.Locked = reader.ReadBool();
-            result.ClientID = reader.ReadClientID();
+        public World_LockCamera_Server(PacketReader reader, ChannelID channelID, NetID senderNetID)
+        {
+            this.SenderNetID = senderNetID;
+            this.ChannelID = channelID;
+
+            this.Locked = reader.ReadBool();
+            this.ClientID = reader.ReadClientID();
         
-            return result;
+            this.ExtraBytes = reader.ReadLeft();
         }
         public override void WriteBody(PacketWriter writer)
         {

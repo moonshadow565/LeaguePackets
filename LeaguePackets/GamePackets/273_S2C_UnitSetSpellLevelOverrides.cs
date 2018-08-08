@@ -16,19 +16,20 @@ namespace LeaguePackets.GamePackets
         public byte[] SpellMaxLevels => _spellMaxLevels;
         public byte[,] SpellUpgradeLevels => _spellUpgradeLevels;
 
-        public static S2C_UnitSetSpellLevelOverrides CreateBody(PacketReader reader, ChannelID channelID, NetID senderNetID)
-        {
-            var result = new S2C_UnitSetSpellLevelOverrides();
-            result.SenderNetID = senderNetID;
-            result.ChannelID = channelID;
+        public S2C_UnitSetSpellLevelOverrides(){}
 
-            for (var i = 0; i < result.SpellMaxLevels.Length; i++)
-                result.SpellMaxLevels[i] = reader.ReadByte();
-            for (var i = 0; i < result.SpellUpgradeLevels.GetLength(0); i++)
-                for (var c = 0; c < result.SpellUpgradeLevels.GetLength(1); c++)
-                    result.SpellUpgradeLevels[i, c] = reader.ReadByte();
+        public S2C_UnitSetSpellLevelOverrides(PacketReader reader, ChannelID channelID, NetID senderNetID)
+        {
+            this.SenderNetID = senderNetID;
+            this.ChannelID = channelID;
+
+            for (var i = 0; i < this.SpellMaxLevels.Length; i++)
+                this.SpellMaxLevels[i] = reader.ReadByte();
+            for (var i = 0; i < this.SpellUpgradeLevels.GetLength(0); i++)
+                for (var c = 0; c < this.SpellUpgradeLevels.GetLength(1); c++)
+                    this.SpellUpgradeLevels[i, c] = reader.ReadByte();
         
-            return result;
+            this.ExtraBytes = reader.ReadLeft();
         }
         public override void WriteBody(PacketWriter writer)
         {

@@ -12,16 +12,17 @@ namespace LeaguePackets.GamePackets
     {
         public override GamePacketID ID => GamePacketID.S2C_EndGame;
         public bool IsTeamOrderWin { get; set; }
-        public static S2C_EndGame CreateBody(PacketReader reader, ChannelID channelID, NetID senderNetID)
+        public S2C_EndGame(){}
+
+        public S2C_EndGame(PacketReader reader, ChannelID channelID, NetID senderNetID)
         {
-            var result = new S2C_EndGame();
-            result.SenderNetID = senderNetID;
-            result.ChannelID = channelID;
+            this.SenderNetID = senderNetID;
+            this.ChannelID = channelID;
 
             byte bitfield = reader.ReadByte();
-            result.IsTeamOrderWin = (bitfield & 1) != 0;
+            this.IsTeamOrderWin = (bitfield & 1) != 0;
         
-            return result;
+            this.ExtraBytes = reader.ReadLeft();
         }
         public override void WriteBody(PacketWriter writer)
         {

@@ -12,15 +12,16 @@ namespace LeaguePackets.GamePackets
     {
         public override GamePacketID ID => GamePacketID.S2C_ModifyDebugText;
         public string Text { get; set; } = "";
-        public static S2C_ModifyDebugText CreateBody(PacketReader reader, ChannelID channelID, NetID senderNetID)
-        {
-            var result = new S2C_ModifyDebugText();
-            result.SenderNetID = senderNetID;
-            result.ChannelID = channelID;
+        public S2C_ModifyDebugText(){}
 
-            result.Text = reader.ReadSizedString();
+        public S2C_ModifyDebugText(PacketReader reader, ChannelID channelID, NetID senderNetID)
+        {
+            this.SenderNetID = senderNetID;
+            this.ChannelID = channelID;
+
+            this.Text = reader.ReadSizedString();
         
-            return result;
+            this.ExtraBytes = reader.ReadLeft();
         }
         public override void WriteBody(PacketWriter writer)
         {

@@ -15,18 +15,19 @@ namespace LeaguePackets.GamePackets
         public Vector3 Direction { get; set; }
         public bool DoLerpTime { get; set; }
         public float LerpTime { get; set; }
-        public static S2C_FaceDirection CreateBody(PacketReader reader, ChannelID channelID, NetID senderNetID)
-        {
-            var result = new S2C_FaceDirection();
-            result.SenderNetID = senderNetID;
-            result.ChannelID = channelID;
+        public S2C_FaceDirection(){}
 
-            result.Direction = reader.ReadVector3();
+        public S2C_FaceDirection(PacketReader reader, ChannelID channelID, NetID senderNetID)
+        {
+            this.SenderNetID = senderNetID;
+            this.ChannelID = channelID;
+
+            this.Direction = reader.ReadVector3();
             byte flags = reader.ReadByte();
-            result.DoLerpTime = (flags & 1) != 0;
-            result.LerpTime = reader.ReadFloat();
+            this.DoLerpTime = (flags & 1) != 0;
+            this.LerpTime = reader.ReadFloat();
         
-            return result;
+            this.ExtraBytes = reader.ReadLeft();
         }
         public override void WriteBody(PacketWriter writer)
         {

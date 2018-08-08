@@ -15,18 +15,19 @@ namespace LeaguePackets.GamePackets
         public bool JumpToLatest { get; set; }
         public int StartChunkID { get; set; }
         public int StartKeyFrameID { get; set; }
-        public static C2S_SpectatorDataReq CreateBody(PacketReader reader, ChannelID channelID, NetID senderNetID)
-        {
-            var result = new C2S_SpectatorDataReq();
-            result.SenderNetID = senderNetID;
-            result.ChannelID = channelID;
+        public C2S_SpectatorDataReq(){}
 
-            result.SendMetaData = reader.ReadBool();
-            result.JumpToLatest = reader.ReadBool();
-            result.StartChunkID = reader.ReadInt32();
-            result.StartKeyFrameID = reader.ReadInt32();
+        public C2S_SpectatorDataReq(PacketReader reader, ChannelID channelID, NetID senderNetID)
+        {
+            this.SenderNetID = senderNetID;
+            this.ChannelID = channelID;
+
+            this.SendMetaData = reader.ReadBool();
+            this.JumpToLatest = reader.ReadBool();
+            this.StartChunkID = reader.ReadInt32();
+            this.StartKeyFrameID = reader.ReadInt32();
         
-            return result;
+            this.ExtraBytes = reader.ReadLeft();
         }
         public override void WriteBody(PacketWriter writer)
         {

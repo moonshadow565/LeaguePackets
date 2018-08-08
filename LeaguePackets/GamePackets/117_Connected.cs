@@ -12,14 +12,15 @@ namespace LeaguePackets.GamePackets
     {
         public override GamePacketID ID => GamePacketID.Connected;
         public ClientID ClientID { get; set; }
-        public static Connected CreateBody(PacketReader reader, ChannelID channelID, NetID senderNetID)
-        {
-            var result = new Connected();
-            result.SenderNetID = senderNetID;
-            result.ChannelID = channelID;
+        public Connected(){}
 
-            result.ClientID = reader.ReadClientID();
-            return result;
+        public Connected(PacketReader reader, ChannelID channelID, NetID senderNetID)
+        {
+            this.SenderNetID = senderNetID;
+            this.ChannelID = channelID;
+
+            this.ClientID = reader.ReadClientID();
+            this.ExtraBytes = reader.ReadLeft();
         }
         public override void WriteBody(PacketWriter writer)
         {

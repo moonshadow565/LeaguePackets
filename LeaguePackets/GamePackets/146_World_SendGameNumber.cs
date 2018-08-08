@@ -13,15 +13,16 @@ namespace LeaguePackets.GamePackets
         public override GamePacketID ID => GamePacketID.World_SendGameNumber;
         public long GameID { get; set; }
         public string SummonerName { get; set; } = "";
-        public static World_SendGameNumber CreateBody(PacketReader reader, ChannelID channelID, NetID senderNetID)
-        {
-            var result = new World_SendGameNumber();
-            result.SenderNetID = senderNetID;
-            result.ChannelID = channelID;
+        public World_SendGameNumber(){}
 
-            result.GameID = reader.ReadInt64();
-            result.SummonerName = reader.ReadFixedString(128);
-            return result;
+        public World_SendGameNumber(PacketReader reader, ChannelID channelID, NetID senderNetID)
+        {
+            this.SenderNetID = senderNetID;
+            this.ChannelID = channelID;
+
+            this.GameID = reader.ReadInt64();
+            this.SummonerName = reader.ReadFixedString(128);
+            this.ExtraBytes = reader.ReadLeft();
         }
         public override void WriteBody(PacketWriter writer)
         {

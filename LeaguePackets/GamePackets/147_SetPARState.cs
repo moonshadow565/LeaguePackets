@@ -13,16 +13,17 @@ namespace LeaguePackets.GamePackets
         public override GamePacketID ID => GamePacketID.SetPARState;
         public NetID UnitNetID { get; set; }
         public PARState PARState { get; set; }
-        public static SetPARState CreateBody(PacketReader reader, ChannelID channelID, NetID senderNetID)
-        {
-            var result = new SetPARState();
-            result.SenderNetID = senderNetID;
-            result.ChannelID = channelID;
+        public SetPARState(){}
 
-            result.UnitNetID = reader.ReadNetID();
-            result.PARState = reader.ReadPARState();
+        public SetPARState(PacketReader reader, ChannelID channelID, NetID senderNetID)
+        {
+            this.SenderNetID = senderNetID;
+            this.ChannelID = channelID;
+
+            this.UnitNetID = reader.ReadNetID();
+            this.PARState = reader.ReadPARState();
         
-            return result;
+            this.ExtraBytes = reader.ReadLeft();
         }
         public override void WriteBody(PacketWriter writer)
         {

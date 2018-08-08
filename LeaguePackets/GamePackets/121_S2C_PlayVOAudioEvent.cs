@@ -16,19 +16,20 @@ namespace LeaguePackets.GamePackets
         public bool AudioCallbackType { get; set; } //should be enum but its used as bool
         public AudioVOEventType AudioEventType { get; set; }
         public NetID AudioEventNetID { get; set; }
-        public static S2C_PlayVOAudioEvent CreateBody(PacketReader reader, ChannelID channelID, NetID senderNetID)
-        {
-            var result = new S2C_PlayVOAudioEvent();
-            result.SenderNetID = senderNetID;
-            result.ChannelID = channelID;
+        public S2C_PlayVOAudioEvent(){}
 
-            result.FolderName = reader.ReadFixedString(64);
-            result.EventID = reader.ReadFixedString(64);
-            result.AudioCallbackType = reader.ReadBool();
-            result.AudioEventType = reader.ReadAudioVOEventType();
-            result.AudioEventNetID = reader.ReadNetID();
+        public S2C_PlayVOAudioEvent(PacketReader reader, ChannelID channelID, NetID senderNetID)
+        {
+            this.SenderNetID = senderNetID;
+            this.ChannelID = channelID;
+
+            this.FolderName = reader.ReadFixedString(64);
+            this.EventID = reader.ReadFixedString(64);
+            this.AudioCallbackType = reader.ReadBool();
+            this.AudioEventType = reader.ReadAudioVOEventType();
+            this.AudioEventNetID = reader.ReadNetID();
         
-            return result;
+            this.ExtraBytes = reader.ReadLeft();
         }
         public override void WriteBody(PacketWriter writer)
         {

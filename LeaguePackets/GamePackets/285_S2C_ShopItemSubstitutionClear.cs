@@ -12,15 +12,16 @@ namespace LeaguePackets.GamePackets
     {
         public override GamePacketID ID => GamePacketID.S2C_ShopItemSubstitutionClear;
         public ItemID OriginalItemID { get; set; }
-        public static S2C_ShopItemSubstitutionClear CreateBody(PacketReader reader, ChannelID channelID, NetID senderNetID)
-        {
-            var result = new S2C_ShopItemSubstitutionClear();
-            result.SenderNetID = senderNetID;
-            result.ChannelID = channelID;
+        public S2C_ShopItemSubstitutionClear(){}
 
-            result.OriginalItemID = reader.ReadItemID();
+        public S2C_ShopItemSubstitutionClear(PacketReader reader, ChannelID channelID, NetID senderNetID)
+        {
+            this.SenderNetID = senderNetID;
+            this.ChannelID = channelID;
+
+            this.OriginalItemID = reader.ReadItemID();
         
-            return result;
+            this.ExtraBytes = reader.ReadLeft();
         }
         public override void WriteBody(PacketWriter writer)
         {

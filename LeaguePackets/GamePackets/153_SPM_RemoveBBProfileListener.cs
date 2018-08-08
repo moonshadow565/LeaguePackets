@@ -11,13 +11,14 @@ namespace LeaguePackets.GamePackets
     public class SPM_RemoveBBProfileListener : GamePacket, IUnusedPacket // 0x99
     {
         public override GamePacketID ID => GamePacketID.SPM_RemoveBBProfileListener;
-        public static SPM_RemoveBBProfileListener CreateBody(PacketReader reader, ChannelID channelID, NetID senderNetID) 
-        {
-            var result = new SPM_RemoveBBProfileListener();
-            result.SenderNetID = senderNetID;
-            result.ChannelID = channelID;
+        public SPM_RemoveBBProfileListener(){}
 
-            return result;
+        public SPM_RemoveBBProfileListener(PacketReader reader, ChannelID channelID, NetID senderNetID) 
+        {
+            this.SenderNetID = senderNetID;
+            this.ChannelID = channelID;
+
+            this.ExtraBytes = reader.ReadLeft();
         }
         public override void WriteBody(PacketWriter writer) {}
     }

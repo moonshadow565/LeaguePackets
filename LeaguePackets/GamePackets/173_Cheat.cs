@@ -11,13 +11,14 @@ namespace LeaguePackets.GamePackets
     public class Cheat : GamePacket, IUnusedPacket // 0xAD
     {
         public override GamePacketID ID => GamePacketID.Cheat;
-        public static Cheat CreateBody(PacketReader reader, ChannelID channelID, NetID senderNetID)
-        {
-            var result = new Cheat();
-            result.SenderNetID = senderNetID;
-            result.ChannelID = channelID;
+        public Cheat(){}
 
-            return result;
+        public Cheat(PacketReader reader, ChannelID channelID, NetID senderNetID)
+        {
+            this.SenderNetID = senderNetID;
+            this.ChannelID = channelID;
+
+            this.ExtraBytes = reader.ReadLeft();
         }
         public override void WriteBody(PacketWriter writer)
         {

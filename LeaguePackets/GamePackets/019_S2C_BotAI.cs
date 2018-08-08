@@ -17,21 +17,22 @@ namespace LeaguePackets.GamePackets
         public string AIBehaviour { get; set; } = "";
         public string AITask { get; set; } = "";
         public string[] States => _states;
-        public static S2C_BotAI CreateBody(PacketReader reader, ChannelID channelID, NetID senderNetID)
-        {
-            var result = new S2C_BotAI();
-            result.SenderNetID = senderNetID;
-            result.ChannelID = channelID;
+        public S2C_BotAI(){}
 
-            result.AIName = reader.ReadFixedString(64);
-            result.AIStrategy = reader.ReadFixedString(64);
-            result.AIBehaviour = reader.ReadFixedString(64);
-            result.AITask = reader.ReadFixedString(64);
+        public S2C_BotAI(PacketReader reader, ChannelID channelID, NetID senderNetID)
+        {
+            this.SenderNetID = senderNetID;
+            this.ChannelID = channelID;
+
+            this.AIName = reader.ReadFixedString(64);
+            this.AIStrategy = reader.ReadFixedString(64);
+            this.AIBehaviour = reader.ReadFixedString(64);
+            this.AITask = reader.ReadFixedString(64);
             for (var i = 0; i < 3; i++)
             {
-                result.States[i] = reader.ReadFixedString(64);
+                this.States[i] = reader.ReadFixedString(64);
             }
-            return result;
+            this.ExtraBytes = reader.ReadLeft();
         }
         public override void WriteBody(PacketWriter writer)
         {

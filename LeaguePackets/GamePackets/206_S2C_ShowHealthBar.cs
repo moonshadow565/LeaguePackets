@@ -15,19 +15,20 @@ namespace LeaguePackets.GamePackets
         public bool ChangeHealthBarType { get; set; }
         public HealthBarType HealthBarType { get; set; }
         public TeamID ObserverTeam { get; set; }
-        public static S2C_ShowHealthBar CreateBody(PacketReader reader, ChannelID channelID, NetID senderNetID)
+        public S2C_ShowHealthBar(){}
+
+        public S2C_ShowHealthBar(PacketReader reader, ChannelID channelID, NetID senderNetID)
         {
-            var result = new S2C_ShowHealthBar();
-            result.SenderNetID = senderNetID;
-            result.ChannelID = channelID;
+            this.SenderNetID = senderNetID;
+            this.ChannelID = channelID;
 
             byte bitfield = reader.ReadByte();
-            result.ShowHealthBar = (bitfield & 1) != 0;
-            result.ChangeHealthBarType = (bitfield & 2) != 0;
-            result.HealthBarType = reader.ReadHealthBarType();
-            result.ObserverTeam = reader.ReadTeamID();
+            this.ShowHealthBar = (bitfield & 1) != 0;
+            this.ChangeHealthBarType = (bitfield & 2) != 0;
+            this.HealthBarType = reader.ReadHealthBarType();
+            this.ObserverTeam = reader.ReadTeamID();
 
-            return result;
+            this.ExtraBytes = reader.ReadLeft();
         }
         public override void WriteBody(PacketWriter writer)
         {

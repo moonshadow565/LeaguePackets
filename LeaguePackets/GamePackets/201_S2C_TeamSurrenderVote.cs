@@ -21,24 +21,25 @@ namespace LeaguePackets.GamePackets
         public TeamID TeamID { get; set; }
         public float TimeOut { get; set; }
 
-        public static S2C_TeamSurrenderVote CreateBody(PacketReader reader, ChannelID channelID, NetID senderNetID)
+        public S2C_TeamSurrenderVote(){}
+
+        public S2C_TeamSurrenderVote(PacketReader reader, ChannelID channelID, NetID senderNetID)
         {
-            var result = new S2C_TeamSurrenderVote();
-            result.SenderNetID = senderNetID;
-            result.ChannelID = channelID;
+            this.SenderNetID = senderNetID;
+            this.ChannelID = channelID;
 
             byte bitfield = reader.ReadByte();
-            result.VoteYes = (bitfield & 1) != 0;
-            result.OpenVoteMenu = (bitfield & 2) != 0;
+            this.VoteYes = (bitfield & 1) != 0;
+            this.OpenVoteMenu = (bitfield & 2) != 0;
 
-            result.PlayerNetID = reader.ReadNetID();
-            result.ForVote = reader.ReadByte();
-            result.AgainstVote = reader.ReadByte();
-            result.NumPlayers = reader.ReadByte();
-            result.TeamID = reader.ReadTeamID();
-            result.TimeOut = reader.ReadFloat();
+            this.PlayerNetID = reader.ReadNetID();
+            this.ForVote = reader.ReadByte();
+            this.AgainstVote = reader.ReadByte();
+            this.NumPlayers = reader.ReadByte();
+            this.TeamID = reader.ReadTeamID();
+            this.TimeOut = reader.ReadFloat();
         
-            return result;
+            this.ExtraBytes = reader.ReadLeft();
         }
         public override void WriteBody(PacketWriter writer)
         {

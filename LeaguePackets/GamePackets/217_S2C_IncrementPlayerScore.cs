@@ -17,21 +17,22 @@ namespace LeaguePackets.GamePackets
         public bool ShouldCallout { get; set; }
         public float PointValue { get; set; }
         public float TotalPointValue { get; set; }
-        public static S2C_IncrementPlayerScore CreateBody(PacketReader reader, ChannelID channelID, NetID senderNetID)
-        {
-            var result = new S2C_IncrementPlayerScore();
-            result.SenderNetID = senderNetID;
-            result.ChannelID = channelID;
+        public S2C_IncrementPlayerScore(){}
 
-            result.PlayerNetID = reader.ReadNetID();
-            result.ScoreCategory = reader.ReadScoreCategory();
-            result.ScoreEvent = reader.ReadScoreEvent();
+        public S2C_IncrementPlayerScore(PacketReader reader, ChannelID channelID, NetID senderNetID)
+        {
+            this.SenderNetID = senderNetID;
+            this.ChannelID = channelID;
+
+            this.PlayerNetID = reader.ReadNetID();
+            this.ScoreCategory = reader.ReadScoreCategory();
+            this.ScoreEvent = reader.ReadScoreEvent();
             byte bitfield = reader.ReadByte();
-            result.ShouldCallout = (bitfield & 1) != 0;
-            result.PointValue = reader.ReadFloat();
-            result.TotalPointValue = reader.ReadFloat();
+            this.ShouldCallout = (bitfield & 1) != 0;
+            this.PointValue = reader.ReadFloat();
+            this.TotalPointValue = reader.ReadFloat();
         
-            return result;
+            this.ExtraBytes = reader.ReadLeft();
         }
         public override void WriteBody(PacketWriter writer)
         {

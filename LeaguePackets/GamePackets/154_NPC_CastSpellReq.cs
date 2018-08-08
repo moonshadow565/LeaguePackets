@@ -19,21 +19,22 @@ namespace LeaguePackets.GamePackets
         public Vector2 EndPosition { get; set; }
         public NetID TargetNetID { get; set; }
 
-        public static NPC_CastSpellReq CreateBody(PacketReader reader, ChannelID channelID, NetID senderNetID)
+        public NPC_CastSpellReq(){}
+
+        public NPC_CastSpellReq(PacketReader reader, ChannelID channelID, NetID senderNetID)
         {
-            var result = new NPC_CastSpellReq();
-            result.SenderNetID = senderNetID;
-            result.ChannelID = channelID;
+            this.SenderNetID = senderNetID;
+            this.ChannelID = channelID;
 
             byte bitfield = reader.ReadByte();
-            result.Slot = (byte)(bitfield & 0x3F);
-            result.IsSummonerSpellBook = (bitfield & 0x40) != 0;
-            result.IsHudClickCast = (bitfield & 0x80) != 0;
-            result.Position = reader.ReadVector2();
-            result.EndPosition = reader.ReadVector2();
-            result.TargetNetID = reader.ReadNetID();
+            this.Slot = (byte)(bitfield & 0x3F);
+            this.IsSummonerSpellBook = (bitfield & 0x40) != 0;
+            this.IsHudClickCast = (bitfield & 0x80) != 0;
+            this.Position = reader.ReadVector2();
+            this.EndPosition = reader.ReadVector2();
+            this.TargetNetID = reader.ReadNetID();
         
-            return result;
+            this.ExtraBytes = reader.ReadLeft();
         }
         public override void WriteBody(PacketWriter writer)
         {

@@ -17,18 +17,19 @@ namespace LeaguePackets.GamePackets
         public Vector3 StartPosition { get; set; }
         public Vector3 TargetPosition { get; set; }
         public float TravelTime { get; set; }
-        public static S2C_MoveCameraToPoint CreateBody(PacketReader reader, ChannelID channelID, NetID senderNetID)
-        {
-            var result = new S2C_MoveCameraToPoint();
-            result.SenderNetID = senderNetID;
-            result.ChannelID = channelID;
+        public S2C_MoveCameraToPoint(){}
 
-            result.Bitfield = reader.ReadByte();
-            result.StartPosition = reader.ReadVector3();
-            result.TargetPosition = reader.ReadVector3();
-            result.TravelTime = reader.ReadFloat();
+        public S2C_MoveCameraToPoint(PacketReader reader, ChannelID channelID, NetID senderNetID)
+        {
+            this.SenderNetID = senderNetID;
+            this.ChannelID = channelID;
+
+            this.Bitfield = reader.ReadByte();
+            this.StartPosition = reader.ReadVector3();
+            this.TargetPosition = reader.ReadVector3();
+            this.TravelTime = reader.ReadFloat();
         
-            return result;
+            this.ExtraBytes = reader.ReadLeft();
         }
         public override void WriteBody(PacketWriter writer)
         {

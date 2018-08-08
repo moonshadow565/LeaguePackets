@@ -20,21 +20,22 @@ namespace LeaguePackets.GamePackets
         public int TimerType { get; set; }
         public float Expire { get; set; }
 
-        public static S2C_CreateMinionCamp CreateBody(PacketReader reader, ChannelID channelID, NetID senderNetID)
-        {
-            var result = new S2C_CreateMinionCamp();
-            result.SenderNetID = senderNetID;
-            result.ChannelID = channelID;
+        public S2C_CreateMinionCamp(){}
 
-            result.Position = reader.ReadVector3();
-            result.MinimapIcon = reader.ReadFixedString(64);
-            result.CampIndex = reader.ReadByte();
-            result.VOComponentRevealEvent = reader.ReadAudioVOComponentEvent();
-            result.TeamSide = (TeamID)reader.ReadByte();
-            result.TimerType = reader.ReadInt32();
-            result.Expire = reader.ReadFloat();
+        public S2C_CreateMinionCamp(PacketReader reader, ChannelID channelID, NetID senderNetID)
+        {
+            this.SenderNetID = senderNetID;
+            this.ChannelID = channelID;
+
+            this.Position = reader.ReadVector3();
+            this.MinimapIcon = reader.ReadFixedString(64);
+            this.CampIndex = reader.ReadByte();
+            this.VOComponentRevealEvent = reader.ReadAudioVOComponentEvent();
+            this.TeamSide = (TeamID)reader.ReadByte();
+            this.TimerType = reader.ReadInt32();
+            this.Expire = reader.ReadFloat();
         
-            return result;
+            this.ExtraBytes = reader.ReadLeft();
         }
         public override void WriteBody(PacketWriter writer)
         {

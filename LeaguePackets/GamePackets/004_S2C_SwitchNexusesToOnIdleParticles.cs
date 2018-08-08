@@ -11,13 +11,14 @@ namespace LeaguePackets.GamePackets
     public class S2C_SwitchNexusesToOnIdleParticles : GamePacket // 0x4
     {
         public override GamePacketID ID => GamePacketID.S2C_SwitchNexusesToOnIdleParticles;
-        public static S2C_SwitchNexusesToOnIdleParticles CreateBody(PacketReader reader, ChannelID channelID, NetID senderNetID)
-        {
-            var result = new S2C_SwitchNexusesToOnIdleParticles();
-            result.SenderNetID = senderNetID;
-            result.ChannelID = channelID;
+        public S2C_SwitchNexusesToOnIdleParticles(){}
 
-            return result;
+        public S2C_SwitchNexusesToOnIdleParticles(PacketReader reader, ChannelID channelID, NetID senderNetID)
+        {
+            this.SenderNetID = senderNetID;
+            this.ChannelID = channelID;
+
+            this.ExtraBytes = reader.ReadLeft();
         }
         public override void WriteBody(PacketWriter writer) {}
     }

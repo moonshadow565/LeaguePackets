@@ -11,13 +11,14 @@ namespace LeaguePackets.GamePackets
     public class S2C_CloseClient : GamePacket // 0xE5
     {
         public override GamePacketID ID => GamePacketID.S2C_CloseClient;
-        public static S2C_CloseClient CreateBody(PacketReader reader, ChannelID channelID, NetID senderNetID) 
-        {
-            var result = new S2C_CloseClient();
-            result.SenderNetID = senderNetID;
-            result.ChannelID = channelID;
+        public S2C_CloseClient(){}
 
-            return result;
+        public S2C_CloseClient(PacketReader reader, ChannelID channelID, NetID senderNetID) 
+        {
+            this.SenderNetID = senderNetID;
+            this.ChannelID = channelID;
+
+            this.ExtraBytes = reader.ReadLeft();
         }
         public override void WriteBody(PacketWriter writer) {}
     }

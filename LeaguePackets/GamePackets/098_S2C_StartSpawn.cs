@@ -13,16 +13,17 @@ namespace LeaguePackets.GamePackets
         public override GamePacketID ID => GamePacketID.S2C_StartSpawn;
         public byte BotCountOrder { get; set; }
         public byte BotCountChaos { get; set; }
-        public static S2C_StartSpawn CreateBody(PacketReader reader, ChannelID channelID, NetID senderNetID)
-        {
-            var result = new S2C_StartSpawn();
-            result.SenderNetID = senderNetID;
-            result.ChannelID = channelID;
+        public S2C_StartSpawn(){}
 
-            result.BotCountOrder = reader.ReadByte();
-            result.BotCountChaos = reader.ReadByte();
+        public S2C_StartSpawn(PacketReader reader, ChannelID channelID, NetID senderNetID)
+        {
+            this.SenderNetID = senderNetID;
+            this.ChannelID = channelID;
+
+            this.BotCountOrder = reader.ReadByte();
+            this.BotCountChaos = reader.ReadByte();
         
-            return result;
+            this.ExtraBytes = reader.ReadLeft();
         }
         public override void WriteBody(PacketWriter writer)
         {

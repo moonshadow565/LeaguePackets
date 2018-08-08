@@ -20,20 +20,21 @@ namespace LeaguePackets.GamePackets
         public string Message { get; set; } = "";
 
 
-        public static NPC_MessageToClient CreateBody(PacketReader reader, ChannelID channelID, NetID senderNetID)
-        {
-            var result = new NPC_MessageToClient();
-            result.SenderNetID = senderNetID;
-            result.ChannelID = channelID;
+        public NPC_MessageToClient(){}
 
-            result.BubbleDelay = reader.ReadFloat();
-            result.SlotNumber = reader.ReadInt32();
-            result.IsError = reader.ReadBool();
-            result.ColorIndex = reader.ReadByte();
-            result.FloatingTextType = reader.ReadFloatTextType();
-            result.Message = reader.ReadSizedFixedString(1024);
+        public NPC_MessageToClient(PacketReader reader, ChannelID channelID, NetID senderNetID)
+        {
+            this.SenderNetID = senderNetID;
+            this.ChannelID = channelID;
+
+            this.BubbleDelay = reader.ReadFloat();
+            this.SlotNumber = reader.ReadInt32();
+            this.IsError = reader.ReadBool();
+            this.ColorIndex = reader.ReadByte();
+            this.FloatingTextType = reader.ReadFloatTextType();
+            this.Message = reader.ReadSizedFixedString(1024);
         
-            return result;
+            this.ExtraBytes = reader.ReadLeft();
         }
         public override void WriteBody(PacketWriter writer)
         {

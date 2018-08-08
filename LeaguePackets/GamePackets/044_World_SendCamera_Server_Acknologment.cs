@@ -12,15 +12,16 @@ namespace LeaguePackets.GamePackets
     {
         public override GamePacketID ID => GamePacketID.World_SendCamera_Server_Acknologment;
         public byte SyncID { get; set; }
-        public static World_SendCamera_Server_Acknologment CreateBody(PacketReader reader, ChannelID channelID, NetID senderNetID)
-        {
-            var result = new World_SendCamera_Server_Acknologment();
-            result.SenderNetID = senderNetID;
-            result.ChannelID = channelID;
+        public World_SendCamera_Server_Acknologment(){}
 
-            result.SyncID = reader.ReadByte();
+        public World_SendCamera_Server_Acknologment(PacketReader reader, ChannelID channelID, NetID senderNetID)
+        {
+            this.SenderNetID = senderNetID;
+            this.ChannelID = channelID;
+
+            this.SyncID = reader.ReadByte();
         
-            return result;
+            this.ExtraBytes = reader.ReadLeft();
         }
         public override void WriteBody(PacketWriter writer)
         {

@@ -17,21 +17,22 @@ namespace LeaguePackets.GamePackets
 
         public float Cooldown { get; set; }
         public float MaxCooldownForDisplay { get; set; }
-        public static CHAR_SetCooldown CreateBody(PacketReader reader, ChannelID channelID, NetID senderNetID)
+        public CHAR_SetCooldown(){}
+
+        public CHAR_SetCooldown(PacketReader reader, ChannelID channelID, NetID senderNetID)
         {
-            var result = new CHAR_SetCooldown();
-            result.SenderNetID = senderNetID;
-            result.ChannelID = channelID;
+            this.SenderNetID = senderNetID;
+            this.ChannelID = channelID;
 
             byte bitfield = reader.ReadByte();
-            result.Slot = (byte)(bitfield & 0x3F);
-            result.PlayVOWhenCooldownReady = (bitfield & 0x40) != 0;
-            result.IsSummonerSpell = (bitfield & 0x80) != 0;
+            this.Slot = (byte)(bitfield & 0x3F);
+            this.PlayVOWhenCooldownReady = (bitfield & 0x40) != 0;
+            this.IsSummonerSpell = (bitfield & 0x80) != 0;
 
-            result.Cooldown = reader.ReadFloat();
-            result.MaxCooldownForDisplay = reader.ReadFloat();
+            this.Cooldown = reader.ReadFloat();
+            this.MaxCooldownForDisplay = reader.ReadFloat();
         
-            return result;
+            this.ExtraBytes = reader.ReadLeft();
         }
         public override void WriteBody(PacketWriter writer)
         {

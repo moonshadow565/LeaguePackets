@@ -26,27 +26,28 @@ namespace LeaguePackets.GamePackets
         public byte Type { get; set; }
         public string Name { get; set; } = "";
         public string PropName { get; set; } = "";
-        public static SpawnLevelPropS2C CreateBody(PacketReader reader, ChannelID channelID, NetID senderNetID)
-        {
-            var result = new SpawnLevelPropS2C();
-            result.SenderNetID = senderNetID;
-            result.ChannelID = channelID;
+        public SpawnLevelPropS2C(){}
 
-            result.NetID = reader.ReadNetID();
-            result.NetNodeID = reader.ReadNetNodeID();
-            result.SkinID = reader.ReadInt32();
-            result.Position = reader.ReadVector3();
-            result.FacingDirection = reader.ReadVector3();
-            result.PositionOffset = reader.ReadVector3();
-            result.Scale = reader.ReadVector3();
-            result.Bitfield = reader.ReadUInt16();
-            result.Rank = reader.ReadByte();
-            result.SkillLevel = reader.ReadByte();
-            result.Type = reader.ReadByte();
-            result.Name = reader.ReadFixedString(64);
-            result.PropName = reader.ReadFixedString(64);
+        public SpawnLevelPropS2C(PacketReader reader, ChannelID channelID, NetID senderNetID)
+        {
+            this.SenderNetID = senderNetID;
+            this.ChannelID = channelID;
+
+            this.NetID = reader.ReadNetID();
+            this.NetNodeID = reader.ReadNetNodeID();
+            this.SkinID = reader.ReadInt32();
+            this.Position = reader.ReadVector3();
+            this.FacingDirection = reader.ReadVector3();
+            this.PositionOffset = reader.ReadVector3();
+            this.Scale = reader.ReadVector3();
+            this.Bitfield = reader.ReadUInt16();
+            this.Rank = reader.ReadByte();
+            this.SkillLevel = reader.ReadByte();
+            this.Type = reader.ReadByte();
+            this.Name = reader.ReadFixedString(64);
+            this.PropName = reader.ReadFixedString(64);
         
-            return result;
+            this.ExtraBytes = reader.ReadLeft();
         }
         public override void WriteBody(PacketWriter writer)
         {

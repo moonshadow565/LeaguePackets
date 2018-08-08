@@ -13,16 +13,17 @@ namespace LeaguePackets.GamePackets
         public override GamePacketID ID => GamePacketID.NPC_BuffUpdateNumCounter;
         public byte BuffSlot { get; set; }
         public int Counter { get; set; }
-        public static NPC_BuffUpdateNumCounter CreateBody(PacketReader reader, ChannelID channelID, NetID senderNetID)
-        {
-            var result = new NPC_BuffUpdateNumCounter();
-            result.SenderNetID = senderNetID;
-            result.ChannelID = channelID;
+        public NPC_BuffUpdateNumCounter(){}
 
-            result.BuffSlot = reader.ReadByte();
-            result.Counter = reader.ReadInt32();
+        public NPC_BuffUpdateNumCounter(PacketReader reader, ChannelID channelID, NetID senderNetID)
+        {
+            this.SenderNetID = senderNetID;
+            this.ChannelID = channelID;
+
+            this.BuffSlot = reader.ReadByte();
+            this.Counter = reader.ReadInt32();
         
-            return result;
+            this.ExtraBytes = reader.ReadLeft();
         }
         public override void WriteBody(PacketWriter writer)
         {

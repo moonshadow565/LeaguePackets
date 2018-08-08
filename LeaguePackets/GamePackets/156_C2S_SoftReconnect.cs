@@ -11,13 +11,14 @@ namespace LeaguePackets.GamePackets
     public class C2S_SoftReconnect : GamePacket // 0x9C
     {
         public override GamePacketID ID => GamePacketID.C2S_SoftReconnect;
-        public static C2S_SoftReconnect CreateBody(PacketReader reader, ChannelID channelID, NetID senderNetID) 
-        {
-            var result = new C2S_SoftReconnect();
-            result.SenderNetID = senderNetID;
-            result.ChannelID = channelID;
+        public C2S_SoftReconnect(){}
 
-            return result;
+        public C2S_SoftReconnect(PacketReader reader, ChannelID channelID, NetID senderNetID) 
+        {
+            this.SenderNetID = senderNetID;
+            this.ChannelID = channelID;
+
+            this.ExtraBytes = reader.ReadLeft();
         }
         public override void WriteBody(PacketWriter writer) {}
     }

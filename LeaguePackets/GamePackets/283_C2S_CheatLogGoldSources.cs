@@ -11,13 +11,14 @@ namespace LeaguePackets.GamePackets
     public class C2S_CheatLogGoldSources : GamePacket, IUnusedPacket // 0x11B
     {
         public override GamePacketID ID => GamePacketID.C2S_CheatLogGoldSources;
-        public static C2S_CheatLogGoldSources CreateBody(PacketReader reader, ChannelID channelID, NetID senderNetID)
-        {
-            var result = new C2S_CheatLogGoldSources();
-            result.SenderNetID = senderNetID;
-            result.ChannelID = channelID;
+        public C2S_CheatLogGoldSources(){}
 
-            return result;
+        public C2S_CheatLogGoldSources(PacketReader reader, ChannelID channelID, NetID senderNetID)
+        {
+            this.SenderNetID = senderNetID;
+            this.ChannelID = channelID;
+
+            this.ExtraBytes = reader.ReadLeft();
         }
         public override void WriteBody(PacketWriter writer)
         {

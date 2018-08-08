@@ -15,17 +15,18 @@ namespace LeaguePackets.GamePackets
         public Vector3 Position { get; set; }
         public Vector3 Forward { get; set; }
         public int SyncID { get; set; }
-        public static Pause CreateBody(PacketReader reader, ChannelID channelID, NetID senderNetID)
-        {
-            var result = new Pause();
-            result.SenderNetID = senderNetID;
-            result.ChannelID = channelID;
+        public Pause(){}
 
-            result.Position = reader.ReadVector3();
-            result.Forward = reader.ReadVector3();
-            result.SyncID = reader.ReadInt32();
+        public Pause(PacketReader reader, ChannelID channelID, NetID senderNetID)
+        {
+            this.SenderNetID = senderNetID;
+            this.ChannelID = channelID;
+
+            this.Position = reader.ReadVector3();
+            this.Forward = reader.ReadVector3();
+            this.SyncID = reader.ReadInt32();
         
-            return result;
+            this.ExtraBytes = reader.ReadLeft();
         }
         public override void WriteBody(PacketWriter writer)
         {

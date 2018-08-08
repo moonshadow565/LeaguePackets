@@ -14,17 +14,18 @@ namespace LeaguePackets.GamePackets
         public NetID TargetNetID { get; set; }
         public NetID SourceNetID { get; set; }
         public float GoldAmmount { get; set; }
-        public static UnitAddGold CreateBody(PacketReader reader, ChannelID channelID, NetID senderNetID)
-        {
-            var result = new UnitAddGold();
-            result.SenderNetID = senderNetID;
-            result.ChannelID = channelID;
+        public UnitAddGold(){}
 
-            result.TargetNetID = reader.ReadNetID();
-            result.SourceNetID = reader.ReadNetID();
-            result.GoldAmmount = reader.ReadFloat();
+        public UnitAddGold(PacketReader reader, ChannelID channelID, NetID senderNetID)
+        {
+            this.SenderNetID = senderNetID;
+            this.ChannelID = channelID;
+
+            this.TargetNetID = reader.ReadNetID();
+            this.SourceNetID = reader.ReadNetID();
+            this.GoldAmmount = reader.ReadFloat();
         
-            return result;
+            this.ExtraBytes = reader.ReadLeft();
         }
         public override void WriteBody(PacketWriter writer)
         {

@@ -12,16 +12,17 @@ namespace LeaguePackets.GamePackets
     {
         public override GamePacketID ID => GamePacketID.S2C_SetGreyscaleEnabledWhenDead;
         public bool Enabled { get; set; }
-        public static S2C_SetGreyscaleEnabledWhenDead CreateBody(PacketReader reader, ChannelID channelID, NetID senderNetID)
+        public S2C_SetGreyscaleEnabledWhenDead(){}
+
+        public S2C_SetGreyscaleEnabledWhenDead(PacketReader reader, ChannelID channelID, NetID senderNetID)
         {
-            var result = new S2C_SetGreyscaleEnabledWhenDead();
-            result.SenderNetID = senderNetID;
-            result.ChannelID = channelID;
+            this.SenderNetID = senderNetID;
+            this.ChannelID = channelID;
 
             byte bitfield = reader.ReadByte();
-            result.Enabled = (bitfield & 1) != 0;
+            this.Enabled = (bitfield & 1) != 0;
         
-            return result;
+            this.ExtraBytes = reader.ReadLeft();
         }
         public override void WriteBody(PacketWriter writer)
         {

@@ -11,13 +11,14 @@ namespace LeaguePackets.GamePackets
     public class C2S_Exit : GamePacket // 0x8F
     {
         public override GamePacketID ID => GamePacketID.C2S_Exit;
-        public static C2S_Exit CreateBody(PacketReader reader, ChannelID channelID, NetID senderNetID) 
-        {
-            var result = new C2S_Exit();
-            result.SenderNetID = senderNetID;
-            result.ChannelID = channelID;
+        public C2S_Exit(){}
 
-            return result;
+        public C2S_Exit(PacketReader reader, ChannelID channelID, NetID senderNetID) 
+        {
+            this.SenderNetID = senderNetID;
+            this.ChannelID = channelID;
+
+            this.ExtraBytes = reader.ReadLeft();
         }
         public override void WriteBody(PacketWriter writer) {}
     }

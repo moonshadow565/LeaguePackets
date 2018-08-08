@@ -18,20 +18,21 @@ namespace LeaguePackets.GamePackets
         public string BorderCategory { get; set; } = "";
         public string BorderScriptName { get; set; } = "";
 
-        public static S2C_UnitSetMinimapIcon CreateBody(PacketReader reader, ChannelID channelID, NetID senderNetID)
-        {
-            var result = new S2C_UnitSetMinimapIcon();
-            result.SenderNetID = senderNetID;
-            result.ChannelID = channelID;
+        public S2C_UnitSetMinimapIcon(){}
 
-            result.UnitNetID = reader.ReadNetID();
-            result.ChangeIcon = reader.ReadBool();
-            result.IconCategory = reader.ReadFixedString(64);
-            result.ChangeBorder = reader.ReadBool();
-            result.BorderCategory = reader.ReadFixedString(64);
-            result.BorderScriptName = reader.ReadFixedString(64);
+        public S2C_UnitSetMinimapIcon(PacketReader reader, ChannelID channelID, NetID senderNetID)
+        {
+            this.SenderNetID = senderNetID;
+            this.ChannelID = channelID;
+
+            this.UnitNetID = reader.ReadNetID();
+            this.ChangeIcon = reader.ReadBool();
+            this.IconCategory = reader.ReadFixedString(64);
+            this.ChangeBorder = reader.ReadBool();
+            this.BorderCategory = reader.ReadFixedString(64);
+            this.BorderScriptName = reader.ReadFixedString(64);
         
-            return result;
+            this.ExtraBytes = reader.ReadLeft();
         }
         public override void WriteBody(PacketWriter writer)
         {

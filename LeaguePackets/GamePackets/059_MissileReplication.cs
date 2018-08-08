@@ -31,31 +31,32 @@ namespace LeaguePackets.GamePackets
 
         public CastInfo CastInfo { get; set; } = new CastInfo();
 
-        public static MissileReplication CreateBody(PacketReader reader, ChannelID channelID, NetID senderNetID)
-        {
-            var result = new MissileReplication();
-            result.SenderNetID = senderNetID;
-            result.ChannelID = channelID;
+        public MissileReplication(){}
 
-            result.Position = reader.ReadVector3();
-            result.CasterPosition = reader.ReadVector3();
-            result.Direction = reader.ReadVector3();
-            result.Velocity = reader.ReadVector3();
-            result.StartPoint = reader.ReadVector3();
-            result.EndPoint = reader.ReadVector3();
-            result.UnitPosition = reader.ReadVector3();
-            result.TimeFromCreation = reader.ReadFloat();
-            result.Speed = reader.ReadFloat();
-            result.LifePercentage = reader.ReadFloat();
-            result.TimedSpeedDelta = reader.ReadFloat();
-            result.TimedSpeedDeltaTime = reader.ReadFloat();
+        public MissileReplication(PacketReader reader, ChannelID channelID, NetID senderNetID)
+        {
+            this.SenderNetID = senderNetID;
+            this.ChannelID = channelID;
+
+            this.Position = reader.ReadVector3();
+            this.CasterPosition = reader.ReadVector3();
+            this.Direction = reader.ReadVector3();
+            this.Velocity = reader.ReadVector3();
+            this.StartPoint = reader.ReadVector3();
+            this.EndPoint = reader.ReadVector3();
+            this.UnitPosition = reader.ReadVector3();
+            this.TimeFromCreation = reader.ReadFloat();
+            this.Speed = reader.ReadFloat();
+            this.LifePercentage = reader.ReadFloat();
+            this.TimedSpeedDelta = reader.ReadFloat();
+            this.TimedSpeedDeltaTime = reader.ReadFloat();
 
             byte bitfield = reader.ReadByte();
-            result.Bounced = (bitfield & 1) != 0;
+            this.Bounced = (bitfield & 1) != 0;
 
-            result.CastInfo = reader.ReadCastInfo();
+            this.CastInfo = reader.ReadCastInfo();
             //TODO: read pad bytes if any(should be 512 byte buffer)?
-            return result;
+            this.ExtraBytes = reader.ReadLeft();
         }
         public override void WriteBody(PacketWriter writer)
         {

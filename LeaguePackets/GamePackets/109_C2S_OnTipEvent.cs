@@ -14,16 +14,17 @@ namespace LeaguePackets.GamePackets
         public TipCommand TipCommand { get; set; }
         public TipID TipID { get; set; }
 
-        public static C2S_OnTipEvent CreateBody(PacketReader reader, ChannelID channelID, NetID senderNetID)
-        {
-            var result = new C2S_OnTipEvent();
-            result.SenderNetID = senderNetID;
-            result.ChannelID = channelID;
+        public C2S_OnTipEvent(){}
 
-            result.TipCommand = reader.ReadTipCommand();
-            result.TipID = reader.ReadTipID();
+        public C2S_OnTipEvent(PacketReader reader, ChannelID channelID, NetID senderNetID)
+        {
+            this.SenderNetID = senderNetID;
+            this.ChannelID = channelID;
+
+            this.TipCommand = reader.ReadTipCommand();
+            this.TipID = reader.ReadTipID();
         
-            return result;
+            this.ExtraBytes = reader.ReadLeft();
         }
         public override void WriteBody(PacketWriter writer)
         {

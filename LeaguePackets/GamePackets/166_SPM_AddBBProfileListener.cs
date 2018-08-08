@@ -11,14 +11,15 @@ namespace LeaguePackets.GamePackets
     public class SPM_AddBBProfileListener : GamePacket, IUnusedPacket // 0xA6
     {
         public override GamePacketID ID => GamePacketID.SPM_AddBBProfileListener;
-        public static SPM_AddBBProfileListener CreateBody(PacketReader reader, ChannelID channelID, NetID senderNetID)
+        public SPM_AddBBProfileListener(){}
+
+        public SPM_AddBBProfileListener(PacketReader reader, ChannelID channelID, NetID senderNetID)
         {
-            var result = new SPM_AddBBProfileListener();
-            result.SenderNetID = senderNetID;
-            result.ChannelID = channelID;
+            this.SenderNetID = senderNetID;
+            this.ChannelID = channelID;
 
 
-            return result;
+            this.ExtraBytes = reader.ReadLeft();
         }
         public override void WriteBody(PacketWriter writer) {}
     }

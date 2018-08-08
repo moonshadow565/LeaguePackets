@@ -12,15 +12,16 @@ namespace LeaguePackets.GamePackets
     {
         public override GamePacketID ID => GamePacketID.FX_Kill;
         public NetID NetID { get; set; }
-        public static FX_Kill CreateBody(PacketReader reader, ChannelID channelID, NetID senderNetID)
-        {
-            var result = new FX_Kill();
-            result.SenderNetID = senderNetID;
-            result.ChannelID = channelID;
+        public FX_Kill(){}
 
-            result.NetID = reader.ReadNetID();
+        public FX_Kill(PacketReader reader, ChannelID channelID, NetID senderNetID)
+        {
+            this.SenderNetID = senderNetID;
+            this.ChannelID = channelID;
+
+            this.NetID = reader.ReadNetID();
         
-            return result;
+            this.ExtraBytes = reader.ReadLeft();
         }
         public override void WriteBody(PacketWriter writer)
         {

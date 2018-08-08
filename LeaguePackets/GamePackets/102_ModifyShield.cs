@@ -15,19 +15,20 @@ namespace LeaguePackets.GamePackets
         public bool Magical { get; set; }
         public bool StopShieldFade { get; set; }
         public float Ammount { get; set; }
-        public static ModifyShield CreateBody(PacketReader reader, ChannelID channelID, NetID senderNetID)
+        public ModifyShield(){}
+
+        public ModifyShield(PacketReader reader, ChannelID channelID, NetID senderNetID)
         {
-            var result = new ModifyShield();
-            result.SenderNetID = senderNetID;
-            result.ChannelID = channelID;
+            this.SenderNetID = senderNetID;
+            this.ChannelID = channelID;
 
             byte bitfield = reader.ReadByte();
-            result.Physical = (bitfield & 1) != 0;
-            result.Magical = (bitfield & 2) != 0;
-            result.StopShieldFade = (bitfield & 4) != 0;
-            result.Ammount = reader.ReadFloat();
+            this.Physical = (bitfield & 1) != 0;
+            this.Magical = (bitfield & 2) != 0;
+            this.StopShieldFade = (bitfield & 4) != 0;
+            this.Ammount = reader.ReadFloat();
         
-            return result;
+            this.ExtraBytes = reader.ReadLeft();
         }
         public override void WriteBody(PacketWriter writer)
         {

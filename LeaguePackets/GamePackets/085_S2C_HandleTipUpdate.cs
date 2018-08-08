@@ -16,19 +16,20 @@ namespace LeaguePackets.GamePackets
         public string TipImagePath { get; set; } = "";
         public TipCommand TipCommand { get; set; }
         public TipID TipID { get; set; }
-        public static S2C_HandleTipUpdate CreateBody(PacketReader reader, ChannelID channelID, NetID senderNetID)
-        {
-            var result = new S2C_HandleTipUpdate();
-            result.SenderNetID = senderNetID;
-            result.ChannelID = channelID;
+        public S2C_HandleTipUpdate(){}
 
-            result.TipName = reader.ReadFixedString(128);
-            result.TipOther = reader.ReadFixedString(128);
-            result.TipImagePath = reader.ReadFixedString(128);
-            result.TipCommand = reader.ReadTipCommand();
-            result.TipID = reader.ReadTipID();
+        public S2C_HandleTipUpdate(PacketReader reader, ChannelID channelID, NetID senderNetID)
+        {
+            this.SenderNetID = senderNetID;
+            this.ChannelID = channelID;
+
+            this.TipName = reader.ReadFixedString(128);
+            this.TipOther = reader.ReadFixedString(128);
+            this.TipImagePath = reader.ReadFixedString(128);
+            this.TipCommand = reader.ReadTipCommand();
+            this.TipID = reader.ReadTipID();
         
-            return result;
+            this.ExtraBytes = reader.ReadLeft();
         }
         public override void WriteBody(PacketWriter writer)
         {

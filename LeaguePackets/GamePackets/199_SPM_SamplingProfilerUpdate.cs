@@ -11,13 +11,14 @@ namespace LeaguePackets.GamePackets
     public class SPM_SamplingProfilerUpdate : GamePacket, IUnusedPacket // 0xC7
     {
         public override GamePacketID ID => GamePacketID.SPM_SamplingProfilerUpdate;
-        public static SPM_SamplingProfilerUpdate CreateBody(PacketReader reader, ChannelID channelID, NetID senderNetID) 
-        {
-            var result = new SPM_SamplingProfilerUpdate();
-            result.SenderNetID = senderNetID;
-            result.ChannelID = channelID;
+        public SPM_SamplingProfilerUpdate(){}
 
-            return result;
+        public SPM_SamplingProfilerUpdate(PacketReader reader, ChannelID channelID, NetID senderNetID) 
+        {
+            this.SenderNetID = senderNetID;
+            this.ChannelID = channelID;
+
+            this.ExtraBytes = reader.ReadLeft();
         }
         public override void WriteBody(PacketWriter writer) {}
     }

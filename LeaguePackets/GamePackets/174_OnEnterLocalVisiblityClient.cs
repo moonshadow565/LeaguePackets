@@ -15,11 +15,12 @@ namespace LeaguePackets.GamePackets
         public List<GamePacket> Packets { get; set; } = new List<GamePacket>();
         public LocalVisibilityData LocalVisibilityData { get; set; } = new LocalVisibilityDataUnknown();
 
-        public static OnEnterLocalVisiblityClient CreateBody(PacketReader reader, ChannelID channelID, NetID senderNetID)
+        public OnEnterLocalVisiblityClient(){}
+
+        public OnEnterLocalVisiblityClient(PacketReader reader, ChannelID channelID, NetID senderNetID)
         {
-            var result = new OnEnterLocalVisiblityClient();
-            result.SenderNetID = senderNetID;
-            result.ChannelID = channelID;
+            this.SenderNetID = senderNetID;
+            this.ChannelID = channelID;
 
             int totalSize = (ushort)(reader.ReadUInt16() & 0x1FFF);
             for (; totalSize > 0;)
@@ -28,13 +29,13 @@ namespace LeaguePackets.GamePackets
                 byte[] data = reader.ReadBytes(size);
                 using (var reader2 = new PacketReader(new MemoryStream(data)))
                 {
-                    result.Packets.Add(GamePacket.CreateGamePacket(reader2, channelID));
+                    this.Packets.Add(GamePacket.CreateGamePacket(reader2, channelID));
                 }
                 totalSize -= 2;
                 totalSize -= size;
             }
-            result.LocalVisibilityData = reader.ReadLocalVisibilityData();
-            return result;
+            this.LocalVisibilityData = reader.ReadLocalVisibilityData();
+            this.ExtraBytes = reader.ReadLeft();
         }
 
         public override void WriteBody(PacketWriter writer)

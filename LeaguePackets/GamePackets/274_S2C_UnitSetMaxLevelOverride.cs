@@ -12,15 +12,16 @@ namespace LeaguePackets.GamePackets
     {
         public override GamePacketID ID => GamePacketID.S2C_UnitSetMaxLevelOverride;
         public byte MaxLevelOverride { get; set; }
-        public static S2C_UnitSetMaxLevelOverride CreateBody(PacketReader reader, ChannelID channelID, NetID senderNetID)
-        {
-            var result = new S2C_UnitSetMaxLevelOverride();
-            result.SenderNetID = senderNetID;
-            result.ChannelID = channelID;
+        public S2C_UnitSetMaxLevelOverride(){}
 
-            result.MaxLevelOverride = reader.ReadByte();
+        public S2C_UnitSetMaxLevelOverride(PacketReader reader, ChannelID channelID, NetID senderNetID)
+        {
+            this.SenderNetID = senderNetID;
+            this.ChannelID = channelID;
+
+            this.MaxLevelOverride = reader.ReadByte();
         
-            return result;
+            this.ExtraBytes = reader.ReadLeft();
         }
         public override void WriteBody(PacketWriter writer)
         {

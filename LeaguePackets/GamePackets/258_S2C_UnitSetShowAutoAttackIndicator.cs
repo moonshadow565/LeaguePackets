@@ -14,17 +14,18 @@ namespace LeaguePackets.GamePackets
         public NetID NetID { get; set; }
         public bool ShowIndicator { get; set; }
         public bool ShowMinimapIndicator { get; set; }
-        public static S2C_UnitSetShowAutoAttackIndicator CreateBody(PacketReader reader, ChannelID channelID, NetID senderNetID)
-        {
-            var result = new S2C_UnitSetShowAutoAttackIndicator();
-            result.SenderNetID = senderNetID;
-            result.ChannelID = channelID;
+        public S2C_UnitSetShowAutoAttackIndicator(){}
 
-            result.NetID = reader.ReadNetID();
-            result.ShowIndicator = reader.ReadBool();
-            result.ShowMinimapIndicator = reader.ReadBool();
+        public S2C_UnitSetShowAutoAttackIndicator(PacketReader reader, ChannelID channelID, NetID senderNetID)
+        {
+            this.SenderNetID = senderNetID;
+            this.ChannelID = channelID;
+
+            this.NetID = reader.ReadNetID();
+            this.ShowIndicator = reader.ReadBool();
+            this.ShowMinimapIndicator = reader.ReadBool();
         
-            return result;
+            this.ExtraBytes = reader.ReadLeft();
         }
         public override void WriteBody(PacketWriter writer)
         {

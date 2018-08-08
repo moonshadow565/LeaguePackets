@@ -15,17 +15,18 @@ namespace LeaguePackets.GamePackets
         public NetID TargetNetID { get; set; }
         public DrawPathNodeType DrawPathNodeType { get; set; }
         public Vector3 Point { get; set; }
-        public static C2S_UnitSendDrawPath CreateBody(PacketReader reader, ChannelID channelID, NetID senderNetID)
-        {
-            var result = new C2S_UnitSendDrawPath();
-            result.SenderNetID = senderNetID;
-            result.ChannelID = channelID;
+        public C2S_UnitSendDrawPath(){}
 
-            result.TargetNetID = reader.ReadNetID();
-            result.DrawPathNodeType = reader.ReadDrawPathNodeType();
-            result.Point = reader.ReadVector3();
+        public C2S_UnitSendDrawPath(PacketReader reader, ChannelID channelID, NetID senderNetID)
+        {
+            this.SenderNetID = senderNetID;
+            this.ChannelID = channelID;
+
+            this.TargetNetID = reader.ReadNetID();
+            this.DrawPathNodeType = reader.ReadDrawPathNodeType();
+            this.Point = reader.ReadVector3();
         
-            return result;
+            this.ExtraBytes = reader.ReadLeft();
         }
         public override void WriteBody(PacketWriter writer)
         {

@@ -18,21 +18,22 @@ namespace LeaguePackets.GamePackets
         public float GoldGranted { get; set; }
         public int ExperienceGranted { get; set; }
         public int TowersGranted { get; set; }
-        public static S2C_TeamBalanceStatus CreateBody(PacketReader reader, ChannelID channelID, NetID senderNetID)
-        {
-            var result = new S2C_TeamBalanceStatus();
-            result.SenderNetID = senderNetID;
-            result.ChannelID = channelID;
+        public S2C_TeamBalanceStatus(){}
 
-            result.Reason = reader.ReadSurrenderReason();
-            result.ForVote = reader.ReadByte();
-            result.AgainstVote = reader.ReadByte();
-            result.TeamID = reader.ReadTeamID();
-            result.GoldGranted = reader.ReadFloat();
-            result.ExperienceGranted = reader.ReadInt32();
-            result.TowersGranted = reader.ReadInt32();
+        public S2C_TeamBalanceStatus(PacketReader reader, ChannelID channelID, NetID senderNetID)
+        {
+            this.SenderNetID = senderNetID;
+            this.ChannelID = channelID;
+
+            this.Reason = reader.ReadSurrenderReason();
+            this.ForVote = reader.ReadByte();
+            this.AgainstVote = reader.ReadByte();
+            this.TeamID = reader.ReadTeamID();
+            this.GoldGranted = reader.ReadFloat();
+            this.ExperienceGranted = reader.ReadInt32();
+            this.TowersGranted = reader.ReadInt32();
         
-            return result;
+            this.ExtraBytes = reader.ReadLeft();
         }
         public override void WriteBody(PacketWriter writer)
         {

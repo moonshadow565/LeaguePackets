@@ -12,15 +12,16 @@ namespace LeaguePackets.GamePackets
     {
         public override GamePacketID ID => GamePacketID.BuyItemReq;
         public ItemID ItemID { get; set; }
-        public static BuyItemReq CreateBody(PacketReader reader, ChannelID channelID, NetID senderNetID)
-        {
-            var result = new BuyItemReq();
-            result.SenderNetID = senderNetID;
-            result.ChannelID = channelID;
+        public BuyItemReq(){}
 
-            result.ItemID = reader.ReadItemID();
+        public BuyItemReq(PacketReader reader, ChannelID channelID, NetID senderNetID)
+        {
+            this.SenderNetID = senderNetID;
+            this.ChannelID = channelID;
+
+            this.ItemID = reader.ReadItemID();
         
-            return result;
+            this.ExtraBytes = reader.ReadLeft();
         }
         public override void WriteBody(PacketWriter writer)
         {

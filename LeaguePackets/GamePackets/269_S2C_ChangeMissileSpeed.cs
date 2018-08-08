@@ -13,16 +13,17 @@ namespace LeaguePackets.GamePackets
         public override GamePacketID ID => GamePacketID.S2C_ChangeMissileSpeed;
         public float Speed { get; set; }
         public float Delay { get; set; }
-        public static S2C_ChangeMissileSpeed CreateBody(PacketReader reader, ChannelID channelID, NetID senderNetID)
-        {
-            var result = new S2C_ChangeMissileSpeed();
-            result.SenderNetID = senderNetID;
-            result.ChannelID = channelID;
+        public S2C_ChangeMissileSpeed(){}
 
-            result.Speed = reader.ReadFloat();
-            result.Delay = reader.ReadFloat();
+        public S2C_ChangeMissileSpeed(PacketReader reader, ChannelID channelID, NetID senderNetID)
+        {
+            this.SenderNetID = senderNetID;
+            this.ChannelID = channelID;
+
+            this.Speed = reader.ReadFloat();
+            this.Delay = reader.ReadFloat();
         
-            return result;
+            this.ExtraBytes = reader.ReadLeft();
         }
         public override void WriteBody(PacketWriter writer)
         {

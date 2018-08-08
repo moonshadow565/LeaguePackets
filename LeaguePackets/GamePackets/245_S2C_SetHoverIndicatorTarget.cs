@@ -12,15 +12,16 @@ namespace LeaguePackets.GamePackets
     {
         public override GamePacketID ID => GamePacketID.S2C_SetHoverIndicatorTarget;
         public NetID TargetNetID { get; set; }
-        public static S2C_SetHoverIndicatorTarget CreateBody(PacketReader reader, ChannelID channelID, NetID senderNetID)
-        {
-            var result = new S2C_SetHoverIndicatorTarget();
-            result.SenderNetID = senderNetID;
-            result.ChannelID = channelID;
+        public S2C_SetHoverIndicatorTarget(){}
 
-            result.TargetNetID = reader.ReadNetID();
+        public S2C_SetHoverIndicatorTarget(PacketReader reader, ChannelID channelID, NetID senderNetID)
+        {
+            this.SenderNetID = senderNetID;
+            this.ChannelID = channelID;
+
+            this.TargetNetID = reader.ReadNetID();
         
-            return result;
+            this.ExtraBytes = reader.ReadLeft();
         }
         public override void WriteBody(PacketWriter writer)
         {

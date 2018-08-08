@@ -19,22 +19,23 @@ namespace LeaguePackets.GamePackets
         public short DamageBonus { get; set; }
         public short HealthBonus { get; set; }
         public byte MinionLevel { get; set; }
-        public static Barrack_SpawnUnit CreateBody(PacketReader reader, ChannelID channelID, NetID senderNetID)
+        public Barrack_SpawnUnit(){}
+
+        public Barrack_SpawnUnit(PacketReader reader, ChannelID channelID, NetID senderNetID)
         {
-            var result = new Barrack_SpawnUnit();
-            result.SenderNetID = senderNetID;
-            result.ChannelID = channelID;
+            this.SenderNetID = senderNetID;
+            this.ChannelID = channelID;
 
-            result.ObjectID = reader.ReadNetID();
-            result.ObjectNodeID = reader.ReadNetNodeID();
-            result.BarracksNetID = reader.ReadNetID();
-            result.WaveCount = reader.ReadByte();
-            result.MinionType = reader.ReadByte();
-            result.DamageBonus = reader.ReadInt16();
-            result.HealthBonus = reader.ReadInt16();
-            result.MinionLevel = reader.ReadByte();
+            this.ObjectID = reader.ReadNetID();
+            this.ObjectNodeID = reader.ReadNetNodeID();
+            this.BarracksNetID = reader.ReadNetID();
+            this.WaveCount = reader.ReadByte();
+            this.MinionType = reader.ReadByte();
+            this.DamageBonus = reader.ReadInt16();
+            this.HealthBonus = reader.ReadInt16();
+            this.MinionLevel = reader.ReadByte();
 
-            return result;
+            this.ExtraBytes = reader.ReadLeft();
         }
         public override void WriteBody(PacketWriter writer)
         {

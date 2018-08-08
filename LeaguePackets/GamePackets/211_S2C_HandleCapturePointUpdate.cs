@@ -16,19 +16,20 @@ namespace LeaguePackets.GamePackets
         public PARType PARType { get; set; }
         public TeamID AttackTeam { get; set; }
         public CapturePointUpdateCommand Command { get; set; }
-        public static S2C_HandleCapturePointUpdate CreateBody(PacketReader reader, ChannelID channelID, NetID senderNetID)
-        {
-            var result = new S2C_HandleCapturePointUpdate();
-            result.SenderNetID = senderNetID;
-            result.ChannelID = channelID;
+        public S2C_HandleCapturePointUpdate(){}
 
-            result.CapturePointIndex = reader.ReadByte();
-            result.OtherNetID = reader.ReadNetID();
-            result.PARType = reader.ReadPARType();
-            result.AttackTeam = reader.ReadTeamID();
-            result.Command = reader.ReadCapturePointUpdateCommand();
+        public S2C_HandleCapturePointUpdate(PacketReader reader, ChannelID channelID, NetID senderNetID)
+        {
+            this.SenderNetID = senderNetID;
+            this.ChannelID = channelID;
+
+            this.CapturePointIndex = reader.ReadByte();
+            this.OtherNetID = reader.ReadNetID();
+            this.PARType = reader.ReadPARType();
+            this.AttackTeam = reader.ReadTeamID();
+            this.Command = reader.ReadCapturePointUpdateCommand();
         
-            return result;
+            this.ExtraBytes = reader.ReadLeft();
         }
         public override void WriteBody(PacketWriter writer)
         {

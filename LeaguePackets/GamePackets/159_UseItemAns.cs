@@ -14,17 +14,18 @@ namespace LeaguePackets.GamePackets
         public byte Slot { get; set; }
         public byte ItemsInSlot { get; set; }
         public byte SpellCharges { get; set; }
-        public static UseItemAns CreateBody(PacketReader reader, ChannelID channelID, NetID senderNetID)
-        {
-            var result = new UseItemAns();
-            result.SenderNetID = senderNetID;
-            result.ChannelID = channelID;
+        public UseItemAns(){}
 
-            result.Slot = reader.ReadByte();
-            result.ItemsInSlot = reader.ReadByte();
-            result.SpellCharges = reader.ReadByte();
+        public UseItemAns(PacketReader reader, ChannelID channelID, NetID senderNetID)
+        {
+            this.SenderNetID = senderNetID;
+            this.ChannelID = channelID;
+
+            this.Slot = reader.ReadByte();
+            this.ItemsInSlot = reader.ReadByte();
+            this.SpellCharges = reader.ReadByte();
         
-            return result;
+            this.ExtraBytes = reader.ReadLeft();
         }
         public override void WriteBody(PacketWriter writer)
         {

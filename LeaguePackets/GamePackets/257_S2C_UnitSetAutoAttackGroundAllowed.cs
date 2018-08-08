@@ -13,16 +13,17 @@ namespace LeaguePackets.GamePackets
         public override GamePacketID ID => GamePacketID.S2C_UnitSetAutoAttackGroundAllowed;
         public NetID NetID { get; set; }
         public GroundAttackMode CanAutoAttackGroundState { get; set; }
-        public static S2C_UnitSetAutoAttackGroundAllowed CreateBody(PacketReader reader, ChannelID channelID, NetID senderNetID)
-        {
-            var result = new S2C_UnitSetAutoAttackGroundAllowed();
-            result.SenderNetID = senderNetID;
-            result.ChannelID = channelID;
+        public S2C_UnitSetAutoAttackGroundAllowed(){}
 
-            result.NetID = reader.ReadNetID();
-            result.CanAutoAttackGroundState = reader.ReadGroundAttackMode();
+        public S2C_UnitSetAutoAttackGroundAllowed(PacketReader reader, ChannelID channelID, NetID senderNetID)
+        {
+            this.SenderNetID = senderNetID;
+            this.ChannelID = channelID;
+
+            this.NetID = reader.ReadNetID();
+            this.CanAutoAttackGroundState = reader.ReadGroundAttackMode();
         
-            return result;
+            this.ExtraBytes = reader.ReadLeft();
         }
         public override void WriteBody(PacketWriter writer)
         {

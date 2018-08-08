@@ -19,22 +19,23 @@ namespace LeaguePackets.GamePackets
         public int Duration { get; set; }
         public int NextChunkID { get; set; }
         public byte[] Data { get; set; }
-        public static S2C_SpectatorDataChunk CreateBody(PacketReader reader, ChannelID channelID, NetID senderNetID)
-        {
-            var result = new S2C_SpectatorDataChunk();
-            result.SenderNetID = senderNetID;
-            result.ChannelID = channelID;
+        public S2C_SpectatorDataChunk(){}
 
-            result.ChunkID = reader.ReadInt32();
-            result.TotalSubChunks = reader.ReadInt32();
-            result.SubChunkID = reader.ReadInt32();
-            result.Type = reader.ReadSpectatorChunkType();
-            result.TotalSize = reader.ReadInt32();
-            result.Duration = reader.ReadInt32();
-            result.NextChunkID = reader.ReadInt32();
-            result.Data = reader.ReadLeft();
+        public S2C_SpectatorDataChunk(PacketReader reader, ChannelID channelID, NetID senderNetID)
+        {
+            this.SenderNetID = senderNetID;
+            this.ChannelID = channelID;
+
+            this.ChunkID = reader.ReadInt32();
+            this.TotalSubChunks = reader.ReadInt32();
+            this.SubChunkID = reader.ReadInt32();
+            this.Type = reader.ReadSpectatorChunkType();
+            this.TotalSize = reader.ReadInt32();
+            this.Duration = reader.ReadInt32();
+            this.NextChunkID = reader.ReadInt32();
+            this.Data = reader.ReadLeft();
         
-            return result;
+            this.ExtraBytes = reader.ReadLeft();
         }
         public override void WriteBody(PacketWriter writer)
         {

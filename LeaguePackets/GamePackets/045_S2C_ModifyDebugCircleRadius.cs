@@ -13,16 +13,17 @@ namespace LeaguePackets.GamePackets
         public override GamePacketID ID => GamePacketID.S2C_ModifyDebugCircleRadius;
         public int ObjectID { get; set; }
         public float Radius { get; set; }
-        public static S2C_ModifyDebugCircleRadius CreateBody(PacketReader reader, ChannelID channelID, NetID senderNetID)
-        {
-            var result = new S2C_ModifyDebugCircleRadius();
-            result.SenderNetID = senderNetID;
-            result.ChannelID = channelID;
+        public S2C_ModifyDebugCircleRadius(){}
 
-            result.ObjectID = reader.ReadInt32();
-            result.Radius = reader.ReadFloat();
+        public S2C_ModifyDebugCircleRadius(PacketReader reader, ChannelID channelID, NetID senderNetID)
+        {
+            this.SenderNetID = senderNetID;
+            this.ChannelID = channelID;
+
+            this.ObjectID = reader.ReadInt32();
+            this.Radius = reader.ReadFloat();
         
-            return result;
+            this.ExtraBytes = reader.ReadLeft();
         }
         public override void WriteBody(PacketWriter writer)
         {

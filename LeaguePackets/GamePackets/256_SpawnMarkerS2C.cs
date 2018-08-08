@@ -16,18 +16,19 @@ namespace LeaguePackets.GamePackets
         public NetNodeID NetNodeID { get; set; }
         public Vector3 Position { get; set; }
         public float VisibilitySize { get; set; }
-        public static SpawnMarkerS2C CreateBody(PacketReader reader, ChannelID channelID, NetID senderNetID)
-        {
-            var result = new SpawnMarkerS2C();
-            result.SenderNetID = senderNetID;
-            result.ChannelID = channelID;
+        public SpawnMarkerS2C(){}
 
-            result.NetID = reader.ReadNetID();
-            result.NetNodeID = reader.ReadNetNodeID();
-            result.Position = reader.ReadVector3();
-            result.VisibilitySize = reader.ReadFloat();
+        public SpawnMarkerS2C(PacketReader reader, ChannelID channelID, NetID senderNetID)
+        {
+            this.SenderNetID = senderNetID;
+            this.ChannelID = channelID;
+
+            this.NetID = reader.ReadNetID();
+            this.NetNodeID = reader.ReadNetNodeID();
+            this.Position = reader.ReadVector3();
+            this.VisibilitySize = reader.ReadFloat();
         
-            return result;
+            this.ExtraBytes = reader.ReadLeft();
         }
         public override void WriteBody(PacketWriter writer)
         {

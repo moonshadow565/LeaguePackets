@@ -15,20 +15,21 @@ namespace LeaguePackets.GamePackets
         public uint BuffNameHash { get; set; }
         public List<BuffInGroupRemove> Buffs { get; set; } = new List<BuffInGroupRemove>();
 
-        public static NPC_BuffRemoveGroup CreateBody(PacketReader reader, ChannelID channelID, NetID senderNetID)
-        {
-            var result = new NPC_BuffRemoveGroup();
-            result.SenderNetID = senderNetID;
-            result.ChannelID = channelID;
+        public NPC_BuffRemoveGroup(){}
 
-            result.BuffNameHash = reader.ReadUInt32();
+        public NPC_BuffRemoveGroup(PacketReader reader, ChannelID channelID, NetID senderNetID)
+        {
+            this.SenderNetID = senderNetID;
+            this.ChannelID = channelID;
+
+            this.BuffNameHash = reader.ReadUInt32();
             int numInGroup = reader.ReadByte();
             for (int i = 0; i < numInGroup; i++)
             {
-                result.Buffs.Add(reader.ReadBuffInGroupRemove());
+                this.Buffs.Add(reader.ReadBuffInGroupRemove());
             }
         
-            return result;
+            this.ExtraBytes = reader.ReadLeft();
         }
         public override void WriteBody(PacketWriter writer)
         {

@@ -17,21 +17,22 @@ namespace LeaguePackets.GamePackets
         public bool IsTargetable { get; set; }
 
         public SpellFlags IsTargetableToTeam { get; set; }
-        public static S2C_CreateTurret CreateBody(PacketReader reader, ChannelID channelID, NetID senderNetID)
+        public S2C_CreateTurret(){}
+
+        public S2C_CreateTurret(PacketReader reader, ChannelID channelID, NetID senderNetID)
         {
-            var result = new S2C_CreateTurret();
-            result.SenderNetID = senderNetID;
-            result.ChannelID = channelID;
+            this.SenderNetID = senderNetID;
+            this.ChannelID = channelID;
 
-            result.NetID = reader.ReadNetID();
-            result.NetNodeID = reader.ReadNetNodeID();
-            result.Name = reader.ReadFixedString(64);
+            this.NetID = reader.ReadNetID();
+            this.NetNodeID = reader.ReadNetNodeID();
+            this.Name = reader.ReadFixedString(64);
             byte bitfield = reader.ReadByte();
-            result.IsTargetable = (bitfield & 1) != 0;
+            this.IsTargetable = (bitfield & 1) != 0;
 
-            result.IsTargetableToTeam = reader.ReadSpellFlags();
+            this.IsTargetableToTeam = reader.ReadSpellFlags();
         
-            return result;
+            this.ExtraBytes = reader.ReadLeft();
         }
         public override void WriteBody(PacketWriter writer)
         {

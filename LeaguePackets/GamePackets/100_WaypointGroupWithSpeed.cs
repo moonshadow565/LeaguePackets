@@ -14,19 +14,20 @@ namespace LeaguePackets.GamePackets
         public override GamePacketID ID => GamePacketID.WaypointGroupWithSpeed;
         public int SyncID { get; set; }
         public List<MovementDataWithSpeed> Movements { get; set; } = new List<MovementDataWithSpeed>();
-        public static WaypointGroupWithSpeed CreateBody(PacketReader reader, ChannelID channelID, NetID senderNetID)
-        {
-            var result = new WaypointGroupWithSpeed();
-            result.SenderNetID = senderNetID;
-            result.ChannelID = channelID;
+        public WaypointGroupWithSpeed(){}
 
-            result.SyncID = reader.ReadInt32();
+        public WaypointGroupWithSpeed(PacketReader reader, ChannelID channelID, NetID senderNetID)
+        {
+            this.SenderNetID = senderNetID;
+            this.ChannelID = channelID;
+
+            this.SyncID = reader.ReadInt32();
             int count = reader.ReadInt16();
             for (int i = 0; i < count; i++)
             {
-                result.Movements.Add(MovementDataWithSpeed.Create(reader));
+                this.Movements.Add(MovementDataWithSpeed.Create(reader));
             }
-            return result;
+            this.ExtraBytes = reader.ReadLeft();
         }
         public override void WriteBody(PacketWriter writer)
         {

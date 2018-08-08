@@ -13,14 +13,15 @@ namespace LeaguePackets.GamePackets
     {
         public override GamePacketID ID => GamePacketID.OnEvent;
         public Event Event { get; set; }
-        public static OnEvent CreateBody(PacketReader reader, ChannelID channelID, NetID senderNetID)
-        {
-            var result = new OnEvent();
-            result.SenderNetID = senderNetID;
-            result.ChannelID = channelID;
+        public OnEvent(){}
 
-            result.Event = Event.Create(reader);
-            return result;
+        public OnEvent(PacketReader reader, ChannelID channelID, NetID senderNetID)
+        {
+            this.SenderNetID = senderNetID;
+            this.ChannelID = channelID;
+
+            this.Event = Event.Create(reader);
+            this.ExtraBytes = reader.ReadLeft();
         }
         public override void WriteBody(PacketWriter writer)
         {

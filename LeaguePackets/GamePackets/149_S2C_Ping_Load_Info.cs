@@ -13,14 +13,15 @@ namespace LeaguePackets.GamePackets
     {
         public override GamePacketID ID => GamePacketID.S2C_Ping_Load_Info;
         public ConnectionInfo ConnectionInfo { get; set; } = new ConnectionInfo();
-        public static S2C_Ping_Load_Info CreateBody(PacketReader reader, ChannelID channelID, NetID senderNetID)
-        {
-            var result = new S2C_Ping_Load_Info();
-            result.SenderNetID = senderNetID;
-            result.ChannelID = channelID;
+        public S2C_Ping_Load_Info(){}
 
-            result.ConnectionInfo = reader.ReadConnectionInfo();
-            return result;
+        public S2C_Ping_Load_Info(PacketReader reader, ChannelID channelID, NetID senderNetID)
+        {
+            this.SenderNetID = senderNetID;
+            this.ChannelID = channelID;
+
+            this.ConnectionInfo = reader.ReadConnectionInfo();
+            this.ExtraBytes = reader.ReadLeft();
         }
         public override void WriteBody(PacketWriter writer)
         {

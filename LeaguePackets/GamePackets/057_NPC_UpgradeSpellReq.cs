@@ -13,17 +13,18 @@ namespace LeaguePackets.GamePackets
         public override GamePacketID ID => GamePacketID.NPC_UpgradeSpellReq;
         public byte Slot { get; set; }
         public bool IsEvolve { get; set; }
-        public static NPC_UpgradeSpellReq CreateBody(PacketReader reader, ChannelID channelID, NetID senderNetID)
-        {
-            var result = new NPC_UpgradeSpellReq();
-            result.SenderNetID = senderNetID;
-            result.ChannelID = channelID;
+        public NPC_UpgradeSpellReq(){}
 
-            result.Slot = reader.ReadByte();
+        public NPC_UpgradeSpellReq(PacketReader reader, ChannelID channelID, NetID senderNetID)
+        {
+            this.SenderNetID = senderNetID;
+            this.ChannelID = channelID;
+
+            this.Slot = reader.ReadByte();
             byte bitfield = reader.ReadByte();
-            result.IsEvolve = (bitfield & 1) != 0;
+            this.IsEvolve = (bitfield & 1) != 0;
         
-            return result;
+            this.ExtraBytes = reader.ReadLeft();
         }
         public override void WriteBody(PacketWriter writer)
         {

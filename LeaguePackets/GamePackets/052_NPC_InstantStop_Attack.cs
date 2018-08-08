@@ -17,21 +17,22 @@ namespace LeaguePackets.GamePackets
         public bool OverrideVisibility { get; set; }
         public bool IsSummonerSpell { get; set; }
         public bool ForceDoClient { get; set; }
-        public static NPC_InstantStop_Attack CreateBody(PacketReader reader, ChannelID channelID, NetID senderNetID)
-        {
-            var result = new NPC_InstantStop_Attack();
-            result.SenderNetID = senderNetID;
-            result.ChannelID = channelID;
+        public NPC_InstantStop_Attack(){}
 
-            result.MissileNetID = reader.ReadNetID();
+        public NPC_InstantStop_Attack(PacketReader reader, ChannelID channelID, NetID senderNetID)
+        {
+            this.SenderNetID = senderNetID;
+            this.ChannelID = channelID;
+
+            this.MissileNetID = reader.ReadNetID();
             byte flags = reader.ReadByte();
-            result.KeepAnimating = (flags & 1) != 0;
-            result.DestroyMissile = (flags & 2) != 0;
-            result.OverrideVisibility = (flags & 4) != 0;
-            result.IsSummonerSpell = (flags & 8) != 0;
-            result.ForceDoClient = (flags & 16) != 0;
+            this.KeepAnimating = (flags & 1) != 0;
+            this.DestroyMissile = (flags & 2) != 0;
+            this.OverrideVisibility = (flags & 4) != 0;
+            this.IsSummonerSpell = (flags & 8) != 0;
+            this.ForceDoClient = (flags & 16) != 0;
         
-            return result;
+            this.ExtraBytes = reader.ReadLeft();
         }
         public override void WriteBody(PacketWriter writer)
         {

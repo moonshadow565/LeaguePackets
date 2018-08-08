@@ -13,16 +13,17 @@ namespace LeaguePackets.GamePackets
         public override GamePacketID ID => GamePacketID.C2S_OnRespawnPointEvent;
         public RespawnPointEvent RespawnPointEvent { get; set; }
         public RespawnPointUIID RespawnPointUIElementID { get; set; }
-        public static C2S_OnRespawnPointEvent CreateBody(PacketReader reader, ChannelID channelID, NetID senderNetID)
-        {
-            var result = new C2S_OnRespawnPointEvent();
-            result.SenderNetID = senderNetID;
-            result.ChannelID = channelID;
+        public C2S_OnRespawnPointEvent(){}
 
-            result.RespawnPointEvent = reader.ReadRespawnPointEvent();
-            result.RespawnPointUIElementID = reader.ReadRespawnPointUIID();
+        public C2S_OnRespawnPointEvent(PacketReader reader, ChannelID channelID, NetID senderNetID)
+        {
+            this.SenderNetID = senderNetID;
+            this.ChannelID = channelID;
+
+            this.RespawnPointEvent = reader.ReadRespawnPointEvent();
+            this.RespawnPointUIElementID = reader.ReadRespawnPointUIID();
         
-            return result;
+            this.ExtraBytes = reader.ReadLeft();
         }
         public override void WriteBody(PacketWriter writer)
         {

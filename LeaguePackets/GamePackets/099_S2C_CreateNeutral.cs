@@ -33,35 +33,36 @@ namespace LeaguePackets.GamePackets
         public byte BehaviorTree { get; set; }
         public string AIscript { get; set; } = "";
         public override GamePacketID ID => GamePacketID.S2C_CreateNeutral;
-        public static S2C_CreateNeutral CreateBody(PacketReader reader, ChannelID channelID, NetID senderNetID)
-        {
-            var result = new S2C_CreateNeutral();
-            result.SenderNetID = senderNetID;
-            result.ChannelID = channelID;
+        public S2C_CreateNeutral(){}
 
-            result.NetID = reader.ReadNetID();
-            result.NetNodeID = reader.ReadNetNodeID();
-            result.Position = reader.ReadVector3();
-            result.GroupPosition = reader.ReadVector3();
-            result.FaceDirectionPosition = reader.ReadVector3();
-            result.Name = reader.ReadFixedString(64);
-            result.SkinName = reader.ReadFixedString(64);
-            result.UniqueName = reader.ReadFixedString(64);
-            result.SpawnAnimationName = reader.ReadFixedString(64);
-            result.TeamID = reader.ReadTeamID();
-            result.DamageBonus = reader.ReadInt32();
-            result.HealthBonus = reader.ReadInt32();
-            result.RoamState = reader.ReadMinionRoamState();
-            result.GroupNumber = reader.ReadInt32();
-            result.BuffSide = reader.ReadInt32();
-            result.RevealEvent = reader.ReadInt32();
-            result.InitialLevel = reader.ReadInt32();
-            result.SpawnDuration = reader.ReadFloat();
-            result.SpawnTime = reader.ReadFloat();
-            result.BehaviorTree = reader.ReadByte();
-            result.AIscript = reader.ReadFixedString(32);
+        public S2C_CreateNeutral(PacketReader reader, ChannelID channelID, NetID senderNetID)
+        {
+            this.SenderNetID = senderNetID;
+            this.ChannelID = channelID;
+
+            this.NetID = reader.ReadNetID();
+            this.NetNodeID = reader.ReadNetNodeID();
+            this.Position = reader.ReadVector3();
+            this.GroupPosition = reader.ReadVector3();
+            this.FaceDirectionPosition = reader.ReadVector3();
+            this.Name = reader.ReadFixedString(64);
+            this.SkinName = reader.ReadFixedString(64);
+            this.UniqueName = reader.ReadFixedString(64);
+            this.SpawnAnimationName = reader.ReadFixedString(64);
+            this.TeamID = reader.ReadTeamID();
+            this.DamageBonus = reader.ReadInt32();
+            this.HealthBonus = reader.ReadInt32();
+            this.RoamState = reader.ReadMinionRoamState();
+            this.GroupNumber = reader.ReadInt32();
+            this.BuffSide = reader.ReadInt32();
+            this.RevealEvent = reader.ReadInt32();
+            this.InitialLevel = reader.ReadInt32();
+            this.SpawnDuration = reader.ReadFloat();
+            this.SpawnTime = reader.ReadFloat();
+            this.BehaviorTree = reader.ReadByte();
+            this.AIscript = reader.ReadFixedString(32);
         
-            return result;
+            this.ExtraBytes = reader.ReadLeft();
         }
         public override void WriteBody(PacketWriter writer)
         {

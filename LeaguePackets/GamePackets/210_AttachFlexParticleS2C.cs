@@ -15,18 +15,19 @@ namespace LeaguePackets.GamePackets
         public ParticleFlexID FlexID { get; set; }
         public byte CpIndex { get; set; }
         public ParticleAttachType ParticleAttachType { get; set; }
-        public static AttachFlexParticleS2C CreateBody(PacketReader reader, ChannelID channelID, NetID senderNetID)
-        {
-            var result = new AttachFlexParticleS2C();
-            result.SenderNetID = senderNetID;
-            result.ChannelID = channelID;
+        public AttachFlexParticleS2C(){}
 
-            result.NetID = reader.ReadNetID();
-            result.FlexID = reader.ReadFlexID();
-            result.CpIndex = reader.ReadByte();
-            result.ParticleAttachType = reader.ReadParticleAttachType();
+        public AttachFlexParticleS2C(PacketReader reader, ChannelID channelID, NetID senderNetID)
+        {
+            this.SenderNetID = senderNetID;
+            this.ChannelID = channelID;
+
+            this.NetID = reader.ReadNetID();
+            this.FlexID = reader.ReadFlexID();
+            this.CpIndex = reader.ReadByte();
+            this.ParticleAttachType = reader.ReadParticleAttachType();
         
-            return result;
+            this.ExtraBytes = reader.ReadLeft();
         }
         public override void WriteBody(PacketWriter writer)
         {

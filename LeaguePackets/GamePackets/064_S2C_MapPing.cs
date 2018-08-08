@@ -22,23 +22,24 @@ namespace LeaguePackets.GamePackets
         public bool PingThrottled { get; set; }
         public bool PlayVO { get; set; }
 
-        public static S2C_MapPing CreateBody(PacketReader reader, ChannelID channelID, NetID senderNetID)
-        {
-            var result = new S2C_MapPing();
-            result.SenderNetID = senderNetID;
-            result.ChannelID = channelID;
+        public S2C_MapPing(){}
 
-            result.Position = reader.ReadVector2();
-            result.TargetNetID = reader.ReadNetID();
-            result.SourceNetID = reader.ReadNetID();
+        public S2C_MapPing(PacketReader reader, ChannelID channelID, NetID senderNetID)
+        {
+            this.SenderNetID = senderNetID;
+            this.ChannelID = channelID;
+
+            this.Position = reader.ReadVector2();
+            this.TargetNetID = reader.ReadNetID();
+            this.SourceNetID = reader.ReadNetID();
             byte bitfield = reader.ReadByte();
-            result.PingCategory = (PingCategory)(bitfield & 0x0F);
-            result.PlayAudio = (bitfield & 0x10) != 0;
-            result.ShowChat = (bitfield & 0x20) != 0;
-            result.PingThrottled = (bitfield & 0x40) != 0;
-            result.PlayVO = (bitfield & 0x80) != 0;
+            this.PingCategory = (PingCategory)(bitfield & 0x0F);
+            this.PlayAudio = (bitfield & 0x10) != 0;
+            this.ShowChat = (bitfield & 0x20) != 0;
+            this.PingThrottled = (bitfield & 0x40) != 0;
+            this.PlayVO = (bitfield & 0x80) != 0;
         
-            return result;
+            this.ExtraBytes = reader.ReadLeft();
         }
         public override void WriteBody(PacketWriter writer)
         {

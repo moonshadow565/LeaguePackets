@@ -14,17 +14,18 @@ namespace LeaguePackets.GamePackets
         public ContextualEmoteID EmoteID { get; set; }
         public uint HashedParam { get; set; }
         public ContextualEmoteFlags EmoteFlags { get; set; }
-        public static S2C_PlayContextualEmote CreateBody(PacketReader reader, ChannelID channelID, NetID senderNetID)
-        {
-            var result = new S2C_PlayContextualEmote();
-            result.SenderNetID = senderNetID;
-            result.ChannelID = channelID;
+        public S2C_PlayContextualEmote(){}
 
-            result.EmoteID = reader.ReadContextualEmoteID();
-            result.HashedParam = reader.ReadUInt32();
-            result.EmoteFlags = reader.ReadContextualEmoteFlags();
+        public S2C_PlayContextualEmote(PacketReader reader, ChannelID channelID, NetID senderNetID)
+        {
+            this.SenderNetID = senderNetID;
+            this.ChannelID = channelID;
+
+            this.EmoteID = reader.ReadContextualEmoteID();
+            this.HashedParam = reader.ReadUInt32();
+            this.EmoteFlags = reader.ReadContextualEmoteFlags();
         
-            return result;
+            this.ExtraBytes = reader.ReadLeft();
         }
         public override void WriteBody(PacketWriter writer)
         {

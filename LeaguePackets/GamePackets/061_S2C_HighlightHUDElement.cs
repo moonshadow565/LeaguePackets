@@ -15,18 +15,19 @@ namespace LeaguePackets.GamePackets
         public byte ElementType { get; set; }
         public byte ElementNumber{ get; set; }
         public byte ElementSubCategory { get; set; }
-        public static S2C_HighlightHUDElement CreateBody(PacketReader reader, ChannelID channelID, NetID senderNetID)
-        {
-            var result = new S2C_HighlightHUDElement();
-            result.SenderNetID = senderNetID;
-            result.ChannelID = channelID;
+        public S2C_HighlightHUDElement(){}
 
-            result.ElementPart = reader.ReadByte();
-            result.ElementType = reader.ReadByte();
-            result.ElementNumber = reader.ReadByte();
-            result.ElementSubCategory = reader.ReadByte();
+        public S2C_HighlightHUDElement(PacketReader reader, ChannelID channelID, NetID senderNetID)
+        {
+            this.SenderNetID = senderNetID;
+            this.ChannelID = channelID;
+
+            this.ElementPart = reader.ReadByte();
+            this.ElementType = reader.ReadByte();
+            this.ElementNumber = reader.ReadByte();
+            this.ElementSubCategory = reader.ReadByte();
         
-            return result;
+            this.ExtraBytes = reader.ReadLeft();
         }
         public override void WriteBody(PacketWriter writer)
         {

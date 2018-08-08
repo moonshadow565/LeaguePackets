@@ -14,13 +14,14 @@ namespace LeaguePackets.GamePackets
         public override GamePacketID ID => GamePacketID.UpdateLevelPropS2C;
         public UpdateLevelPropData UpdateLevelPropData { get; set; }
 
-        public static UpdateLevelPropS2C CreateBody(PacketReader reader, ChannelID channelID, NetID senderNetID)
+        public UpdateLevelPropS2C(){}
+
+        public UpdateLevelPropS2C(PacketReader reader, ChannelID channelID, NetID senderNetID)
         {
-            var result = new UpdateLevelPropS2C();
-            result.SenderNetID = senderNetID;
-            result.ChannelID = channelID;
-            result.UpdateLevelPropData = reader.ReadUpdateLevelPropData();
-            return result;
+            this.SenderNetID = senderNetID;
+            this.ChannelID = channelID;
+            this.UpdateLevelPropData = reader.ReadUpdateLevelPropData();
+            this.ExtraBytes = reader.ReadLeft();
         }
 
         public override void WriteBody(PacketWriter writer)

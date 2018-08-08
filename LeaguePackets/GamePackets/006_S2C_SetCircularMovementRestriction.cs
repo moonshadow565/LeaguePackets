@@ -15,19 +15,20 @@ namespace LeaguePackets.GamePackets
         public Vector3 Center { get; set; }
         public float Radius { get; set; }
         public bool Unk1 { get; set; }
-        public static S2C_SetCircularMovementRestriction CreateBody(PacketReader reader, ChannelID channelID, NetID senderNetID)
-        {
-            var result = new S2C_SetCircularMovementRestriction();
-            result.SenderNetID = senderNetID;
-            result.ChannelID = channelID;
+        public S2C_SetCircularMovementRestriction(){}
 
-            result.Center = reader.ReadVector3();
-            result.Radius = reader.ReadFloat();
+        public S2C_SetCircularMovementRestriction(PacketReader reader, ChannelID channelID, NetID senderNetID)
+        {
+            this.SenderNetID = senderNetID;
+            this.ChannelID = channelID;
+
+            this.Center = reader.ReadVector3();
+            this.Radius = reader.ReadFloat();
 
             var bitfield = reader.ReadByte();
-            result.Unk1 = (bitfield & 0x01u) != 0; 
+            this.Unk1 = (bitfield & 0x01u) != 0; 
 
-            return result;
+            this.ExtraBytes = reader.ReadLeft();
         }
         public override void WriteBody(PacketWriter writer)
         {

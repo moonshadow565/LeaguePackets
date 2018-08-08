@@ -12,14 +12,15 @@ namespace LeaguePackets.GamePackets
     {
         public override GamePacketID ID => GamePacketID.S2C_Die_MapView;
         //FIXME: 4.18+
-        public static S2C_Die_MapView CreateBody(PacketReader reader, ChannelID channelID, NetID senderNetID)
+        public S2C_Die_MapView(){}
+
+        public S2C_Die_MapView(PacketReader reader, ChannelID channelID, NetID senderNetID)
         {
-            var result = new S2C_Die_MapView();
-            result.SenderNetID = senderNetID;
-            result.ChannelID = channelID;
+            this.SenderNetID = senderNetID;
+            this.ChannelID = channelID;
 
         
-            return result;
+            this.ExtraBytes = reader.ReadLeft();
         }
         public override void WriteBody(PacketWriter writer)
         {

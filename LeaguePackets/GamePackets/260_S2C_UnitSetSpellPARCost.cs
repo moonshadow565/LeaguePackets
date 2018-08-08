@@ -14,17 +14,18 @@ namespace LeaguePackets.GamePackets
         public CostType CostType { get; set; }
         public int SpellSlot { get; set; }
         public float Amount { get; set; }
-        public static S2C_UnitSetSpellPARCost CreateBody(PacketReader reader, ChannelID channelID, NetID senderNetID)
-        {
-            var result = new S2C_UnitSetSpellPARCost();
-            result.SenderNetID = senderNetID;
-            result.ChannelID = channelID;
+        public S2C_UnitSetSpellPARCost(){}
 
-            result.CostType = reader.ReadCostType();
-            result.SpellSlot = reader.ReadInt32();
-            result.Amount = reader.ReadFloat();
+        public S2C_UnitSetSpellPARCost(PacketReader reader, ChannelID channelID, NetID senderNetID)
+        {
+            this.SenderNetID = senderNetID;
+            this.ChannelID = channelID;
+
+            this.CostType = reader.ReadCostType();
+            this.SpellSlot = reader.ReadInt32();
+            this.Amount = reader.ReadFloat();
         
-            return result;
+            this.ExtraBytes = reader.ReadLeft();
         }
         public override void WriteBody(PacketWriter writer)
         {

@@ -12,15 +12,16 @@ namespace LeaguePackets.GamePackets
     {
         public override GamePacketID ID => GamePacketID.S2C_NotifyContextualSituation;
         public uint SituationNameHash { get; set; }
-        public static S2C_NotifyContextualSituation CreateBody(PacketReader reader, ChannelID channelID, NetID senderNetID)
-        {
-            var result = new S2C_NotifyContextualSituation();
-            result.SenderNetID = senderNetID;
-            result.ChannelID = channelID;
+        public S2C_NotifyContextualSituation(){}
 
-            result.SituationNameHash = reader.ReadUInt32();
+        public S2C_NotifyContextualSituation(PacketReader reader, ChannelID channelID, NetID senderNetID)
+        {
+            this.SenderNetID = senderNetID;
+            this.ChannelID = channelID;
+
+            this.SituationNameHash = reader.ReadUInt32();
         
-            return result;
+            this.ExtraBytes = reader.ReadLeft();
         }
         public override void WriteBody(PacketWriter writer)
         {

@@ -11,14 +11,15 @@ namespace LeaguePackets.GamePackets
     public class S2C_ToggleFoW : GamePacket // 0x7E
     {
         public override GamePacketID ID => GamePacketID.S2C_ToggleFoW;
-        public static S2C_ToggleFoW CreateBody(PacketReader reader, ChannelID channelID, NetID senderNetID)
+        public S2C_ToggleFoW(){}
+
+        public S2C_ToggleFoW(PacketReader reader, ChannelID channelID, NetID senderNetID)
         {
-            var result = new S2C_ToggleFoW();
-            result.SenderNetID = senderNetID;
-            result.ChannelID = channelID;
+            this.SenderNetID = senderNetID;
+            this.ChannelID = channelID;
 
 
-            return result;
+            this.ExtraBytes = reader.ReadLeft();
         }
         public override void WriteBody(PacketWriter writer) {}
     }

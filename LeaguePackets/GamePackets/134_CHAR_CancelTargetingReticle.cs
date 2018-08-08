@@ -13,17 +13,18 @@ namespace LeaguePackets.GamePackets
         public override GamePacketID ID => GamePacketID.CHAR_CancelTargetingReticle;
         public byte SpellSlot { get; set; }
         public bool Unknown1 { get; set; }
-        public static CHAR_CancelTargetingReticle CreateBody(PacketReader reader, ChannelID channelID, NetID senderNetID)
+        public CHAR_CancelTargetingReticle(){}
+
+        public CHAR_CancelTargetingReticle(PacketReader reader, ChannelID channelID, NetID senderNetID)
         {
-            var result = new CHAR_CancelTargetingReticle();
-            result.SenderNetID = senderNetID;
-            result.ChannelID = channelID;
+            this.SenderNetID = senderNetID;
+            this.ChannelID = channelID;
 
             byte bitfield = reader.ReadByte();
-            result.SpellSlot = (byte)(bitfield & 0x3F);
-            result.Unknown1 = (bitfield & 0x40) != 0;
+            this.SpellSlot = (byte)(bitfield & 0x3F);
+            this.Unknown1 = (bitfield & 0x40) != 0;
         
-            return result;
+            this.ExtraBytes = reader.ReadLeft();
         }
         public override void WriteBody(PacketWriter writer)
         {

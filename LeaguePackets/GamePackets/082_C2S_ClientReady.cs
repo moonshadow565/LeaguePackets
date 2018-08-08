@@ -13,17 +13,18 @@ namespace LeaguePackets.GamePackets
     {
         public override GamePacketID ID => GamePacketID.C2S_ClientReady;
         public TipConfig TipConfig { get; set; } = new TipConfig();
-        public static C2S_ClientReady CreateBody(PacketReader reader, ChannelID channelID, NetID senderNetID)
+        public C2S_ClientReady(){}
+
+        public C2S_ClientReady(PacketReader reader, ChannelID channelID, NetID senderNetID)
         {
-            var result = new C2S_ClientReady();
-            result.SenderNetID = senderNetID;
-            result.ChannelID = channelID;
+            this.SenderNetID = senderNetID;
+            this.ChannelID = channelID;
 
             reader.ReadPad(4);
-            result.TipConfig = reader.ReadTipConfig();
+            this.TipConfig = reader.ReadTipConfig();
             reader.ReadPad(8);
         
-            return result;
+            this.ExtraBytes = reader.ReadLeft();
         }
         public override void WriteBody(PacketWriter writer)
         {

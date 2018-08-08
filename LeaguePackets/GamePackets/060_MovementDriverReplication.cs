@@ -19,25 +19,26 @@ namespace LeaguePackets.GamePackets
         public Vector3 Velocity { get; set; }
         public MovementDriverHomingData MovementDriverHomingData { get; set; } = null;
 
-        public static MovementDriverReplication CreateBody(PacketReader reader, ChannelID channelID, NetID senderNetID)
-        {
-            var result = new MovementDriverReplication();
-            result.SenderNetID = senderNetID;
-            result.ChannelID = channelID;
+        public MovementDriverReplication(){}
 
-            result.MovementTypeID = reader.ReadByte();
-            result.Position = reader.ReadVector3();
-            result.Velocity = reader.ReadVector3();
+        public MovementDriverReplication(PacketReader reader, ChannelID channelID, NetID senderNetID)
+        {
+            this.SenderNetID = senderNetID;
+            this.ChannelID = channelID;
+
+            this.MovementTypeID = reader.ReadByte();
+            this.Position = reader.ReadVector3();
+            this.Velocity = reader.ReadVector3();
             int movementDriverParamType = reader.ReadInt32();
             if (movementDriverParamType == 1)
             {
-                result.MovementDriverHomingData = reader.ReadMovementDriverHomingData();
+                this.MovementDriverHomingData = reader.ReadMovementDriverHomingData();
             }
             else
             {
-                result.MovementDriverHomingData = null;
+                this.MovementDriverHomingData = null;
             }
-            return result;
+            this.ExtraBytes = reader.ReadLeft();
         }
         public override void WriteBody(PacketWriter writer)
         {

@@ -11,14 +11,15 @@ namespace LeaguePackets.GamePackets
     public class SPM_HierarchicalMemoryUpdate : GamePacket, IUnusedPacket // 0x4E
     {
         public override GamePacketID ID => GamePacketID.SPM_HierarchicalMemoryUpdate;
-        public static SPM_HierarchicalMemoryUpdate CreateBody(PacketReader reader, ChannelID channelID, NetID senderNetID)
+        public SPM_HierarchicalMemoryUpdate(){}
+
+        public SPM_HierarchicalMemoryUpdate(PacketReader reader, ChannelID channelID, NetID senderNetID)
         {
-            var result = new SPM_HierarchicalMemoryUpdate();
-            result.SenderNetID = senderNetID;
-            result.ChannelID = channelID;
+            this.SenderNetID = senderNetID;
+            this.ChannelID = channelID;
 
 
-            return result;
+            this.ExtraBytes = reader.ReadLeft();
         }
         public override void WriteBody(PacketWriter writer) {}
     }

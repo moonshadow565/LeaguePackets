@@ -11,13 +11,14 @@ namespace LeaguePackets.GamePackets
     public class OnLeaveVisiblityClient : GamePacket // 0x51
     {
         public override GamePacketID ID => GamePacketID.OnLeaveVisiblityClient;
-        public static OnLeaveVisiblityClient CreateBody(PacketReader reader, ChannelID channelID, NetID senderNetID) 
-        {
-            var result = new OnLeaveVisiblityClient();
-            result.SenderNetID = senderNetID;
-            result.ChannelID = channelID;
+        public OnLeaveVisiblityClient(){}
 
-            return result;
+        public OnLeaveVisiblityClient(PacketReader reader, ChannelID channelID, NetID senderNetID) 
+        {
+            this.SenderNetID = senderNetID;
+            this.ChannelID = channelID;
+
+            this.ExtraBytes = reader.ReadLeft();
         }
         public override void WriteBody(PacketWriter writer) {}
     }
