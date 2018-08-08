@@ -24,10 +24,12 @@ namespace LeaguePackets.GamePackets
         public uint MaxSize { get; set; }
         public byte Bitfield { get; set; }
         public string StringBuffer { get; set; } = "";
-        public static S2C_AddDebugObject CreateBody(PacketReader reader, NetID senderNetID)
+        public static S2C_AddDebugObject CreateBody(PacketReader reader, ChannelID channelID, NetID senderNetID)
         {
             var result = new S2C_AddDebugObject();
             result.SenderNetID = senderNetID;
+            result.ChannelID = channelID;
+
             result.DebugID = reader.ReadInt32();
             result.Lifetime = reader.ReadFloat();
             result.Type = reader.ReadByte();

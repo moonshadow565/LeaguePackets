@@ -12,10 +12,12 @@ namespace LeaguePackets.GamePackets
     {
         public override GamePacketID ID => GamePacketID.S2C_SetGreyscaleEnabledWhenDead;
         public bool Enabled { get; set; }
-        public static S2C_SetGreyscaleEnabledWhenDead CreateBody(PacketReader reader, NetID senderNetID)
+        public static S2C_SetGreyscaleEnabledWhenDead CreateBody(PacketReader reader, ChannelID channelID, NetID senderNetID)
         {
             var result = new S2C_SetGreyscaleEnabledWhenDead();
             result.SenderNetID = senderNetID;
+            result.ChannelID = channelID;
+
             byte bitfield = reader.ReadByte();
             result.Enabled = (bitfield & 1) != 0;
         

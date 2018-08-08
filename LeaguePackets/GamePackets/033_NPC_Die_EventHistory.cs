@@ -25,10 +25,12 @@ namespace LeaguePackets.GamePackets
         public List<EventData> Events { get; set; } = new List<EventData>();
 
 
-        public static NPC_Die_EventHistory CreateBody(PacketReader reader, NetID senderNetID)
+        public static NPC_Die_EventHistory CreateBody(PacketReader reader, ChannelID channelID, NetID senderNetID)
         {
             var result = new NPC_Die_EventHistory();
             result.SenderNetID = senderNetID;
+            result.ChannelID = channelID;
+
             result.KillerNetID = reader.ReadNetID();
             result.Duration = reader.ReadFloat();
             result.EventSourceType = reader.ReadEventSourceType();

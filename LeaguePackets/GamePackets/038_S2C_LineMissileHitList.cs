@@ -12,10 +12,12 @@ namespace LeaguePackets.GamePackets
     {
         public override GamePacketID ID => GamePacketID.S2C_LineMissileHitList;
         public List<NetID> Targets { get; set; } = new List<NetID>();
-        public static S2C_LineMissileHitList CreateBody(PacketReader reader, NetID senderNetID)
+        public static S2C_LineMissileHitList CreateBody(PacketReader reader, ChannelID channelID, NetID senderNetID)
         {
             var result = new S2C_LineMissileHitList();
             result.SenderNetID = senderNetID;
+            result.ChannelID = channelID;
+
             int size = reader.ReadInt16();
             for (int i = 0; i < size; i++)
             {

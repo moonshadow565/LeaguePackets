@@ -13,10 +13,10 @@ namespace LeaguePackets
         public static KeyCheckPacket Create(PacketReader reader)
         {
             byte rawID = reader.ReadByte();
-            return Create(reader, rawID);
+            return CreateKeyCheckPacket(reader, rawID);
         }
 
-        public static KeyCheckPacket Create(PacketReader reader, byte rawID)
+        public static KeyCheckPacket CreateKeyCheckPacket(PacketReader reader, byte rawID)
         {
             var result = new KeyCheckPacket();
             reader.ReadPad(3);

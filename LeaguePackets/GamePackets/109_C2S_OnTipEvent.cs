@@ -14,10 +14,12 @@ namespace LeaguePackets.GamePackets
         public TipCommand TipCommand { get; set; }
         public TipID TipID { get; set; }
 
-        public static C2S_OnTipEvent CreateBody(PacketReader reader, NetID senderNetID)
+        public static C2S_OnTipEvent CreateBody(PacketReader reader, ChannelID channelID, NetID senderNetID)
         {
             var result = new C2S_OnTipEvent();
             result.SenderNetID = senderNetID;
+            result.ChannelID = channelID;
+
             result.TipCommand = reader.ReadTipCommand();
             result.TipID = reader.ReadTipID();
         

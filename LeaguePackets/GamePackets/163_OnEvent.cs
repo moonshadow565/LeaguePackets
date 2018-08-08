@@ -13,10 +13,12 @@ namespace LeaguePackets.GamePackets
     {
         public override GamePacketID ID => GamePacketID.OnEvent;
         public Event Event { get; set; }
-        public static OnEvent CreateBody(PacketReader reader, NetID senderNetID)
+        public static OnEvent CreateBody(PacketReader reader, ChannelID channelID, NetID senderNetID)
         {
             var result = new OnEvent();
             result.SenderNetID = senderNetID;
+            result.ChannelID = channelID;
+
             result.Event = Event.Create(reader);
             return result;
         }

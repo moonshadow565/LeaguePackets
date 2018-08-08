@@ -15,10 +15,12 @@ namespace LeaguePackets.GamePackets
         public int TargetCount { get; set; }
         public NetID OwnerNetworkID { get; set; }
         public NetID[] TargetNetIDs => _targetNetIDs;
-        public static S2C_ChainMissileSync CreateBody(PacketReader reader, NetID senderNetID)
+        public static S2C_ChainMissileSync CreateBody(PacketReader reader, ChannelID channelID, NetID senderNetID)
         {
             var result = new S2C_ChainMissileSync();
             result.SenderNetID = senderNetID;
+            result.ChannelID = channelID;
+
             result.TargetCount = reader.ReadInt32();
             result.OwnerNetworkID = reader.ReadNetID();
             for (var i = 0; i < result.TargetNetIDs.Length; i++)

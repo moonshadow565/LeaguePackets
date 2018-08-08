@@ -15,10 +15,12 @@ namespace LeaguePackets.GamePackets
         public Vector3 Center { get; set; }
         public float Radius { get; set; }
         public bool Unk1 { get; set; }
-        public static S2C_SetCircularMovementRestriction CreateBody(PacketReader reader, NetID senderNetID)
+        public static S2C_SetCircularMovementRestriction CreateBody(PacketReader reader, ChannelID channelID, NetID senderNetID)
         {
             var result = new S2C_SetCircularMovementRestriction();
             result.SenderNetID = senderNetID;
+            result.ChannelID = channelID;
+
             result.Center = reader.ReadVector3();
             result.Radius = reader.ReadFloat();
 

@@ -47,10 +47,12 @@ namespace LeaguePackets.GamePackets
         public uint[] DisabledItems => _disabledItems;
         public bool[] EnabledDradisMessages => _enabledDradisMessages;
 
-        public static SynchVersionS2C CreateBody(PacketReader reader, NetID senderNetID)
+        public static SynchVersionS2C CreateBody(PacketReader reader, ChannelID channelID, NetID senderNetID)
         {
             var result = new SynchVersionS2C();
             result.SenderNetID = senderNetID;
+            result.ChannelID = channelID;
+
             byte bitfield = reader.ReadByte();
             result.VersionMatches = (bitfield & 1) != 0;
             result.WriteToClientFile = (bitfield & 2) != 0;

@@ -14,10 +14,12 @@ namespace LeaguePackets.GamePackets
         public byte Slot { get; set; }
         public byte ItemsInSlot { get; set; }
         public byte SpellCharges { get; set; }
-        public static UseItemAns CreateBody(PacketReader reader, NetID senderNetID)
+        public static UseItemAns CreateBody(PacketReader reader, ChannelID channelID, NetID senderNetID)
         {
             var result = new UseItemAns();
             result.SenderNetID = senderNetID;
+            result.ChannelID = channelID;
+
             result.Slot = reader.ReadByte();
             result.ItemsInSlot = reader.ReadByte();
             result.SpellCharges = reader.ReadByte();

@@ -14,10 +14,12 @@ namespace LeaguePackets.GamePackets
         public override GamePacketID ID => GamePacketID.S2C_OnEventWorld;
         public Event Event { get; set; }
 
-        public static S2C_OnEventWorld CreateBody(PacketReader reader, NetID senderNetID)
+        public static S2C_OnEventWorld CreateBody(PacketReader reader, ChannelID channelID, NetID senderNetID)
         {
             var result = new S2C_OnEventWorld();
             result.SenderNetID = senderNetID;
+            result.ChannelID = channelID;
+
             result.Event = Event.Create(reader);
         
             return result;

@@ -12,10 +12,12 @@ namespace LeaguePackets.GamePackets
     {
         public override GamePacketID ID => GamePacketID.S2C_IncrementMinionKills;
         public NetID PlayerNetID { get; set; }
-        public static S2C_IncrementMinionKills CreateBody(PacketReader reader, NetID senderNetID)
+        public static S2C_IncrementMinionKills CreateBody(PacketReader reader, ChannelID channelID, NetID senderNetID)
         {
             var result = new S2C_IncrementMinionKills();
             result.SenderNetID = senderNetID;
+            result.ChannelID = channelID;
+
             result.PlayerNetID = reader.ReadNetID();
         
             return result;

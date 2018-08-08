@@ -11,10 +11,12 @@ namespace LeaguePackets.GamePackets
     public class SPM_RemoveMemoryListener : GamePacket, IUnusedPacket // 0x8E
     {
         public override GamePacketID ID => GamePacketID.SPM_RemoveMemoryListener;
-        public static SPM_RemoveMemoryListener CreateBody(PacketReader reader, NetID senderNetID) 
+        public static SPM_RemoveMemoryListener CreateBody(PacketReader reader, ChannelID channelID, NetID senderNetID) 
         {
             var result = new SPM_RemoveMemoryListener();
             result.SenderNetID = senderNetID;
+            result.ChannelID = channelID;
+
             return result;
         }
         public override void WriteBody(PacketWriter writer) {}

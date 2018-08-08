@@ -22,10 +22,12 @@ namespace LeaguePackets.GamePackets
         public bool PingThrottled { get; set; }
         public bool PlayVO { get; set; }
 
-        public static S2C_MapPing CreateBody(PacketReader reader, NetID senderNetID)
+        public static S2C_MapPing CreateBody(PacketReader reader, ChannelID channelID, NetID senderNetID)
         {
             var result = new S2C_MapPing();
             result.SenderNetID = senderNetID;
+            result.ChannelID = channelID;
+
             result.Position = reader.ReadVector2();
             result.TargetNetID = reader.ReadNetID();
             result.SourceNetID = reader.ReadNetID();

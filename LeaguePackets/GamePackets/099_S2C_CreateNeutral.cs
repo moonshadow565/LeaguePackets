@@ -33,10 +33,12 @@ namespace LeaguePackets.GamePackets
         public byte BehaviorTree { get; set; }
         public string AIscript { get; set; } = "";
         public override GamePacketID ID => GamePacketID.S2C_CreateNeutral;
-        public static S2C_CreateNeutral CreateBody(PacketReader reader, NetID senderNetID)
+        public static S2C_CreateNeutral CreateBody(PacketReader reader, ChannelID channelID, NetID senderNetID)
         {
             var result = new S2C_CreateNeutral();
             result.SenderNetID = senderNetID;
+            result.ChannelID = channelID;
+
             result.NetID = reader.ReadNetID();
             result.NetNodeID = reader.ReadNetNodeID();
             result.Position = reader.ReadVector3();

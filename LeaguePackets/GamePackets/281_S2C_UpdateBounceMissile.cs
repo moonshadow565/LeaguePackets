@@ -14,10 +14,12 @@ namespace LeaguePackets.GamePackets
         public override GamePacketID ID => GamePacketID.S2C_UpdateBounceMissile;
         public NetID TargetNetID { get; set; }
         public Vector3 CasterPosition { get; set; }
-        public static S2C_UpdateBounceMissile CreateBody(PacketReader reader, NetID senderNetID)
+        public static S2C_UpdateBounceMissile CreateBody(PacketReader reader, ChannelID channelID, NetID senderNetID)
         {
             var result = new S2C_UpdateBounceMissile();
             result.SenderNetID = senderNetID;
+            result.ChannelID = channelID;
+
             result.TargetNetID = reader.ReadNetID();
             result.CasterPosition = reader.ReadVector3();
         

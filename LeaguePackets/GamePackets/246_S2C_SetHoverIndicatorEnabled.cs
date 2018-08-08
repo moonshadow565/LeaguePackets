@@ -12,10 +12,12 @@ namespace LeaguePackets.GamePackets
     {
         public override GamePacketID ID => GamePacketID.S2C_SetHoverIndicatorEnabled;
         public bool Enabled { get; set; }
-        public static S2C_SetHoverIndicatorEnabled CreateBody(PacketReader reader, NetID senderNetID)
+        public static S2C_SetHoverIndicatorEnabled CreateBody(PacketReader reader, ChannelID channelID, NetID senderNetID)
         {
             var result = new S2C_SetHoverIndicatorEnabled();
             result.SenderNetID = senderNetID;
+            result.ChannelID = channelID;
+
             result.Enabled = reader.ReadBool();
         
             return result;

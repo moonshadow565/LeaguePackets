@@ -13,10 +13,12 @@ namespace LeaguePackets.GamePackets
         public override GamePacketID ID => GamePacketID.S2C_UnitSetAutoAttackGroundAllowed;
         public NetID NetID { get; set; }
         public GroundAttackMode CanAutoAttackGroundState { get; set; }
-        public static S2C_UnitSetAutoAttackGroundAllowed CreateBody(PacketReader reader, NetID senderNetID)
+        public static S2C_UnitSetAutoAttackGroundAllowed CreateBody(PacketReader reader, ChannelID channelID, NetID senderNetID)
         {
             var result = new S2C_UnitSetAutoAttackGroundAllowed();
             result.SenderNetID = senderNetID;
+            result.ChannelID = channelID;
+
             result.NetID = reader.ReadNetID();
             result.CanAutoAttackGroundState = reader.ReadGroundAttackMode();
         

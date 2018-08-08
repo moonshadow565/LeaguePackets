@@ -15,10 +15,12 @@ namespace LeaguePackets.GamePackets
         public bool JumpToLatest { get; set; }
         public int StartChunkID { get; set; }
         public int StartKeyFrameID { get; set; }
-        public static C2S_SpectatorDataReq CreateBody(PacketReader reader, NetID senderNetID)
+        public static C2S_SpectatorDataReq CreateBody(PacketReader reader, ChannelID channelID, NetID senderNetID)
         {
             var result = new C2S_SpectatorDataReq();
             result.SenderNetID = senderNetID;
+            result.ChannelID = channelID;
+
             result.SendMetaData = reader.ReadBool();
             result.JumpToLatest = reader.ReadBool();
             result.StartChunkID = reader.ReadInt32();

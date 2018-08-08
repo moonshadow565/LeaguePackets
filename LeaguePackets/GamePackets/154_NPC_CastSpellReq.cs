@@ -19,10 +19,12 @@ namespace LeaguePackets.GamePackets
         public Vector2 EndPosition { get; set; }
         public NetID TargetNetID { get; set; }
 
-        public static NPC_CastSpellReq CreateBody(PacketReader reader, NetID senderNetID)
+        public static NPC_CastSpellReq CreateBody(PacketReader reader, ChannelID channelID, NetID senderNetID)
         {
             var result = new NPC_CastSpellReq();
             result.SenderNetID = senderNetID;
+            result.ChannelID = channelID;
+
             byte bitfield = reader.ReadByte();
             result.Slot = (byte)(bitfield & 0x3F);
             result.IsSummonerSpellBook = (bitfield & 0x40) != 0;

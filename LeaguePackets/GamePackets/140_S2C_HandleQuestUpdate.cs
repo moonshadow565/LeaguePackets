@@ -19,7 +19,7 @@ namespace LeaguePackets.GamePackets
         protected abstract QuestCommand QuestCommand { get; }
         protected abstract byte Bitfield { get; set; }
         public QuestID QuestID { get; set; }
-        public static S2C_HandleQuestUpdate CreateBody(PacketReader reader, NetID senderNetID)
+        public static S2C_HandleQuestUpdate CreateBody(PacketReader reader, ChannelID channelID, NetID senderNetID)
         {
             string objective = reader.ReadFixedString(128);
             string icon = reader.ReadFixedString(128);

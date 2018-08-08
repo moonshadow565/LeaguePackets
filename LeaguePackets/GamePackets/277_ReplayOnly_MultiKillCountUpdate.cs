@@ -13,10 +13,12 @@ namespace LeaguePackets.GamePackets
         public override GamePacketID ID => GamePacketID.ReplayOnly_MultiKillCountUpdate;
         public NetID OwnerNetID { get; set; }
         public byte MultiKillCount { get; set; }
-        public static ReplayOnly_MultiKillCountUpdate CreateBody(PacketReader reader, NetID senderNetID)
+        public static ReplayOnly_MultiKillCountUpdate CreateBody(PacketReader reader, ChannelID channelID, NetID senderNetID)
         {
             var result = new ReplayOnly_MultiKillCountUpdate();
             result.SenderNetID = senderNetID;
+            result.ChannelID = channelID;
+
             result.OwnerNetID = reader.ReadNetID();
             result.MultiKillCount = reader.ReadByte();
         

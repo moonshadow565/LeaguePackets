@@ -15,10 +15,12 @@ namespace LeaguePackets.GamePackets
         public ParticleFlexID FlexID { get; set; }
         public byte CpIndex { get; set; }
         public ParticleAttachType ParticleAttachType { get; set; }
-        public static AttachFlexParticleS2C CreateBody(PacketReader reader, NetID senderNetID)
+        public static AttachFlexParticleS2C CreateBody(PacketReader reader, ChannelID channelID, NetID senderNetID)
         {
             var result = new AttachFlexParticleS2C();
             result.SenderNetID = senderNetID;
+            result.ChannelID = channelID;
+
             result.NetID = reader.ReadNetID();
             result.FlexID = reader.ReadFlexID();
             result.CpIndex = reader.ReadByte();

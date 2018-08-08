@@ -13,10 +13,12 @@ namespace LeaguePackets.GamePackets
         public override GamePacketID ID => GamePacketID.Waypoint_Acc;
         public int SyncID { get; set; }
         public byte TeleportCount { get; set; }
-        public static Waypoint_Acc CreateBody(PacketReader reader, NetID senderNetID)
+        public static Waypoint_Acc CreateBody(PacketReader reader, ChannelID channelID, NetID senderNetID)
         {
             var result = new Waypoint_Acc();
             result.SenderNetID = senderNetID;
+            result.ChannelID = channelID;
+
             result.SyncID = reader.ReadInt32();
             result.TeleportCount = reader.ReadByte();
         

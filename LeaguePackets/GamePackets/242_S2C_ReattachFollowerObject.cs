@@ -12,10 +12,12 @@ namespace LeaguePackets.GamePackets
     {
         public override GamePacketID ID => GamePacketID.S2C_ReattachFollowerObject;
         public NetID NewOwnerId { get; set; }
-        public static S2C_ReattachFollowerObject CreateBody(PacketReader reader, NetID senderNetID)
+        public static S2C_ReattachFollowerObject CreateBody(PacketReader reader, ChannelID channelID, NetID senderNetID)
         {
             var result = new S2C_ReattachFollowerObject();
             result.SenderNetID = senderNetID;
+            result.ChannelID = channelID;
+
             result.NewOwnerId = reader.ReadNetID();
         
             return result;

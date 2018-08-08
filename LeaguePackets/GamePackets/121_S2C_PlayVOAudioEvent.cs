@@ -16,10 +16,12 @@ namespace LeaguePackets.GamePackets
         public bool AudioCallbackType { get; set; } //should be enum but its used as bool
         public AudioVOEventType AudioEventType { get; set; }
         public NetID AudioEventNetID { get; set; }
-        public static S2C_PlayVOAudioEvent CreateBody(PacketReader reader, NetID senderNetID)
+        public static S2C_PlayVOAudioEvent CreateBody(PacketReader reader, ChannelID channelID, NetID senderNetID)
         {
             var result = new S2C_PlayVOAudioEvent();
             result.SenderNetID = senderNetID;
+            result.ChannelID = channelID;
+
             result.FolderName = reader.ReadFixedString(64);
             result.EventID = reader.ReadFixedString(64);
             result.AudioCallbackType = reader.ReadBool();

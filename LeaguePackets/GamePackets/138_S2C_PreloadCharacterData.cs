@@ -13,10 +13,12 @@ namespace LeaguePackets.GamePackets
         public override GamePacketID ID => GamePacketID.S2C_PreloadCharacterData;
         public int SkinID { get; set; }
         public string SkinName { get; set; } = "";
-        public static S2C_PreloadCharacterData CreateBody(PacketReader reader, NetID senderNetID)
+        public static S2C_PreloadCharacterData CreateBody(PacketReader reader, ChannelID channelID, NetID senderNetID)
         {
             var result = new S2C_PreloadCharacterData();
             result.SenderNetID = senderNetID;
+            result.ChannelID = channelID;
+
             result.SkinID = reader.ReadInt32();
             result.SkinName = reader.ReadFixedString(64);
         

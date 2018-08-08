@@ -12,10 +12,12 @@ namespace LeaguePackets.GamePackets
     {
         public override GamePacketID ID => GamePacketID.UNK_0x12E;
         //FIXME: 4.18+
-        public static UNK_0x12E CreateBody(PacketReader reader, NetID senderNetID)
+        public static UNK_0x12E CreateBody(PacketReader reader, ChannelID channelID, NetID senderNetID)
         {
             var result = new UNK_0x12E();
             result.SenderNetID = senderNetID;
+            result.ChannelID = channelID;
+
         
             return result;
         }

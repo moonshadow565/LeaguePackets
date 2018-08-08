@@ -14,10 +14,12 @@ namespace LeaguePackets.GamePackets
         public override GamePacketID ID => GamePacketID.S2C_WriteNavFlags;
         public int SyncID { get; set; }
         public List<NavFlagCricle> NavFlagCricles { get; set; } = new List<NavFlagCricle>();
-        public static S2C_WriteNavFlags CreateBody(PacketReader reader, NetID senderNetID)
+        public static S2C_WriteNavFlags CreateBody(PacketReader reader, ChannelID channelID, NetID senderNetID)
         {
             var result = new S2C_WriteNavFlags();
             result.SenderNetID = senderNetID;
+            result.ChannelID = channelID;
+
             result.SyncID = reader.ReadInt32();
             int size = reader.ReadInt16();
             for (var i = 0; i < size; i += 16)

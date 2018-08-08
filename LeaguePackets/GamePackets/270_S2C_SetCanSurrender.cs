@@ -12,10 +12,12 @@ namespace LeaguePackets.GamePackets
     {
         public override GamePacketID ID => GamePacketID.S2C_SetCanSurrender;
         public bool CanSurrender { get; set; }
-        public static S2C_SetCanSurrender CreateBody(PacketReader reader, NetID senderNetID)
+        public static S2C_SetCanSurrender CreateBody(PacketReader reader, ChannelID channelID, NetID senderNetID)
         {
             var result = new S2C_SetCanSurrender();
             result.SenderNetID = senderNetID;
+            result.ChannelID = channelID;
+
             byte bitfield = reader.ReadByte();
             result.CanSurrender = (bitfield & 1) != 0;
         

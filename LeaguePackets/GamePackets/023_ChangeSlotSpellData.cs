@@ -17,7 +17,7 @@ namespace LeaguePackets.GamePackets
         protected abstract void ReadBodyInternal(PacketReader reader);
         protected abstract void WriteBodyInternal(PacketWriter writer);
 
-        public static ChangeSlotSpellData CreateBody(PacketReader reader, NetID senderNetID)
+        public static ChangeSlotSpellData CreateBody(PacketReader reader, ChannelID channelID, NetID senderNetID)
         {
             byte bitfield = reader.ReadByte();
             byte spellSlot = (byte)(bitfield & 0x3F);

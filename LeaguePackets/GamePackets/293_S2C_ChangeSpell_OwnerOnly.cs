@@ -12,10 +12,12 @@ namespace LeaguePackets.GamePackets
     {
         //FIXME: 4.18+
         public override GamePacketID ID => GamePacketID.S2C_ChangeSpell_OwnerOnly;
-        public static S2C_ChangeSpell_OwnerOnly CreateBody(PacketReader reader, NetID senderNetID)
+        public static S2C_ChangeSpell_OwnerOnly CreateBody(PacketReader reader, ChannelID channelID, NetID senderNetID)
         {
             var result = new S2C_ChangeSpell_OwnerOnly();
             result.SenderNetID = senderNetID;
+            result.ChannelID = channelID;
+
         
             return result;
         }

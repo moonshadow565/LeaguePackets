@@ -15,10 +15,12 @@ namespace LeaguePackets.GamePackets
         public override GamePacketID ID => GamePacketID.Basic_Attack_Pos;
         public BasicAttackDataPacket Attack { get; set; } = new BasicAttackDataPacket();
         public Vector2 Position { get; set; }
-        public static Basic_Attack_Pos CreateBody(PacketReader reader, NetID senderNetID)
+        public static Basic_Attack_Pos CreateBody(PacketReader reader, ChannelID channelID, NetID senderNetID)
         {
             var result = new Basic_Attack_Pos();
             result.SenderNetID = senderNetID;
+            result.ChannelID = channelID;
+
             result.Attack = reader.ReadBasicAttackDataPacket();
             result.Position = reader.ReadVector2();
         

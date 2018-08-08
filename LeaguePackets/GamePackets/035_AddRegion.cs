@@ -31,10 +31,12 @@ namespace LeaguePackets.GamePackets
 
         public float BaseRadius { get; set; }
 
-        public static AddRegion CreateBody(PacketReader reader, NetID senderNetID)
+        public static AddRegion CreateBody(PacketReader reader, ChannelID channelID, NetID senderNetID)
         {
             var result = new AddRegion();
             result.SenderNetID = senderNetID;
+            result.ChannelID = channelID;
+
             result.TeamID = reader.ReadTeamID();
             result.RegionType = reader.ReadInt32();
             result.ClientID = reader.ReadClientID();

@@ -15,10 +15,12 @@ namespace LeaguePackets.GamePackets
         public NetID TargetID { get; set; }
         public bool HighlightPlayerIcon { get; set; }
         public bool FromPing { get; set; } 
-        public static S2C_PlayVOCommand CreateBody(PacketReader reader, NetID senderNetID)
+        public static S2C_PlayVOCommand CreateBody(PacketReader reader, ChannelID channelID, NetID senderNetID)
         {
             var result = new S2C_PlayVOCommand();
             result.SenderNetID = senderNetID;
+            result.ChannelID = channelID;
+
             result.CommandID = reader.ReadUInt32();
             result.TargetID = reader.ReadNetID();
             byte bitfield = reader.ReadByte();

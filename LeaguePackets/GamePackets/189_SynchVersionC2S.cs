@@ -13,10 +13,12 @@ namespace LeaguePackets.GamePackets
         public override GamePacketID ID => GamePacketID.SynchVersionC2S;
         public ClientID ClientIDNet { get; set; }
         public string Version { get; set; } = "";
-        public static SynchVersionC2S CreateBody(PacketReader reader, NetID senderNetID)
+        public static SynchVersionC2S CreateBody(PacketReader reader, ChannelID channelID, NetID senderNetID)
         {
             var result = new SynchVersionC2S();
             result.SenderNetID = senderNetID;
+            result.ChannelID = channelID;
+
             result.ClientIDNet = reader.ReadClientID();
             result.Version = reader.ReadFixedString(256);
         

@@ -11,10 +11,12 @@ namespace LeaguePackets.GamePackets
     public class C2S_StatsUpdateReq : GamePacket // 0x56
     {
         public override GamePacketID ID => GamePacketID.C2S_StatsUpdateReq;
-        public static C2S_StatsUpdateReq CreateBody(PacketReader reader, NetID senderNetID)
+        public static C2S_StatsUpdateReq CreateBody(PacketReader reader, ChannelID channelID, NetID senderNetID)
         {
             var result = new C2S_StatsUpdateReq();
             result.SenderNetID = senderNetID;
+            result.ChannelID = channelID;
+
             reader.ReadPad(20);
         
             return result;

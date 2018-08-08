@@ -11,10 +11,12 @@ namespace LeaguePackets.GamePackets
     public class Unused128 : GamePacket, IUnusedPacket // 0x80
     {
         public override GamePacketID ID => GamePacketID.Unused128;
-        public static Unused128 CreateBody(PacketReader reader, NetID senderNetID)
+        public static Unused128 CreateBody(PacketReader reader, ChannelID channelID, NetID senderNetID)
         {
             var result = new Unused128();
             result.SenderNetID = senderNetID;
+            result.ChannelID = channelID;
+
             throw new NotImplementedException("Unused128.Read");
         
             return result;

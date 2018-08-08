@@ -11,10 +11,12 @@ namespace LeaguePackets.GamePackets
     public class C2S_UndoItemReq : GamePacket // 0x10A
     {
         public override GamePacketID ID => GamePacketID.C2S_UndoItemReq;
-        public static C2S_UndoItemReq CreateBody(PacketReader reader, NetID senderNetID) 
+        public static C2S_UndoItemReq CreateBody(PacketReader reader, ChannelID channelID, NetID senderNetID) 
         {
             var result = new C2S_UndoItemReq();
             result.SenderNetID = senderNetID;
+            result.ChannelID = channelID;
+
             return result;
         }
         public override void WriteBody(PacketWriter writer) {}

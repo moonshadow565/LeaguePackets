@@ -21,7 +21,7 @@ namespace LeaguePackets.GamePackets
         protected byte _byteParam2;
         protected byte _byteParam3;
 
-        public static UpdateLevelPropS2C CreateBody(PacketReader reader, NetID senderNetID)
+        public static UpdateLevelPropS2C CreateBody(PacketReader reader, ChannelID channelID, NetID senderNetID)
         {
             string stringParam1 = reader.ReadFixedString(64);
             float floatParam1 = reader.ReadFloat();
@@ -50,6 +50,8 @@ namespace LeaguePackets.GamePackets
             }
 
             result.SenderNetID = senderNetID;
+            result.ChannelID = channelID;
+
             result._stringParam1 = stringParam1;
             result._floatParam1 = floatParam1;
             result._floatParam2 = floatParam2;

@@ -12,10 +12,12 @@ namespace LeaguePackets.GamePackets
     {
         public override GamePacketID ID => GamePacketID.S2C_ToggleInputLockFlag;
         public InputLockFlags InputLockingFlags { get; set; }
-        public static S2C_ToggleInputLockFlag CreateBody(PacketReader reader, NetID senderNetID)
+        public static S2C_ToggleInputLockFlag CreateBody(PacketReader reader, ChannelID channelID, NetID senderNetID)
         {
             var result = new S2C_ToggleInputLockFlag();
             result.SenderNetID = senderNetID;
+            result.ChannelID = channelID;
+
             result.InputLockingFlags = reader.ReadInputLockFlags();
         
             return result;

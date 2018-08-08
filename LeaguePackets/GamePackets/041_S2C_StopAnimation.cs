@@ -15,10 +15,12 @@ namespace LeaguePackets.GamePackets
         public bool Unlock { get; set; }
         public bool StopAll { get; set; }
         public string AnimationName { get; set; } = "";
-        public static S2C_StopAnimation CreateBody(PacketReader reader, NetID senderNetID)
+        public static S2C_StopAnimation CreateBody(PacketReader reader, ChannelID channelID, NetID senderNetID)
         {
             var result = new S2C_StopAnimation();
             result.SenderNetID = senderNetID;
+            result.ChannelID = channelID;
+
             byte flags = reader.ReadByte();
             result.Fade = (flags & 1) != 0;
             result.Unlock = (flags & 2) != 0;

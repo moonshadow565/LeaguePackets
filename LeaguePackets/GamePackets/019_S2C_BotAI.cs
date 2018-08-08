@@ -17,10 +17,12 @@ namespace LeaguePackets.GamePackets
         public string AIBehaviour { get; set; } = "";
         public string AITask { get; set; } = "";
         public string[] States => _states;
-        public static S2C_BotAI CreateBody(PacketReader reader, NetID senderNetID)
+        public static S2C_BotAI CreateBody(PacketReader reader, ChannelID channelID, NetID senderNetID)
         {
             var result = new S2C_BotAI();
             result.SenderNetID = senderNetID;
+            result.ChannelID = channelID;
+
             result.AIName = reader.ReadFixedString(64);
             result.AIStrategy = reader.ReadFixedString(64);
             result.AIBehaviour = reader.ReadFixedString(64);

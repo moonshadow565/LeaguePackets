@@ -13,10 +13,12 @@ namespace LeaguePackets.GamePackets
         public override GamePacketID ID => GamePacketID.S2C_ChangeCharacterVoice;
         public bool Unknown1 { get; set; } // set to default/zero? 
         public string VoiceOverride { get; set; } = "";
-        public static S2C_ChangeCharacterVoice CreateBody(PacketReader reader, NetID senderNetID)
+        public static S2C_ChangeCharacterVoice CreateBody(PacketReader reader, ChannelID channelID, NetID senderNetID)
         {
             var result = new S2C_ChangeCharacterVoice();
             result.SenderNetID = senderNetID;
+            result.ChannelID = channelID;
+
             byte bitfield = reader.ReadByte();
             result.Unknown1 = (bitfield) != 0;
             result.VoiceOverride = reader.ReadFixedString(128);

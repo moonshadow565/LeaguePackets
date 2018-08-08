@@ -19,10 +19,12 @@ namespace LeaguePackets.GamePackets
         public int Duration { get; set; }
         public int NextChunkID { get; set; }
         public byte[] Data { get; set; }
-        public static S2C_SpectatorDataChunk CreateBody(PacketReader reader, NetID senderNetID)
+        public static S2C_SpectatorDataChunk CreateBody(PacketReader reader, ChannelID channelID, NetID senderNetID)
         {
             var result = new S2C_SpectatorDataChunk();
             result.SenderNetID = senderNetID;
+            result.ChannelID = channelID;
+
             result.ChunkID = reader.ReadInt32();
             result.TotalSubChunks = reader.ReadInt32();
             result.SubChunkID = reader.ReadInt32();

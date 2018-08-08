@@ -14,10 +14,12 @@ namespace LeaguePackets.GamePackets
         public byte Slot { get; set; }
         public bool NotifyInventoryChange { get; set; }
         public byte ItemsInSlot { get; set; }
-        public static RemoveItemAns CreateBody(PacketReader reader, NetID senderNetID)
+        public static RemoveItemAns CreateBody(PacketReader reader, ChannelID channelID, NetID senderNetID)
         {
             var result = new RemoveItemAns();
             result.SenderNetID = senderNetID;
+            result.ChannelID = channelID;
+
             byte bitfield = reader.ReadByte();
             result.Slot = (byte)(bitfield & 0x7Fu);
             result.NotifyInventoryChange = (bitfield & 0x80) != 0;

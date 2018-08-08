@@ -13,10 +13,12 @@ namespace LeaguePackets.GamePackets
         public override GamePacketID ID => GamePacketID.S2C_ModifyDebugCircleRadius;
         public int ObjectID { get; set; }
         public float Radius { get; set; }
-        public static S2C_ModifyDebugCircleRadius CreateBody(PacketReader reader, NetID senderNetID)
+        public static S2C_ModifyDebugCircleRadius CreateBody(PacketReader reader, ChannelID channelID, NetID senderNetID)
         {
             var result = new S2C_ModifyDebugCircleRadius();
             result.SenderNetID = senderNetID;
+            result.ChannelID = channelID;
+
             result.ObjectID = reader.ReadInt32();
             result.Radius = reader.ReadFloat();
         

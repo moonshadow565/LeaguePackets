@@ -13,10 +13,12 @@ namespace LeaguePackets.GamePackets
         public override GamePacketID ID => GamePacketID.S2C_MarkOrSweepForSoftReconnect;
         public bool Unknown1 { get; set; }
         public bool Unknown2 { get; set; }
-        public static S2C_MarkOrSweepForSoftReconnect CreateBody(PacketReader reader, NetID senderNetID)
+        public static S2C_MarkOrSweepForSoftReconnect CreateBody(PacketReader reader, ChannelID channelID, NetID senderNetID)
         {
             var result = new S2C_MarkOrSweepForSoftReconnect();
             result.SenderNetID = senderNetID;
+            result.ChannelID = channelID;
+
             byte bitfield = reader.ReadByte();
             result.Unknown1 = (bitfield & 1) != 0;
             result.Unknown2 = (bitfield & 2) != 0;

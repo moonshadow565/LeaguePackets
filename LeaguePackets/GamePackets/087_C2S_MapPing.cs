@@ -15,10 +15,12 @@ namespace LeaguePackets.GamePackets
         public Vector2 Position { get; set; }
         public NetID TargetNetID { get; set; }
         public PingCategory PingCategory { get; set; }
-        public static C2S_MapPing CreateBody(PacketReader reader, NetID senderNetID)
+        public static C2S_MapPing CreateBody(PacketReader reader, ChannelID channelID, NetID senderNetID)
         {
             var result = new C2S_MapPing();
             result.SenderNetID = senderNetID;
+            result.ChannelID = channelID;
+
             result.Position = reader.ReadVector2();
             result.TargetNetID = reader.ReadNetID();
             byte bitfield = reader.ReadByte();

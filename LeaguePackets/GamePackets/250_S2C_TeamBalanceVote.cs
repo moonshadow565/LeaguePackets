@@ -23,10 +23,12 @@ namespace LeaguePackets.GamePackets
         public int ExperienceGranted { get; set; }
         public int TowersGranted { get; set; }
 
-        public static S2C_TeamBalanceVote CreateBody(PacketReader reader, NetID senderNetID)
+        public static S2C_TeamBalanceVote CreateBody(PacketReader reader, ChannelID channelID, NetID senderNetID)
         {
             var result = new S2C_TeamBalanceVote();
             result.SenderNetID = senderNetID;
+            result.ChannelID = channelID;
+
             byte bitfield = reader.ReadByte();
             result.VoteYes = (bitfield & 1) != 0;
             result.OpenVoteMenu = (bitfield & 2) != 0;

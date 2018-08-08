@@ -14,10 +14,12 @@ namespace LeaguePackets.GamePackets
         public NetID TargetNetID { get; set; }
         public DrawPathMode DrawPathMode { get; set; }
         public float UpdateRate { get; set; }
-        public static S2C_UnitSetDrawPathMode CreateBody(PacketReader reader, NetID senderNetID)
+        public static S2C_UnitSetDrawPathMode CreateBody(PacketReader reader, ChannelID channelID, NetID senderNetID)
         {
             var result = new S2C_UnitSetDrawPathMode();
             result.SenderNetID = senderNetID;
+            result.ChannelID = channelID;
+
             result.TargetNetID = reader.ReadNetID();
             result.DrawPathMode = reader.ReadDrawPathMode();
             result.UpdateRate = reader.ReadFloat();

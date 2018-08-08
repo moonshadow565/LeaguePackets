@@ -12,10 +12,12 @@ namespace LeaguePackets.GamePackets
     {
         public override GamePacketID ID => GamePacketID.S2C_UpdateAscended;
         public NetID AscendedNetID { get; set; }
-        public static S2C_UpdateAscended CreateBody(PacketReader reader, NetID senderNetID)
+        public static S2C_UpdateAscended CreateBody(PacketReader reader, ChannelID channelID, NetID senderNetID)
         {
             var result = new S2C_UpdateAscended();
             result.SenderNetID = senderNetID;
+            result.ChannelID = channelID;
+
             result.AscendedNetID = reader.ReadNetID();
         
             return result;

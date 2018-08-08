@@ -11,32 +11,32 @@ namespace LeaguePackets
 {
     public abstract partial class PayloadPacket
     {
-        private static readonly Dictionary<PayloadPacketID, Func<PacketReader, PayloadPacket>> _lookup
-        = new Dictionary<PayloadPacketID, Func<PacketReader, PayloadPacket>>
+        private static readonly Dictionary<PayloadPacketID, Func<PacketReader, ChannelID, PayloadPacket>> _lookup
+        = new Dictionary<PayloadPacketID, Func<PacketReader, ChannelID, PayloadPacket>>
         {
             {
                 PayloadPacketID.RequestJoinTeam,
-                (r) => RequestJoinTeam.CreateBody(r)
+                (r, c) => RequestJoinTeam.CreateBody(r, c)
             },
             {
                 PayloadPacketID.RequestResking,
-                (r) => RequestReskin.CreateBody(r)
+                (r, c) => RequestReskin.CreateBody(r, c)
             },
             {
                 PayloadPacketID.RequestRename,
-                (r) => RequestRename.CreateBody(r)
+                (r, c) => RequestRename.CreateBody(r, c)
             },
             {
                 PayloadPacketID.TeamRosterUpdate,
-                (r) => TeamRosterUpdate.CreateBody(r)
+                (r, c) => TeamRosterUpdate.CreateBody(r, c)
             },
             {
                 PayloadPacketID.Chat,
-                (r) => Chat.CreateBody(r)
+                (r, c) => Chat.CreateBody(r, c)
             },
             {
                 PayloadPacketID.QuickChat,
-                (r) => QuickChat.CreateBody(r)
+                (r, c) => QuickChat.CreateBody(r, c)
             },
         };
     }

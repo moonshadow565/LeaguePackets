@@ -12,10 +12,12 @@ namespace LeaguePackets.GamePackets
     {
         public override GamePacketID ID => GamePacketID.S2C_UnitSetPARType;
         public PARType PARType { get; set; }
-        public static S2C_UnitSetPARType CreateBody(PacketReader reader, NetID senderNetID)
+        public static S2C_UnitSetPARType CreateBody(PacketReader reader, ChannelID channelID, NetID senderNetID)
         {
             var result = new S2C_UnitSetPARType();
             result.SenderNetID = senderNetID;
+            result.ChannelID = channelID;
+
             result.PARType = reader.ReadPARType();
         
             return result;

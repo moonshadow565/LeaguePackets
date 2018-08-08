@@ -20,10 +20,12 @@ namespace LeaguePackets.GamePackets
         public int TimerType { get; set; }
         public float Expire { get; set; }
 
-        public static S2C_CreateMinionCamp CreateBody(PacketReader reader, NetID senderNetID)
+        public static S2C_CreateMinionCamp CreateBody(PacketReader reader, ChannelID channelID, NetID senderNetID)
         {
             var result = new S2C_CreateMinionCamp();
             result.SenderNetID = senderNetID;
+            result.ChannelID = channelID;
+
             result.Position = reader.ReadVector3();
             result.MinimapIcon = reader.ReadFixedString(64);
             result.CampIndex = reader.ReadByte();

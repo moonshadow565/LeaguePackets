@@ -16,10 +16,12 @@ namespace LeaguePackets.GamePackets
         public NetNodeID NetNodeID { get; set; }
         public Vector3 Position { get; set; }
         public float VisibilitySize { get; set; }
-        public static SpawnMarkerS2C CreateBody(PacketReader reader, NetID senderNetID)
+        public static SpawnMarkerS2C CreateBody(PacketReader reader, ChannelID channelID, NetID senderNetID)
         {
             var result = new SpawnMarkerS2C();
             result.SenderNetID = senderNetID;
+            result.ChannelID = channelID;
+
             result.NetID = reader.ReadNetID();
             result.NetNodeID = reader.ReadNetNodeID();
             result.Position = reader.ReadVector3();

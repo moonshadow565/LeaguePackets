@@ -12,10 +12,12 @@ namespace LeaguePackets.GamePackets
     {
         public override GamePacketID ID => GamePacketID.S2C_RefreshAuxiliaryText;
         public string MessageID { get; set; } = "";
-        public static S2C_RefreshAuxiliaryText CreateBody(PacketReader reader, NetID senderNetID)
+        public static S2C_RefreshAuxiliaryText CreateBody(PacketReader reader, ChannelID channelID, NetID senderNetID)
         {
             var result = new S2C_RefreshAuxiliaryText();
             result.SenderNetID = senderNetID;
+            result.ChannelID = channelID;
+
             result.MessageID = reader.ReadFixedString(128);
         
             return result;

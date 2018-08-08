@@ -13,10 +13,12 @@ namespace LeaguePackets.GamePackets
         public override GamePacketID ID => GamePacketID.World_LockCamera_Server;
         public bool Locked { get; set; }
         public ClientID ClientID { get; set; }
-        public static World_LockCamera_Server CreateBody(PacketReader reader, NetID senderNetID)
+        public static World_LockCamera_Server CreateBody(PacketReader reader, ChannelID channelID, NetID senderNetID)
         {
             var result = new World_LockCamera_Server();
             result.SenderNetID = senderNetID;
+            result.ChannelID = channelID;
+
             result.Locked = reader.ReadBool();
             result.ClientID = reader.ReadClientID();
         

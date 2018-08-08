@@ -17,9 +17,10 @@ namespace LeaguePackets.PayloadPackets
         public ChatType ChatType { get; set; }
         public string Params { get; set; } = "";
         public string Message { get; set; } = "";
-        public static Chat CreateBody(PacketReader reader)
+        public static Chat CreateBody(PacketReader reader, ChannelID channelID)
         {
             var result = new Chat();
+            result.ChannelID = channelID;
             result.ClientID = reader.ReadClientID();
             result.NetID = reader.ReadNetID();
             result.Localized = reader.ReadBool();

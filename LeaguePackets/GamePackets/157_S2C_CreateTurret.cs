@@ -17,10 +17,12 @@ namespace LeaguePackets.GamePackets
         public bool IsTargetable { get; set; }
 
         public SpellFlags IsTargetableToTeam { get; set; }
-        public static S2C_CreateTurret CreateBody(PacketReader reader, NetID senderNetID)
+        public static S2C_CreateTurret CreateBody(PacketReader reader, ChannelID channelID, NetID senderNetID)
         {
             var result = new S2C_CreateTurret();
             result.SenderNetID = senderNetID;
+            result.ChannelID = channelID;
+
             result.NetID = reader.ReadNetID();
             result.NetNodeID = reader.ReadNetNodeID();
             result.Name = reader.ReadFixedString(64);

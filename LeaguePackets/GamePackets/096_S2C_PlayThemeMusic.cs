@@ -13,10 +13,12 @@ namespace LeaguePackets.GamePackets
         public override GamePacketID ID => GamePacketID.S2C_PlayThemeMusic;
         public NetID SourceNetID { get; set; }
         public MusicID MusicID { get; set; }
-        public static S2C_PlayThemeMusic CreateBody(PacketReader reader, NetID senderNetID)
+        public static S2C_PlayThemeMusic CreateBody(PacketReader reader, ChannelID channelID, NetID senderNetID)
         {
             var result = new S2C_PlayThemeMusic();
             result.SenderNetID = senderNetID;
+            result.ChannelID = channelID;
+
             result.SourceNetID = reader.ReadNetID();
             result.MusicID = reader.ReadMusicID();
         

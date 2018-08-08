@@ -17,10 +17,12 @@ namespace LeaguePackets.GamePackets
         public SpeedParams WaypointSpeedParams { get; set; } = new SpeedParams();
         public List<Vector2> Waypoints { get; set; } = new List<Vector2>();
 
-        public static WaypointListHeroWithSpeed CreateBody(PacketReader reader, NetID senderNetID)
+        public static WaypointListHeroWithSpeed CreateBody(PacketReader reader, ChannelID channelID, NetID senderNetID)
         {
             var result = new WaypointListHeroWithSpeed();
             result.SenderNetID = senderNetID;
+            result.ChannelID = channelID;
+
             result.SyncID = reader.ReadInt32();
             result.WaypointSpeedParams = reader.ReadWaypointSpeedParams();
             while((reader.Stream.Length - reader.Stream.Position) >= 8)

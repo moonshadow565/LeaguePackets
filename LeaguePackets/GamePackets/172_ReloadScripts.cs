@@ -11,10 +11,12 @@ namespace LeaguePackets.GamePackets
     public class ReloadScripts : GamePacket, IUnusedPacket // 0xAC
     {
         public override GamePacketID ID => GamePacketID.ReloadScripts;
-        public static ReloadScripts CreateBody(PacketReader reader, NetID senderNetID)
+        public static ReloadScripts CreateBody(PacketReader reader, ChannelID channelID, NetID senderNetID)
         {
             var result = new ReloadScripts();
             result.SenderNetID = senderNetID;
+            result.ChannelID = channelID;
+
             return result;
         }
         public override void WriteBody(PacketWriter writer)

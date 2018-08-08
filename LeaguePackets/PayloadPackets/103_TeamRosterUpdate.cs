@@ -21,9 +21,10 @@ namespace LeaguePackets.PayloadPackets
         public uint TeamSizeOrderCurrent { get; set; }
         public uint TeamSIzeChaosCurrent { get; set; }
 
-        public static TeamRosterUpdate CreateBody(PacketReader reader)
+        public static TeamRosterUpdate CreateBody(PacketReader reader, ChannelID channelID)
         {
             var result = new TeamRosterUpdate();
+            result.ChannelID = channelID;
             result.TeamSizeOrder = reader.ReadUInt32();
             result.TeamSizeChaos = reader.ReadUInt32();
             for (int i = 0; i < result.OrderMembers.Length; i++)

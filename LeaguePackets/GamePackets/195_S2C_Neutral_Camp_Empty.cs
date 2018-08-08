@@ -16,10 +16,12 @@ namespace LeaguePackets.GamePackets
         public bool DoPlayVO { get; set; } 
         public int TimerType { get; set; }
         public float TimerExpire { get; set; }
-        public static S2C_Neutral_Camp_Empty CreateBody(PacketReader reader, NetID senderNetID)
+        public static S2C_Neutral_Camp_Empty CreateBody(PacketReader reader, ChannelID channelID, NetID senderNetID)
         {
             var result = new S2C_Neutral_Camp_Empty();
             result.SenderNetID = senderNetID;
+            result.ChannelID = channelID;
+
             result.KillerNetID = reader.ReadNetID();
             result.CampIndex = reader.ReadInt32();
             byte bitfield = reader.ReadByte();

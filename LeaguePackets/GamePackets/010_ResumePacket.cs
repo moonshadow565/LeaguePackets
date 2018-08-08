@@ -13,10 +13,12 @@ namespace LeaguePackets.GamePackets
         public override GamePacketID ID => GamePacketID.ResumePacket;
         public ClientID ClientID { get; set; }
         public bool Delayed { get; set; }
-        public static ResumePacket CreateBody(PacketReader reader, NetID senderNetID)
+        public static ResumePacket CreateBody(PacketReader reader, ChannelID channelID, NetID senderNetID)
         {
             var result = new ResumePacket();
             result.SenderNetID = senderNetID;
+            result.ChannelID = channelID;
+
             result.ClientID = reader.ReadClientID();
             byte bitfield = reader.ReadByte();
             result.Delayed = (bitfield & 0x01) != 0;

@@ -28,10 +28,12 @@ namespace LeaguePackets.GamePackets
         public bool CloneInventory { get; set; }
         public bool ShowMinimapIconIfClone { get; set; }
         string AIscript { get; set; }
-        public static CHAR_SpawnPet CreateBody(PacketReader reader, NetID senderNetID)
+        public static CHAR_SpawnPet CreateBody(PacketReader reader, ChannelID channelID, NetID senderNetID)
         {
             var result = new CHAR_SpawnPet();
             result.SenderNetID = senderNetID;
+            result.ChannelID = channelID;
+
             result.OwnerNetID = reader.ReadNetID();
             result.NetNodeID = reader.ReadNetNodeID();
             result.Position = reader.ReadVector3();

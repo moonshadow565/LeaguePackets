@@ -19,10 +19,12 @@ namespace LeaguePackets.GamePackets
         public Vector3 Velocity { get; set; }
         public MovementDriverHomingData MovementDriverHomingData { get; set; } = null;
 
-        public static MovementDriverReplication CreateBody(PacketReader reader, NetID senderNetID)
+        public static MovementDriverReplication CreateBody(PacketReader reader, ChannelID channelID, NetID senderNetID)
         {
             var result = new MovementDriverReplication();
             result.SenderNetID = senderNetID;
+            result.ChannelID = channelID;
+
             result.MovementTypeID = reader.ReadByte();
             result.Position = reader.ReadVector3();
             result.Velocity = reader.ReadVector3();

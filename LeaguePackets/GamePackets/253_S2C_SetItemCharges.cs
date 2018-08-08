@@ -13,10 +13,12 @@ namespace LeaguePackets.GamePackets
         public override GamePacketID ID => GamePacketID.S2C_SetItemCharges;
         public byte Slot { get; set; }
         public byte SpellCharges { get; set; }
-        public static S2C_SetItemCharges CreateBody(PacketReader reader, NetID senderNetID)
+        public static S2C_SetItemCharges CreateBody(PacketReader reader, ChannelID channelID, NetID senderNetID)
         {
             var result = new S2C_SetItemCharges();
             result.SenderNetID = senderNetID;
+            result.ChannelID = channelID;
+
             result.Slot = reader.ReadByte();
             result.SpellCharges = reader.ReadByte();
         

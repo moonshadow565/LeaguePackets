@@ -14,10 +14,12 @@ namespace LeaguePackets.GamePackets
         public ClientID ClientID { get; set; }
         public int PauseTimeRemaining { get; set; }
         public bool IsTournament { get; set; }
-        public static PausePacket CreateBody(PacketReader reader, NetID senderNetID)
+        public static PausePacket CreateBody(PacketReader reader, ChannelID channelID, NetID senderNetID)
         {
             var result = new PausePacket();
             result.SenderNetID = senderNetID;
+            result.ChannelID = channelID;
+
             result.ClientID = reader.ReadClientID();
             result.PauseTimeRemaining = reader.ReadInt32();
             byte bitfield = reader.ReadByte();

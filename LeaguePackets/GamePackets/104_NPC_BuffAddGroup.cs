@@ -18,10 +18,12 @@ namespace LeaguePackets.GamePackets
         public float RunningTime { get; set; }
         public float Duration { get; set; }
         public List<BuffInGroupAdd> Buffs { get; set; } = new List<BuffInGroupAdd>();
-        public static NPC_BuffAddGroup CreateBody(PacketReader reader, NetID senderNetID)
+        public static NPC_BuffAddGroup CreateBody(PacketReader reader, ChannelID channelID, NetID senderNetID)
         {
             var result = new NPC_BuffAddGroup();
             result.SenderNetID = senderNetID;
+            result.ChannelID = channelID;
+
             result.BuffType = reader.ReadBuffType();
             result.BuffNameHash = reader.ReadUInt32();
             result.PackageHash = reader.ReadUInt32();

@@ -14,10 +14,12 @@ namespace LeaguePackets.GamePackets
         public override GamePacketID ID => GamePacketID.S2C_MoveRegion;
         public NetID RegionNetID { get; set; }
         public Vector2 Position { get; set; }
-        public static S2C_MoveRegion CreateBody(PacketReader reader, NetID senderNetID)
+        public static S2C_MoveRegion CreateBody(PacketReader reader, ChannelID channelID, NetID senderNetID)
         {
             var result = new S2C_MoveRegion();
             result.SenderNetID = senderNetID;
+            result.ChannelID = channelID;
+
             result.RegionNetID = reader.ReadNetID();
             result.Position = reader.ReadVector2();
         

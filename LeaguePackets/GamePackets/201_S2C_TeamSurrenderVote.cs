@@ -21,10 +21,12 @@ namespace LeaguePackets.GamePackets
         public TeamID TeamID { get; set; }
         public float TimeOut { get; set; }
 
-        public static S2C_TeamSurrenderVote CreateBody(PacketReader reader, NetID senderNetID)
+        public static S2C_TeamSurrenderVote CreateBody(PacketReader reader, ChannelID channelID, NetID senderNetID)
         {
             var result = new S2C_TeamSurrenderVote();
             result.SenderNetID = senderNetID;
+            result.ChannelID = channelID;
+
             byte bitfield = reader.ReadByte();
             result.VoteYes = (bitfield & 1) != 0;
             result.OpenVoteMenu = (bitfield & 2) != 0;

@@ -12,10 +12,12 @@ namespace LeaguePackets.GamePackets
     {
         public override GamePacketID ID => GamePacketID.S2C_AI_State;
         public AIState AIState { get; set; }
-        public static S2C_AI_State CreateBody(PacketReader reader, NetID senderNetID)
+        public static S2C_AI_State CreateBody(PacketReader reader, ChannelID channelID, NetID senderNetID)
         {
             var result = new S2C_AI_State();
             result.SenderNetID = senderNetID;
+            result.ChannelID = channelID;
+
             result.AIState = reader.ReadAIState();
         
             return result;

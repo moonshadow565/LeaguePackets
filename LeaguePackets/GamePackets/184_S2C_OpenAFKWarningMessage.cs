@@ -11,10 +11,12 @@ namespace LeaguePackets.GamePackets
     public class S2C_OpenAFKWarningMessage : GamePacket // 0xB8
     {
         public override GamePacketID ID => GamePacketID.S2C_OpenAFKWarningMessage;
-        public static S2C_OpenAFKWarningMessage CreateBody(PacketReader reader, NetID senderNetID) 
+        public static S2C_OpenAFKWarningMessage CreateBody(PacketReader reader, ChannelID channelID, NetID senderNetID) 
         {
             var result = new S2C_OpenAFKWarningMessage();
             result.SenderNetID = senderNetID;
+            result.ChannelID = channelID;
+
             return result;
         }
         public override void WriteBody(PacketWriter writer) {}

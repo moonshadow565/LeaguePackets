@@ -12,7 +12,6 @@
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -480,6 +479,7 @@
     <Compile Include="CommonData\EventBase.cs" />
     <Compile Include="CommonData\ReplicationData.cs" />
     <Compile Include="BatchPacket.cs" />
+    <Compile Include="IUnknownPacket.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

@@ -12,10 +12,12 @@ namespace LeaguePackets.GamePackets
     {
         public override GamePacketID ID => GamePacketID.C2S_TeamBalanceVote;
         public bool VoteYes { get; set; }
-        public static C2S_TeamBalanceVote CreateBody(PacketReader reader, NetID senderNetID)
+        public static C2S_TeamBalanceVote CreateBody(PacketReader reader, ChannelID channelID, NetID senderNetID)
         {
             var result = new C2S_TeamBalanceVote();
             result.SenderNetID = senderNetID;
+            result.ChannelID = channelID;
+
             byte bitfield = reader.ReadByte();
             result.VoteYes = (bitfield & 0x01) != 0;
         

@@ -12,10 +12,12 @@ namespace LeaguePackets.GamePackets
     {
         public override GamePacketID ID => GamePacketID.RemoveRegion;
         public NetID RegionNetID { get; set; }
-        public static RemoveRegion CreateBody(PacketReader reader, NetID senderNetID)
+        public static RemoveRegion CreateBody(PacketReader reader, ChannelID channelID, NetID senderNetID)
         {
             var result = new RemoveRegion();
             result.SenderNetID = senderNetID;
+            result.ChannelID = channelID;
+
             result.RegionNetID = reader.ReadNetID();
         
             return result;

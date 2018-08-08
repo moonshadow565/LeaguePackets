@@ -13,10 +13,12 @@ namespace LeaguePackets.GamePackets
         public override GamePacketID ID => GamePacketID.S2C_NeutralMinionTimerUpdate;
         public int TypeHash { get; set; }
         public float Expire { get; set; }
-        public static S2C_NeutralMinionTimerUpdate CreateBody(PacketReader reader, NetID senderNetID)
+        public static S2C_NeutralMinionTimerUpdate CreateBody(PacketReader reader, ChannelID channelID, NetID senderNetID)
         {
             var result = new S2C_NeutralMinionTimerUpdate();
             result.SenderNetID = senderNetID;
+            result.ChannelID = channelID;
+
             result.TypeHash = reader.ReadInt32();
             result.Expire = reader.ReadFloat();
         

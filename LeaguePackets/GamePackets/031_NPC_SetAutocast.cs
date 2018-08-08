@@ -13,10 +13,12 @@ namespace LeaguePackets.GamePackets
         public override GamePacketID ID => GamePacketID.NPC_SetAutocast;
         public byte Slot { get; set; }
         public byte CritSlot { get; set; }
-        public static NPC_SetAutocast CreateBody(PacketReader reader, NetID senderNetID)
+        public static NPC_SetAutocast CreateBody(PacketReader reader, ChannelID channelID, NetID senderNetID)
         {
             var result = new NPC_SetAutocast();
             result.SenderNetID = senderNetID;
+            result.ChannelID = channelID;
+
             result.Slot = reader.ReadByte();
             result.CritSlot = reader.ReadByte();
         

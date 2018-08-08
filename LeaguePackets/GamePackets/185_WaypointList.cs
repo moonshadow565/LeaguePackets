@@ -14,10 +14,12 @@ namespace LeaguePackets.GamePackets
         public override GamePacketID ID => GamePacketID.WaypointList;
         public int SyncID { get; set; }
         public List<Vector2> Waypoints { get; set; } = new List<Vector2>();
-        public static WaypointList CreateBody(PacketReader reader, NetID senderNetID)
+        public static WaypointList CreateBody(PacketReader reader, ChannelID channelID, NetID senderNetID)
         {
             var result = new WaypointList();
             result.SenderNetID = senderNetID;
+            result.ChannelID = channelID;
+
             result.SyncID = reader.ReadInt32();
             while ((reader.Stream.Length - reader.Stream.Position) >= 8)
             {

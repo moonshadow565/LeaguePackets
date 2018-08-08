@@ -13,10 +13,12 @@ namespace LeaguePackets.GamePackets
         public override GamePacketID ID => GamePacketID.C2S_TutorialAudioEventFinished;
         public NetID AudioEventNetID { get; set; }
 
-        public static C2S_TutorialAudioEventFinished CreateBody(PacketReader reader, NetID senderNetID)
+        public static C2S_TutorialAudioEventFinished CreateBody(PacketReader reader, ChannelID channelID, NetID senderNetID)
         {
             var result = new C2S_TutorialAudioEventFinished();
             result.SenderNetID = senderNetID;
+            result.ChannelID = channelID;
+
             result.AudioEventNetID = reader.ReadNetID();
 
             return result;

@@ -12,10 +12,12 @@ namespace LeaguePackets.GamePackets
     {
         public override GamePacketID ID => GamePacketID.S2C_PopCharacterData;
         public uint PopID { get; set; }
-        public static S2C_PopCharacterData CreateBody(PacketReader reader, NetID senderNetID)
+        public static S2C_PopCharacterData CreateBody(PacketReader reader, ChannelID channelID, NetID senderNetID)
         {
             var result = new S2C_PopCharacterData();
             result.SenderNetID = senderNetID;
+            result.ChannelID = channelID;
+
             result.PopID = reader.ReadUInt32();
         
             return result;

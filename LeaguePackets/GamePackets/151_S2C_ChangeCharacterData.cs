@@ -21,10 +21,12 @@ namespace LeaguePackets.GamePackets
         public uint SkinID { get; set; }
         public string SkinName { get; set; } = "";
         */
-        public static S2C_ChangeCharacterData CreateBody(PacketReader reader, NetID senderNetID)
+        public static S2C_ChangeCharacterData CreateBody(PacketReader reader, ChannelID channelID, NetID senderNetID)
         {
             var result = new S2C_ChangeCharacterData();
             result.SenderNetID = senderNetID;
+            result.ChannelID = channelID;
+
             result.Data.ID = reader.ReadUInt32();
             byte bitfield = reader.ReadByte();
             result.Data.OverrideSpells = (bitfield & 1) != 0;

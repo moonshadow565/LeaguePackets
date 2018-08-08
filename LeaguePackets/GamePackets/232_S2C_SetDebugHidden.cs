@@ -13,10 +13,12 @@ namespace LeaguePackets.GamePackets
         public override GamePacketID ID => GamePacketID.S2C_SetDebugHidden;
         public int ObjectID { get; set; }
         public byte Bitfield { get; set; }
-        public static S2C_SetDebugHidden CreateBody(PacketReader reader, NetID senderNetID)
+        public static S2C_SetDebugHidden CreateBody(PacketReader reader, ChannelID channelID, NetID senderNetID)
         {
             var result = new S2C_SetDebugHidden();
             result.SenderNetID = senderNetID;
+            result.ChannelID = channelID;
+
             result.ObjectID = reader.ReadInt32();
             result.Bitfield = reader.ReadByte();
         

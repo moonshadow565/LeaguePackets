@@ -14,10 +14,12 @@ namespace LeaguePackets.GamePackets
         public TeamID TeamID { get; set; } // stored as byte
         public uint SkinID { get; set; }
 
-        public static S2C_AnimatedBuildingSetCurrentSkin CreateBody(PacketReader reader, NetID senderNetID)
+        public static S2C_AnimatedBuildingSetCurrentSkin CreateBody(PacketReader reader, ChannelID channelID, NetID senderNetID)
         {
             var result = new S2C_AnimatedBuildingSetCurrentSkin();
             result.SenderNetID = senderNetID;
+            result.ChannelID = channelID;
+
             result.TeamID = (TeamID)reader.ReadByte();
             result.SkinID = reader.ReadUInt32();
         

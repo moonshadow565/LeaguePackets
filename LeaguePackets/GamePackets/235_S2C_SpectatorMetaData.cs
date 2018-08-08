@@ -12,10 +12,12 @@ namespace LeaguePackets.GamePackets
     {
         public override GamePacketID ID => GamePacketID.S2C_SpectatorMetaData;
         public string JsonMetaData { get; set; } = "";
-        public static S2C_SpectatorMetaData CreateBody(PacketReader reader, NetID senderNetID)
+        public static S2C_SpectatorMetaData CreateBody(PacketReader reader, ChannelID channelID, NetID senderNetID)
         {
             var result = new S2C_SpectatorMetaData();
             result.SenderNetID = senderNetID;
+            result.ChannelID = channelID;
+
             result.JsonMetaData = reader.ReadSizedString();
         
             return result;

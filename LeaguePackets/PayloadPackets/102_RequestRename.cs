@@ -15,9 +15,10 @@ namespace LeaguePackets.PayloadPackets
         public int SkinID { get; set; }
         public string PlayerName { get; set; } = "";
 
-        public static RequestRename CreateBody(PacketReader reader)
+        public static RequestRename CreateBody(PacketReader reader, ChannelID channelID)
         {
             var result = new RequestRename();
+            result.ChannelID = channelID;
             result.PlayerID = reader.ReadPlayerID();
             result.SkinID = reader.ReadInt32();
             result.PlayerName = reader.ReadSizedFixedString(128);

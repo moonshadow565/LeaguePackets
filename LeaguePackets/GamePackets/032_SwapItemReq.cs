@@ -13,10 +13,12 @@ namespace LeaguePackets.GamePackets
         public override GamePacketID ID => GamePacketID.SwapItemReq;
         public byte Source { get; set; }
         public byte Destination { get; set; }
-        public static SwapItemReq CreateBody(PacketReader reader, NetID senderNetID)
+        public static SwapItemReq CreateBody(PacketReader reader, ChannelID channelID, NetID senderNetID)
         {
             var result = new SwapItemReq();
             result.SenderNetID = senderNetID;
+            result.ChannelID = channelID;
+
             result.Source = reader.ReadByte();
             result.Destination = reader.ReadByte();
         

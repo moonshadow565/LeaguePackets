@@ -20,10 +20,12 @@ namespace LeaguePackets.GamePackets
         public string Message { get; set; } = "";
 
 
-        public static NPC_MessageToClient CreateBody(PacketReader reader, NetID senderNetID)
+        public static NPC_MessageToClient CreateBody(PacketReader reader, ChannelID channelID, NetID senderNetID)
         {
             var result = new NPC_MessageToClient();
             result.SenderNetID = senderNetID;
+            result.ChannelID = channelID;
+
             result.BubbleDelay = reader.ReadFloat();
             result.SlotNumber = reader.ReadInt32();
             result.IsError = reader.ReadBool();

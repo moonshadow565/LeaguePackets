@@ -12,10 +12,12 @@ namespace LeaguePackets.GamePackets
     {
         public override GamePacketID ID => GamePacketID.S2C_DisplayLocalizedTutorialChatText;
         public string Message { get; set; } = "";
-        public static S2C_DisplayLocalizedTutorialChatText CreateBody(PacketReader reader, NetID senderNetID)
+        public static S2C_DisplayLocalizedTutorialChatText CreateBody(PacketReader reader, ChannelID channelID, NetID senderNetID)
         {
             var result = new S2C_DisplayLocalizedTutorialChatText();
             result.SenderNetID = senderNetID;
+            result.ChannelID = channelID;
+
             result.Message = reader.ReadZeroTerminatedString();
             return result;
         }

@@ -18,10 +18,12 @@ namespace LeaguePackets.GamePackets
         public float GoldGranted { get; set; }
         public int ExperienceGranted { get; set; }
         public int TowersGranted { get; set; }
-        public static S2C_TeamBalanceStatus CreateBody(PacketReader reader, NetID senderNetID)
+        public static S2C_TeamBalanceStatus CreateBody(PacketReader reader, ChannelID channelID, NetID senderNetID)
         {
             var result = new S2C_TeamBalanceStatus();
             result.SenderNetID = senderNetID;
+            result.ChannelID = channelID;
+
             result.Reason = reader.ReadSurrenderReason();
             result.ForVote = reader.ReadByte();
             result.AgainstVote = reader.ReadByte();

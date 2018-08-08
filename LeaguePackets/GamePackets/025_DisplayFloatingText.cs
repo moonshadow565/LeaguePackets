@@ -16,10 +16,12 @@ namespace LeaguePackets.GamePackets
         public FloatTextType FloatingTextType { get; set; }
         public int Param { get; set; }
         public string Message { get; set; } = "";
-        public static DisplayFloatingText CreateBody(PacketReader reader, NetID senderNetID)
+        public static DisplayFloatingText CreateBody(PacketReader reader, ChannelID channelID, NetID senderNetID)
         {
             var result = new DisplayFloatingText();
             result.SenderNetID = senderNetID;
+            result.ChannelID = channelID;
+
             result.TargetNetID = reader.ReadNetID();
             result.FloatingTextType = reader.ReadFloatTextType();
             result.Param = reader.ReadInt32();

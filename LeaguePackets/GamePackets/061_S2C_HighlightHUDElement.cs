@@ -15,10 +15,12 @@ namespace LeaguePackets.GamePackets
         public byte ElementType { get; set; }
         public byte ElementNumber{ get; set; }
         public byte ElementSubCategory { get; set; }
-        public static S2C_HighlightHUDElement CreateBody(PacketReader reader, NetID senderNetID)
+        public static S2C_HighlightHUDElement CreateBody(PacketReader reader, ChannelID channelID, NetID senderNetID)
         {
             var result = new S2C_HighlightHUDElement();
             result.SenderNetID = senderNetID;
+            result.ChannelID = channelID;
+
             result.ElementPart = reader.ReadByte();
             result.ElementType = reader.ReadByte();
             result.ElementNumber = reader.ReadByte();

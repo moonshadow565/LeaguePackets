@@ -16,10 +16,12 @@ namespace LeaguePackets.GamePackets
         public int SkinID { get; set; }
         public string InternalName { get; set; } = "";
         public string CharacterName { get; set; } = "";
-        public static S2C_CreateFollowerObject CreateBody(PacketReader reader, NetID senderNetID)
+        public static S2C_CreateFollowerObject CreateBody(PacketReader reader, ChannelID channelID, NetID senderNetID)
         {
             var result = new S2C_CreateFollowerObject();
             result.SenderNetID = senderNetID;
+            result.ChannelID = channelID;
+
             result.NetID = reader.ReadNetID();
             result.NetNodeID = reader.ReadNetNodeID();
             result.SkinID = reader.ReadInt32();

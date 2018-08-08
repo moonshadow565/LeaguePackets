@@ -12,10 +12,12 @@ namespace LeaguePackets.GamePackets
     {
         public override GamePacketID ID => GamePacketID.AI_TargetHeroS2C;
         public NetID TargetNetID { get; set; }
-        public static AI_TargetHeroS2C CreateBody(PacketReader reader, NetID senderNetID)
+        public static AI_TargetHeroS2C CreateBody(PacketReader reader, ChannelID channelID, NetID senderNetID)
         {
             var result = new AI_TargetHeroS2C();
             result.SenderNetID = senderNetID;
+            result.ChannelID = channelID;
+
             result.TargetNetID = reader.ReadNetID();
         
             return result;

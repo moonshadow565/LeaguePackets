@@ -17,10 +17,12 @@ namespace LeaguePackets.GamePackets
         public Vector3 StartPosition { get; set; }
         public Vector3 TargetPosition { get; set; }
         public float TravelTime { get; set; }
-        public static S2C_MoveCameraToPoint CreateBody(PacketReader reader, NetID senderNetID)
+        public static S2C_MoveCameraToPoint CreateBody(PacketReader reader, ChannelID channelID, NetID senderNetID)
         {
             var result = new S2C_MoveCameraToPoint();
             result.SenderNetID = senderNetID;
+            result.ChannelID = channelID;
+
             result.Bitfield = reader.ReadByte();
             result.StartPosition = reader.ReadVector3();
             result.TargetPosition = reader.ReadVector3();

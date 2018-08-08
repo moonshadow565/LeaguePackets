@@ -17,10 +17,12 @@ namespace LeaguePackets.GamePackets
         public bool ForceStop { get; set; }
 
         public Vector3 Position { get; set; }
-        public static C2S_SpellChargeUpdateReq CreateBody(PacketReader reader, NetID senderNetID)
+        public static C2S_SpellChargeUpdateReq CreateBody(PacketReader reader, ChannelID channelID, NetID senderNetID)
         {
             var result = new C2S_SpellChargeUpdateReq();
             result.SenderNetID = senderNetID;
+            result.ChannelID = channelID;
+
             byte bitfield = reader.ReadByte();
             result.Slot = (byte)(bitfield & 0x3F);
             result.IsSummonerSpellBook = (bitfield & 0x40) != 0;

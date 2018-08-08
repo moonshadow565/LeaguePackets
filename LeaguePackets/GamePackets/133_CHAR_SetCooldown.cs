@@ -17,10 +17,12 @@ namespace LeaguePackets.GamePackets
 
         public float Cooldown { get; set; }
         public float MaxCooldownForDisplay { get; set; }
-        public static CHAR_SetCooldown CreateBody(PacketReader reader, NetID senderNetID)
+        public static CHAR_SetCooldown CreateBody(PacketReader reader, ChannelID channelID, NetID senderNetID)
         {
             var result = new CHAR_SetCooldown();
             result.SenderNetID = senderNetID;
+            result.ChannelID = channelID;
+
             byte bitfield = reader.ReadByte();
             result.Slot = (byte)(bitfield & 0x3F);
             result.PlayVOWhenCooldownReady = (bitfield & 0x40) != 0;

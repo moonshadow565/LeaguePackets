@@ -15,10 +15,12 @@ namespace LeaguePackets.GamePackets
         public Vector3 Position { get; set; }
         public Vector3 Forward { get; set; }
         public int SyncID { get; set; }
-        public static Pause CreateBody(PacketReader reader, NetID senderNetID)
+        public static Pause CreateBody(PacketReader reader, ChannelID channelID, NetID senderNetID)
         {
             var result = new Pause();
             result.SenderNetID = senderNetID;
+            result.ChannelID = channelID;
+
             result.Position = reader.ReadVector3();
             result.Forward = reader.ReadVector3();
             result.SyncID = reader.ReadInt32();

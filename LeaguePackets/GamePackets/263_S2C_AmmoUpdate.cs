@@ -17,10 +17,12 @@ namespace LeaguePackets.GamePackets
         public int MaxAmmo { get; set; }
         public float AmmoRecharge { get; set; }
         public float AmmoRechargeTotalTime { get; set; }
-        public static S2C_AmmoUpdate CreateBody(PacketReader reader, NetID senderNetID)
+        public static S2C_AmmoUpdate CreateBody(PacketReader reader, ChannelID channelID, NetID senderNetID)
         {
             var result = new S2C_AmmoUpdate();
             result.SenderNetID = senderNetID;
+            result.ChannelID = channelID;
+
             result.IsSummonerSpell = reader.ReadBool();
             result.SpellSlot = reader.ReadInt32();
             result.CurrentAmmo = reader.ReadInt32();

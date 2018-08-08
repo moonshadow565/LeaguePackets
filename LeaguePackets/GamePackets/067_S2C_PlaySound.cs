@@ -13,10 +13,12 @@ namespace LeaguePackets.GamePackets
         public override GamePacketID ID => GamePacketID.S2C_PlaySound;
         public string SoundName { get; set; } = "";
         public NetID OwnerNetID { get; set; }
-        public static S2C_PlaySound CreateBody(PacketReader reader, NetID senderNetID)
+        public static S2C_PlaySound CreateBody(PacketReader reader, ChannelID channelID, NetID senderNetID)
         {
             var result = new S2C_PlaySound();
             result.SenderNetID = senderNetID;
+            result.ChannelID = channelID;
+
             result.SoundName = reader.ReadFixedString(1024);
             result.OwnerNetID = reader.ReadNetID();
         

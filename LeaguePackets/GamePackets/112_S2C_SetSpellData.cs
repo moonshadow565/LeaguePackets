@@ -14,10 +14,12 @@ namespace LeaguePackets.GamePackets
         public NetID ObjectNetID { get; set; }
         public uint HashedSpellName { get; set; }
         public byte SpellSlot { get; set; }
-        public static S2C_SetSpellData CreateBody(PacketReader reader, NetID senderNetID)
+        public static S2C_SetSpellData CreateBody(PacketReader reader, ChannelID channelID, NetID senderNetID)
         {
             var result = new S2C_SetSpellData();
             result.SenderNetID = senderNetID;
+            result.ChannelID = channelID;
+
             throw new NotImplementedException("S2C_SetSpellData.Read");
         
             return result;

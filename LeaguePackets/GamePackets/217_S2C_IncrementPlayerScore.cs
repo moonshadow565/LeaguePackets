@@ -17,10 +17,12 @@ namespace LeaguePackets.GamePackets
         public bool ShouldCallout { get; set; }
         public float PointValue { get; set; }
         public float TotalPointValue { get; set; }
-        public static S2C_IncrementPlayerScore CreateBody(PacketReader reader, NetID senderNetID)
+        public static S2C_IncrementPlayerScore CreateBody(PacketReader reader, ChannelID channelID, NetID senderNetID)
         {
             var result = new S2C_IncrementPlayerScore();
             result.SenderNetID = senderNetID;
+            result.ChannelID = channelID;
+
             result.PlayerNetID = reader.ReadNetID();
             result.ScoreCategory = reader.ReadScoreCategory();
             result.ScoreEvent = reader.ReadScoreEvent();

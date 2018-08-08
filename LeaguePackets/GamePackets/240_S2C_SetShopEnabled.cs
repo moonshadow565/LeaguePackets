@@ -13,10 +13,12 @@ namespace LeaguePackets.GamePackets
         public override GamePacketID ID => GamePacketID.S2C_SetShopEnabled;
         public bool Enabled { get; set; }
         public bool ForceEnabled { get; set; }
-        public static S2C_SetShopEnabled CreateBody(PacketReader reader, NetID senderNetID)
+        public static S2C_SetShopEnabled CreateBody(PacketReader reader, ChannelID channelID, NetID senderNetID)
         {
             var result = new S2C_SetShopEnabled();
             result.SenderNetID = senderNetID;
+            result.ChannelID = channelID;
+
             byte bitfield = reader.ReadByte();
             result.Enabled = (bitfield & 1) != 0;
             result.ForceEnabled = (bitfield & 2) != 0;

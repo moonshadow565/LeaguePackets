@@ -31,10 +31,12 @@ namespace LeaguePackets.GamePackets
 
         public CastInfo CastInfo { get; set; } = new CastInfo();
 
-        public static MissileReplication CreateBody(PacketReader reader, NetID senderNetID)
+        public static MissileReplication CreateBody(PacketReader reader, ChannelID channelID, NetID senderNetID)
         {
             var result = new MissileReplication();
             result.SenderNetID = senderNetID;
+            result.ChannelID = channelID;
+
             result.Position = reader.ReadVector3();
             result.CasterPosition = reader.ReadVector3();
             result.Direction = reader.ReadVector3();

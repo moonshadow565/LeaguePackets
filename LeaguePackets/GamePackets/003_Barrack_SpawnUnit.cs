@@ -19,10 +19,12 @@ namespace LeaguePackets.GamePackets
         public short DamageBonus { get; set; }
         public short HealthBonus { get; set; }
         public byte MinionLevel { get; set; }
-        public static Barrack_SpawnUnit CreateBody(PacketReader reader, NetID senderNetID)
+        public static Barrack_SpawnUnit CreateBody(PacketReader reader, ChannelID channelID, NetID senderNetID)
         {
             var result = new Barrack_SpawnUnit();
             result.SenderNetID = senderNetID;
+            result.ChannelID = channelID;
+
             result.ObjectID = reader.ReadNetID();
             result.ObjectNodeID = reader.ReadNetNodeID();
             result.BarracksNetID = reader.ReadNetID();

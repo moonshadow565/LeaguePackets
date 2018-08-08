@@ -16,10 +16,12 @@ namespace LeaguePackets.GamePackets
         public NetID TargetNetID { get; set; }
         public NetID SourceNetID { get; set; }
         public float Damage { get; set; }
-        public static UnitApplyDamage CreateBody(PacketReader reader, NetID senderNetID)
+        public static UnitApplyDamage CreateBody(PacketReader reader, ChannelID channelID, NetID senderNetID)
         {
             var result = new UnitApplyDamage();
             result.SenderNetID = senderNetID;
+            result.ChannelID = channelID;
+
             byte bitfield = reader.ReadByte();
             result.DamageResultType = (DamageResultType)(bitfield & 0x07);
             result.DamageType = (DamageType)((bitfield >> 3) & 0x03);

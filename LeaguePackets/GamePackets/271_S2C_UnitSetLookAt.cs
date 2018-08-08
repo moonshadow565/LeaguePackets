@@ -15,10 +15,12 @@ namespace LeaguePackets.GamePackets
         public LookAtType LookAtType { get; set; }
         public Vector3 TargetPosition { get; set; }
         public NetID TargetNetID { get; set; }
-        public static S2C_UnitSetLookAt CreateBody(PacketReader reader, NetID senderNetID)
+        public static S2C_UnitSetLookAt CreateBody(PacketReader reader, ChannelID channelID, NetID senderNetID)
         {
             var result = new S2C_UnitSetLookAt();
             result.SenderNetID = senderNetID;
+            result.ChannelID = channelID;
+
             result.LookAtType = reader.ReadLookAtType();
             result.TargetPosition = reader.ReadVector3();
             result.TargetNetID = reader.ReadNetID();

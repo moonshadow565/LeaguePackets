@@ -17,10 +17,12 @@ namespace LeaguePackets.GamePackets
         protected abstract void WriteBodyInternal(PacketWriter writer);
 
 
-        public static OnEnterLocalVisiblityClient CreateBody(PacketReader reader, NetID senderNetID)
+        public static OnEnterLocalVisiblityClient CreateBody(PacketReader reader, ChannelID channelID, NetID senderNetID)
         {
             var result = new OnEnterLocalVisiblityClientUnknown();
             result.SenderNetID = senderNetID;
+            result.ChannelID = channelID;
+
             int totalSize = (ushort)(reader.ReadUInt16() & 0x1FFF);
             for (; totalSize > 0;)
             {
@@ -28,7 +30,7 @@ namespace LeaguePackets.GamePackets
                 byte[] data = reader.ReadBytes(size);
                 using (var reader2 = new PacketReader(new MemoryStream(data)))
                 {
-                    result.Packets.Add(GamePacket.Create(reader2));
+                    result.Packets.Add(GamePacket.CreateGamePacket(reader2, channelID));
                 }
                 totalSize -= 2;
                 totalSize -= size;

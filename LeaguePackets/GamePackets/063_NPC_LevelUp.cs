@@ -13,10 +13,12 @@ namespace LeaguePackets.GamePackets
         public override GamePacketID ID => GamePacketID.NPC_LevelUp;
         public byte Level { get; set; }
         public byte AveliablePoints { get; set; }
-        public static NPC_LevelUp CreateBody(PacketReader reader, NetID senderNetID)
+        public static NPC_LevelUp CreateBody(PacketReader reader, ChannelID channelID, NetID senderNetID)
         {
             var result = new NPC_LevelUp();
             result.SenderNetID = senderNetID;
+            result.ChannelID = channelID;
+
             result.Level = reader.ReadByte();
             result.AveliablePoints = reader.ReadByte();
         

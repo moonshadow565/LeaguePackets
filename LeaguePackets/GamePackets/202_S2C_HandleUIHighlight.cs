@@ -13,10 +13,12 @@ namespace LeaguePackets.GamePackets
         public override GamePacketID ID => GamePacketID.S2C_HandleUIHighlight;
         public UIHighlightCommand UIHighlightCommand { get; set; }
         public UIElement UIElement { get; set; }
-        public static S2C_HandleUIHighlight CreateBody(PacketReader reader, NetID senderNetID)
+        public static S2C_HandleUIHighlight CreateBody(PacketReader reader, ChannelID channelID, NetID senderNetID)
         {
             var result = new S2C_HandleUIHighlight();
             result.SenderNetID = senderNetID;
+            result.ChannelID = channelID;
+
             result.UIHighlightCommand = reader.ReadUIHighlightCommand();
             result.UIElement = reader.ReadUIElement();
         

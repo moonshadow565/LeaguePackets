@@ -26,10 +26,12 @@ namespace LeaguePackets.GamePackets
         public byte Type { get; set; }
         public string Name { get; set; } = "";
         public string PropName { get; set; } = "";
-        public static SpawnLevelPropS2C CreateBody(PacketReader reader, NetID senderNetID)
+        public static SpawnLevelPropS2C CreateBody(PacketReader reader, ChannelID channelID, NetID senderNetID)
         {
             var result = new SpawnLevelPropS2C();
             result.SenderNetID = senderNetID;
+            result.ChannelID = channelID;
+
             result.NetID = reader.ReadNetID();
             result.NetNodeID = reader.ReadNetNodeID();
             result.SkinID = reader.ReadInt32();

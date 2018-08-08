@@ -12,10 +12,12 @@ namespace LeaguePackets.GamePackets
     {
         public override GamePacketID ID => GamePacketID.S2C_CreateUnitHighlight;
         public NetID TargetNetID { get; set; }
-        public static S2C_CreateUnitHighlight CreateBody(PacketReader reader, NetID senderNetID)
+        public static S2C_CreateUnitHighlight CreateBody(PacketReader reader, ChannelID channelID, NetID senderNetID)
         {
             var result = new S2C_CreateUnitHighlight();
             result.SenderNetID = senderNetID;
+            result.ChannelID = channelID;
+
             result.TargetNetID = reader.ReadNetID();
         
             return result;

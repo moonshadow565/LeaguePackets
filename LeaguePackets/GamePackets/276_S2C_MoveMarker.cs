@@ -16,10 +16,12 @@ namespace LeaguePackets.GamePackets
         public Vector2 Goal { get; set; }
         public float Speed { get; set; }
         public bool FaceGoalPosition { get; set; }
-        public static S2C_MoveMarker CreateBody(PacketReader reader, NetID senderNetID)
+        public static S2C_MoveMarker CreateBody(PacketReader reader, ChannelID channelID, NetID senderNetID)
         {
             var result = new S2C_MoveMarker();
             result.SenderNetID = senderNetID;
+            result.ChannelID = channelID;
+
             result.Position = reader.ReadVector2();
             result.Goal = reader.ReadVector2();
             result.Speed = reader.ReadFloat();

@@ -12,10 +12,12 @@ namespace LeaguePackets.GamePackets
     {
         public override GamePacketID ID => GamePacketID.S2C_OpenTutorialPopup;
         public string MessageboxID { get; set; } = "";
-        public static S2C_OpenTutorialPopup CreateBody(PacketReader reader, NetID senderNetID)
+        public static S2C_OpenTutorialPopup CreateBody(PacketReader reader, ChannelID channelID, NetID senderNetID)
         {
             var result = new S2C_OpenTutorialPopup();
             result.SenderNetID = senderNetID;
+            result.ChannelID = channelID;
+
             result.MessageboxID = reader.ReadFixedString(128);
         
             return result;

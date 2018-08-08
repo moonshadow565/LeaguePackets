@@ -13,10 +13,12 @@ namespace LeaguePackets.GamePackets
         public override GamePacketID ID => GamePacketID.S2C_IncrementPlayerStat;
         public NetID PlayerNetID { get; set; }
         public StatEvent StatEvent { get; set; }
-        public static S2C_IncrementPlayerStat CreateBody(PacketReader reader, NetID senderNetID)
+        public static S2C_IncrementPlayerStat CreateBody(PacketReader reader, ChannelID channelID, NetID senderNetID)
         {
             var result = new S2C_IncrementPlayerStat();
             result.SenderNetID = senderNetID;
+            result.ChannelID = channelID;
+
             result.PlayerNetID = reader.ReadNetID();
             result.StatEvent = reader.ReadStatEvent();
         

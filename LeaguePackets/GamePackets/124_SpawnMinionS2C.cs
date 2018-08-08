@@ -31,10 +31,12 @@ namespace LeaguePackets.GamePackets
         public string SkinName { get; set; } = "";
         public ushort InitialLevel { get; set; }
         public NetID OnlyVisibleToNetID { get; set; }
-        public static SpawnMinionS2C CreateBody(PacketReader reader, NetID senderNetID)
+        public static SpawnMinionS2C CreateBody(PacketReader reader, ChannelID channelID, NetID senderNetID)
         {
             var result = new SpawnMinionS2C();
             result.SenderNetID = senderNetID;
+            result.ChannelID = channelID;
+
             result.NetID = reader.ReadNetID();
             result.OwnerNetID = reader.ReadNetID();
             result.NetNodeID = reader.ReadNetNodeID();

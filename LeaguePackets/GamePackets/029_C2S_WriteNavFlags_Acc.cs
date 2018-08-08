@@ -12,10 +12,12 @@ namespace LeaguePackets.GamePackets
     {
         public override GamePacketID ID => GamePacketID.C2S_WriteNavFlags_Acc;
         public int SyncID { get; set; }
-        public static C2S_WriteNavFlags_Acc CreateBody(PacketReader reader, NetID senderNetID)
+        public static C2S_WriteNavFlags_Acc CreateBody(PacketReader reader, ChannelID channelID, NetID senderNetID)
         {
             var result = new C2S_WriteNavFlags_Acc();
             result.SenderNetID = senderNetID;
+            result.ChannelID = channelID;
+
             result.SyncID = reader.ReadInt32();
         
             return result;

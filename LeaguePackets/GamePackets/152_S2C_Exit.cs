@@ -13,10 +13,12 @@ namespace LeaguePackets.GamePackets
         public override GamePacketID ID => GamePacketID.S2C_Exit;
         public NetID NetID { get; set; }
         public bool Unknown1 { get; set; }
-        public static S2C_Exit CreateBody(PacketReader reader, NetID senderNetID)
+        public static S2C_Exit CreateBody(PacketReader reader, ChannelID channelID, NetID senderNetID)
         {
             var result = new S2C_Exit();
             result.SenderNetID = senderNetID;
+            result.ChannelID = channelID;
+
             result.NetID = reader.ReadNetID();
             byte bitfield = reader.ReadByte();
             result.Unknown1 = (bitfield & 1) != 0;

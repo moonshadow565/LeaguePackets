@@ -16,10 +16,12 @@ namespace LeaguePackets.GamePackets
         public string TipImagePath { get; set; } = "";
         public TipCommand TipCommand { get; set; }
         public TipID TipID { get; set; }
-        public static S2C_HandleTipUpdate CreateBody(PacketReader reader, NetID senderNetID)
+        public static S2C_HandleTipUpdate CreateBody(PacketReader reader, ChannelID channelID, NetID senderNetID)
         {
             var result = new S2C_HandleTipUpdate();
             result.SenderNetID = senderNetID;
+            result.ChannelID = channelID;
+
             result.TipName = reader.ReadFixedString(128);
             result.TipOther = reader.ReadFixedString(128);
             result.TipImagePath = reader.ReadFixedString(128);

@@ -13,10 +13,12 @@ namespace LeaguePackets.GamePackets
         public override GamePacketID ID => GamePacketID.NPC_UpgradeSpellReq;
         public byte Slot { get; set; }
         public bool IsEvolve { get; set; }
-        public static NPC_UpgradeSpellReq CreateBody(PacketReader reader, NetID senderNetID)
+        public static NPC_UpgradeSpellReq CreateBody(PacketReader reader, ChannelID channelID, NetID senderNetID)
         {
             var result = new NPC_UpgradeSpellReq();
             result.SenderNetID = senderNetID;
+            result.ChannelID = channelID;
+
             result.Slot = reader.ReadByte();
             byte bitfield = reader.ReadByte();
             result.IsEvolve = (bitfield & 1) != 0;

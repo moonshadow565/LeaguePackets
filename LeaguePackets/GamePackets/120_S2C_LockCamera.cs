@@ -12,10 +12,12 @@ namespace LeaguePackets.GamePackets
     {
         public override GamePacketID ID => GamePacketID.S2C_LockCamera;
         public bool Lock { get; set; }
-        public static S2C_LockCamera CreateBody(PacketReader reader, NetID senderNetID)
+        public static S2C_LockCamera CreateBody(PacketReader reader, ChannelID channelID, NetID senderNetID)
         {
             var result = new S2C_LockCamera();
             result.SenderNetID = senderNetID;
+            result.ChannelID = channelID;
+
             byte bitfield = reader.ReadByte();
             result.Lock = (bitfield & 1) != 0;
         

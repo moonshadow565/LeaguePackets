@@ -13,10 +13,12 @@ namespace LeaguePackets.GamePackets
         public override GamePacketID ID => GamePacketID.SendSelectedObjID;
         public ClientID ClientID { get; set; }
         public NetID SelectedNetID { get; set; }
-        public static SendSelectedObjID CreateBody(PacketReader reader, NetID senderNetID)
+        public static SendSelectedObjID CreateBody(PacketReader reader, ChannelID channelID, NetID senderNetID)
         {
             var result = new SendSelectedObjID();
             result.SenderNetID = senderNetID;
+            result.ChannelID = channelID;
+
             result.ClientID = reader.ReadClientID();
             result.SelectedNetID = reader.ReadNetID();
         

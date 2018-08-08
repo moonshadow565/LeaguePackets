@@ -17,10 +17,12 @@ namespace LeaguePackets.GamePackets
         public bool OverrideVisibility { get; set; }
         public bool IsSummonerSpell { get; set; }
         public bool ForceDoClient { get; set; }
-        public static NPC_InstantStop_Attack CreateBody(PacketReader reader, NetID senderNetID)
+        public static NPC_InstantStop_Attack CreateBody(PacketReader reader, ChannelID channelID, NetID senderNetID)
         {
             var result = new NPC_InstantStop_Attack();
             result.SenderNetID = senderNetID;
+            result.ChannelID = channelID;
+
             result.MissileNetID = reader.ReadNetID();
             byte flags = reader.ReadByte();
             result.KeepAnimating = (flags & 1) != 0;

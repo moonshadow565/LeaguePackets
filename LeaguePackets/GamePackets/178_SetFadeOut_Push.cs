@@ -14,10 +14,12 @@ namespace LeaguePackets.GamePackets
         public short FadeId { get; set; }
         public float FadeTime { get; set; }
         public float FadeTargetValue { get; set; }
-        public static SetFadeOut_Push CreateBody(PacketReader reader, NetID senderNetID)
+        public static SetFadeOut_Push CreateBody(PacketReader reader, ChannelID channelID, NetID senderNetID)
         {
             var result = new SetFadeOut_Push();
             result.SenderNetID = senderNetID;
+            result.ChannelID = channelID;
+
             result.FadeId = reader.ReadInt16();
             result.FadeTime = reader.ReadFloat();
             result.FadeTargetValue = reader.ReadFloat();

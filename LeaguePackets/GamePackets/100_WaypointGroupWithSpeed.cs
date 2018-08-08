@@ -14,10 +14,12 @@ namespace LeaguePackets.GamePackets
         public override GamePacketID ID => GamePacketID.WaypointGroupWithSpeed;
         public int SyncID { get; set; }
         public List<MovementDataWithSpeed> Movements { get; set; } = new List<MovementDataWithSpeed>();
-        public static WaypointGroupWithSpeed CreateBody(PacketReader reader, NetID senderNetID)
+        public static WaypointGroupWithSpeed CreateBody(PacketReader reader, ChannelID channelID, NetID senderNetID)
         {
             var result = new WaypointGroupWithSpeed();
             result.SenderNetID = senderNetID;
+            result.ChannelID = channelID;
+
             result.SyncID = reader.ReadInt32();
             int count = reader.ReadInt16();
             for (int i = 0; i < count; i++)

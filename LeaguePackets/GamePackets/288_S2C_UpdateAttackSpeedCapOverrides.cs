@@ -15,10 +15,12 @@ namespace LeaguePackets.GamePackets
         public bool DoOverrideMin { get; set; }
         public float MaxAttackSpeedOverride { get; set; }
         public float MinAttackSpeedOverride { get; set; }
-        public static S2C_UpdateAttackSpeedCapOverrides CreateBody(PacketReader reader, NetID senderNetID)
+        public static S2C_UpdateAttackSpeedCapOverrides CreateBody(PacketReader reader, ChannelID channelID, NetID senderNetID)
         {
             var result = new S2C_UpdateAttackSpeedCapOverrides();
             result.SenderNetID = senderNetID;
+            result.ChannelID = channelID;
+
             result.DoOverrideMax = reader.ReadBool();
             result.DoOverrideMin = reader.ReadBool();
             result.MaxAttackSpeedOverride = reader.ReadFloat();

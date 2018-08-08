@@ -14,10 +14,12 @@ namespace LeaguePackets.GamePackets
         public TeamID Team { get; set; }
         public float FadeAmount { get; set; }
         public float FadeTime { get; set; }
-        public static S2C_FadeMinions CreateBody(PacketReader reader, NetID senderNetID)
+        public static S2C_FadeMinions CreateBody(PacketReader reader, ChannelID channelID, NetID senderNetID)
         {
             var result = new S2C_FadeMinions();
             result.SenderNetID = senderNetID;
+            result.ChannelID = channelID;
+
             result.Team = (TeamID)reader.ReadByte();
             result.FadeAmount = reader.ReadFloat();
             result.FadeTime = reader.ReadFloat();

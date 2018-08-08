@@ -12,10 +12,12 @@ namespace LeaguePackets.GamePackets
     {
         public override GamePacketID ID => GamePacketID.SyncMissionStartTimeS2C;
         public float StartTime { get; set; }
-        public static SyncMissionStartTimeS2C CreateBody(PacketReader reader, NetID senderNetID)
+        public static SyncMissionStartTimeS2C CreateBody(PacketReader reader, ChannelID channelID, NetID senderNetID)
         {
             var result = new SyncMissionStartTimeS2C();
             result.SenderNetID = senderNetID;
+            result.ChannelID = channelID;
+
             result.StartTime = reader.ReadFloat();
         
             return result;

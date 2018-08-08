@@ -13,10 +13,12 @@ namespace LeaguePackets.GamePackets
     {
         public override GamePacketID ID => GamePacketID.S2C_ToolTipVars;
         public List<TooltipVars> Tooltips { get; set; } = new List<TooltipVars>();
-        public static S2C_ToolTipVars CreateBody(PacketReader reader, NetID senderNetID)
+        public static S2C_ToolTipVars CreateBody(PacketReader reader, ChannelID channelID, NetID senderNetID)
         {
             var result = new S2C_ToolTipVars();
             result.SenderNetID = senderNetID;
+            result.ChannelID = channelID;
+
             int size = reader.ReadUInt16() / 85;
             for (int i = 0; i < size; i++)
             {

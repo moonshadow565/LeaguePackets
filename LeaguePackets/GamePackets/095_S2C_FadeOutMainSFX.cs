@@ -12,10 +12,12 @@ namespace LeaguePackets.GamePackets
     {
         public override GamePacketID ID => GamePacketID.S2C_FadeOutMainSFX;
         public float FadeTime { get; set; }
-        public static S2C_FadeOutMainSFX CreateBody(PacketReader reader, NetID senderNetID)
+        public static S2C_FadeOutMainSFX CreateBody(PacketReader reader, ChannelID channelID, NetID senderNetID)
         {
             var result = new S2C_FadeOutMainSFX();
             result.SenderNetID = senderNetID;
+            result.ChannelID = channelID;
+
             result.FadeTime = reader.ReadFloat();
         
             return result;

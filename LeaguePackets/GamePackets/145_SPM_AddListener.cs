@@ -11,10 +11,12 @@ namespace LeaguePackets.GamePackets
     public class SPM_AddListener : GamePacket, IUnusedPacket // 0x91
     {
         public override GamePacketID ID => GamePacketID.SPM_AddListener;
-        public static SPM_AddListener CreateBody(PacketReader reader, NetID senderNetID) 
+        public static SPM_AddListener CreateBody(PacketReader reader, ChannelID channelID, NetID senderNetID) 
         {
             var result = new SPM_AddListener();
             result.SenderNetID = senderNetID;
+            result.ChannelID = channelID;
+
             return result;
         }
         public override void WriteBody(PacketWriter writer) {}

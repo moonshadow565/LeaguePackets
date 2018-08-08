@@ -29,16 +29,21 @@ namespace LeaguePackets
             }
         }
 
-        public static GamePacket Create(PacketReader reader)
+        public static GamePacket CreateGamePacket(PacketReader reader, ChannelID channel)
         {
             byte rawID = reader.ReadByte();
-            return Create(reader, rawID);
+            return CreateGamePacket(reader, channel, rawID);
         }
 
-        public static GamePacket Create(PacketReader reader, byte rawID)
+        public static GamePacket CreateGamePacket(PacketReader reader, ChannelID channel, byte rawID)
+        {
+            var sender = reader.ReadNetID();
+            return CreateGamePacket(reader, channel, rawID, sender);
+        }
+
+        public static GamePacket CreateGamePacket(PacketReader reader, ChannelID channelID, byte rawID, NetID sender)
         {
             var id = (GamePacketID)rawID;
-            var sender = reader.ReadNetID();
             if( id == GamePacketID.ExtendedPacket)
             {
                 id = (GamePacketID)reader.ReadUInt16();
@@ -48,11 +53,11 @@ namespace LeaguePackets
                 || id == GamePacketID.ExtendedPacket 
                 || id == GamePacketID.Batched)
             {
-                packet = UnknownGamePacket.CreateBody(reader, sender, id);
+                packet = UnknownGamePacket.CreateBody(reader, channelID, sender, id);
             }
             else
             {
-                packet = _lookup[id](reader, sender);
+                packet = _lookup[id](reader, channelID, sender);
             }
             packet.ExtraBytes = reader.ReadLeft();
             return packet;

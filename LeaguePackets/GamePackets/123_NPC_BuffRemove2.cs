@@ -14,10 +14,12 @@ namespace LeaguePackets.GamePackets
         public byte BuffSlot { get; set; }
         public uint BuffNameHash { get; set; }
         public float RunTimeRemove { get; set; }
-        public static NPC_BuffRemove2 CreateBody(PacketReader reader, NetID senderNetID)
+        public static NPC_BuffRemove2 CreateBody(PacketReader reader, ChannelID channelID, NetID senderNetID)
         {
             var result = new NPC_BuffRemove2();
             result.SenderNetID = senderNetID;
+            result.ChannelID = channelID;
+
             result.BuffSlot = reader.ReadByte();
             result.BuffNameHash = reader.ReadUInt32();
             result.RunTimeRemove = reader.ReadFloat();

@@ -11,10 +11,12 @@ namespace LeaguePackets.GamePackets
     public class Unused221 : GamePacket, IUnusedPacket // 0xDD
     {
         public override GamePacketID ID => GamePacketID.Unused221;
-        public static Unused221 CreateBody(PacketReader reader, NetID senderNetID)
+        public static Unused221 CreateBody(PacketReader reader, ChannelID channelID, NetID senderNetID)
         {
             var result = new Unused221();
             result.SenderNetID = senderNetID;
+            result.ChannelID = channelID;
+
             return result;
         }
         public override void WriteBody(PacketWriter writer) { }

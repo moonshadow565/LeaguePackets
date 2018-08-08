@@ -19,10 +19,12 @@ namespace LeaguePackets.GamePackets
         public override GamePacketID ID => GamePacketID.UnitAddEXP;
         public NetID TargetNetID { get; set; }
         public float ExpAmmount { get; set; }
-        public static UnitAddEXP CreateBody(PacketReader reader, NetID senderNetID)
+        public static UnitAddEXP CreateBody(PacketReader reader, ChannelID channelID, NetID senderNetID)
         {
             var result = new UnitAddEXP();
             result.SenderNetID = senderNetID;
+            result.ChannelID = channelID;
+
             result.TargetNetID = reader.ReadNetID();
             result.ExpAmmount = reader.ReadFloat();
         

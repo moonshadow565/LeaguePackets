@@ -13,10 +13,12 @@ namespace LeaguePackets.GamePackets
         public override GamePacketID ID => GamePacketID.DampenerSwitchStates;
         public ushort Duration { get; set; }
         public bool State { get; set; }
-        public static DampenerSwitchStates CreateBody(PacketReader reader, NetID senderNetID)
+        public static DampenerSwitchStates CreateBody(PacketReader reader, ChannelID channelID, NetID senderNetID)
         {
             var result = new DampenerSwitchStates();
             result.SenderNetID = senderNetID;
+            result.ChannelID = channelID;
+
             ushort bitfield = reader.ReadUInt16();
             result.Duration = (ushort)(bitfield & 0x7FFF);
             result.State = (bitfield & 0x8000) != 0;

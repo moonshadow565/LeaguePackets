@@ -16,23 +16,23 @@ namespace LeaguePackets
             writer.WriteByte((byte)ID);
         }
 
-        public static PayloadPacket Create(PacketReader reader)
+        public static PayloadPacket CreatePayloadPacket(PacketReader reader, ChannelID channelID)
         {
             byte rawID = reader.ReadByte();
-            return Create(reader, rawID);
+            return CreatePayloadPacket(reader, channelID, rawID);
         }
 
-        public static PayloadPacket Create(PacketReader reader, byte rawID)
+        public static PayloadPacket CreatePayloadPacket(PacketReader reader, ChannelID channelID, byte rawID)
         {
             var id = (PayloadPacketID)rawID;
             PayloadPacket packet;
             if(!Enum.IsDefined(typeof(PayloadPacketID), id))
             {
-                packet = UnknownPayloadPacket.CreateBody(reader, id);
+                packet = UnknownPayloadPacket.CreateBody(reader, channelID, id);
             }
             else
             {
-                packet = _lookup[id](reader);
+                packet = _lookup[id](reader, channelID);
             }
             packet.ExtraBytes = reader.ReadLeft();
             return packet;

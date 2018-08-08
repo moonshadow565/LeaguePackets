@@ -12,10 +12,12 @@ namespace LeaguePackets.GamePackets
     {
         public override GamePacketID ID => GamePacketID.S2C_EndOfGameEvent;
         public bool TeamIsOrder { get; set; }
-        public static S2C_EndOfGameEvent CreateBody(PacketReader reader, NetID senderNetID)
+        public static S2C_EndOfGameEvent CreateBody(PacketReader reader, ChannelID channelID, NetID senderNetID)
         {
             var result = new S2C_EndOfGameEvent();
             result.SenderNetID = senderNetID;
+            result.ChannelID = channelID;
+
             result.TeamIsOrder = reader.ReadBool();
         
             return result;

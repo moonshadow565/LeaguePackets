@@ -16,10 +16,12 @@ namespace LeaguePackets.GamePackets
         public float StartProgress { get; set; }
         public float SpeedRatio { get; set; }
         public string AnimationName { get; set; } = "";
-        public static S2C_PlayAnimation CreateBody(PacketReader reader, NetID senderNetID)
+        public static S2C_PlayAnimation CreateBody(PacketReader reader, ChannelID channelID, NetID senderNetID)
         {
             var result = new S2C_PlayAnimation();
             result.SenderNetID = senderNetID;
+            result.ChannelID = channelID;
+
             result.AnimationFlags = reader.ReadAnimationFlags();
             result.ScaleTime = reader.ReadFloat();
             result.StartProgress = reader.ReadFloat();

@@ -15,10 +15,12 @@ namespace LeaguePackets.GamePackets
         public float RunningTime { get; set; }
         public float Duration { get; set; }
         public NetID CasterNetID { get; set; }
-        public static NPC_BuffReplace CreateBody(PacketReader reader, NetID senderNetID)
+        public static NPC_BuffReplace CreateBody(PacketReader reader, ChannelID channelID, NetID senderNetID)
         {
             var result = new NPC_BuffReplace();
             result.SenderNetID = senderNetID;
+            result.ChannelID = channelID;
+
             result.BuffSlot = reader.ReadByte();
             result.RunningTime = reader.ReadFloat();
             result.Duration = reader.ReadFloat();

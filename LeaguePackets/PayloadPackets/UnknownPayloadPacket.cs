@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace LeaguePackets.PayloadPackets
 {
-    public class UnknownPayloadPacket : PayloadPacket
+    public class UnknownPayloadPacket : PayloadPacket, IUnknownPacket
     {
         private PayloadPacketID _id;
         public override PayloadPacketID ID => _id;
@@ -20,9 +20,10 @@ namespace LeaguePackets.PayloadPackets
         public UnknownPayloadPacket(PayloadPacketID id) => _id = id;
         public UnknownPayloadPacket(){}
 
-        public static UnknownPayloadPacket CreateBody(PacketReader reader, PayloadPacketID id)
+        public static UnknownPayloadPacket CreateBody(PacketReader reader, ChannelID channelID, PayloadPacketID id)
         {
             var result = new UnknownPayloadPacket(id);
+            result.ChannelID = channelID;
             return result;
         }
 

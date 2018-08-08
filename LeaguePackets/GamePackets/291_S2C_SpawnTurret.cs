@@ -25,10 +25,12 @@ namespace LeaguePackets.GamePackets
         public bool IsInvulnerable { get; set; }
 
         public SpellFlags IsTargetableToTeam { get; set; }
-        public static S2C_SpawnTurret CreateBody(PacketReader reader, NetID senderNetID)
+        public static S2C_SpawnTurret CreateBody(PacketReader reader, ChannelID channelID, NetID senderNetID)
         {
             var result = new S2C_SpawnTurret();
             result.SenderNetID = senderNetID;
+            result.ChannelID = channelID;
+
             result.NetID = reader.ReadNetID();
             result.OwnerNetID = reader.ReadNetID();
             result.NetNodeID = reader.ReadNetNodeID();

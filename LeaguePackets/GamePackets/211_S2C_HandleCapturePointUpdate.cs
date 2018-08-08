@@ -16,10 +16,12 @@ namespace LeaguePackets.GamePackets
         public PARType PARType { get; set; }
         public TeamID AttackTeam { get; set; }
         public CapturePointUpdateCommand Command { get; set; }
-        public static S2C_HandleCapturePointUpdate CreateBody(PacketReader reader, NetID senderNetID)
+        public static S2C_HandleCapturePointUpdate CreateBody(PacketReader reader, ChannelID channelID, NetID senderNetID)
         {
             var result = new S2C_HandleCapturePointUpdate();
             result.SenderNetID = senderNetID;
+            result.ChannelID = channelID;
+
             result.CapturePointIndex = reader.ReadByte();
             result.OtherNetID = reader.ReadNetID();
             result.PARType = reader.ReadPARType();

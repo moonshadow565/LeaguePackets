@@ -47,10 +47,12 @@ namespace LeaguePackets.GamePackets
             }
         }
 
-        public static S2C_HeroStats CreateBody(PacketReader reader, NetID senderNetID)
+        public static S2C_HeroStats CreateBody(PacketReader reader, ChannelID channelID, NetID senderNetID)
         {
             var result = new S2C_HeroStats();
             result.SenderNetID = senderNetID;
+            result.ChannelID = channelID;
+
             int size = reader.ReadInt32();
             result.Data = reader.ReadBytes(size);
             return result;

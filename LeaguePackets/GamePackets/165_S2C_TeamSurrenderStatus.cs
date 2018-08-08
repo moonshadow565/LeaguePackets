@@ -15,10 +15,12 @@ namespace LeaguePackets.GamePackets
         public byte ForVote { get; set; }
         public byte AgainstVote { get; set; }
         public TeamID TeamID { get; set; }
-        public static S2C_TeamSurrenderStatus CreateBody(PacketReader reader, NetID senderNetID)
+        public static S2C_TeamSurrenderStatus CreateBody(PacketReader reader, ChannelID channelID, NetID senderNetID)
         {
             var result = new S2C_TeamSurrenderStatus();
             result.SenderNetID = senderNetID;
+            result.ChannelID = channelID;
+
             result.Reason = reader.ReadSurrenderReason();
             result.ForVote = reader.ReadByte();
             result.AgainstVote = reader.ReadByte();

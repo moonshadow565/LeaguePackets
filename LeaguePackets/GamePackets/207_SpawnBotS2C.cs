@@ -21,10 +21,12 @@ namespace LeaguePackets.GamePackets
         public int SkinID { get; set; }
         public string Name { get; set; } = "";
         public string SkinName { get; set; } = "";
-        public static SpawnBotS2C CreateBody(PacketReader reader, NetID senderNetID)
+        public static SpawnBotS2C CreateBody(PacketReader reader, ChannelID channelID, NetID senderNetID)
         {
             var result = new SpawnBotS2C();
             result.SenderNetID = senderNetID;
+            result.ChannelID = channelID;
+
             result.NetID = reader.ReadNetID();
             result.NetNodeID = reader.ReadNetNodeID();
             result.Position = reader.ReadVector3();

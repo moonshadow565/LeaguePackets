@@ -13,10 +13,12 @@ namespace LeaguePackets.GamePackets
         public override GamePacketID ID => GamePacketID.S2C_FX_OnEnterTeamVisiblity;
         public NetID NetID { get; set; }
         public TeamID Team { get; set; }
-        public static S2C_FX_OnEnterTeamVisiblity CreateBody(PacketReader reader, NetID senderNetID)
+        public static S2C_FX_OnEnterTeamVisiblity CreateBody(PacketReader reader, ChannelID channelID, NetID senderNetID)
         {
             var result = new S2C_FX_OnEnterTeamVisiblity();
             result.SenderNetID = senderNetID;
+            result.ChannelID = channelID;
+
             result.NetID = reader.ReadNetID();
             result.Team = reader.ReadTeamID();
             return result;

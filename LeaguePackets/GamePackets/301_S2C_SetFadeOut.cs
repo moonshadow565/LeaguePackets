@@ -12,10 +12,12 @@ namespace LeaguePackets.GamePackets
     {
         public override GamePacketID ID => GamePacketID.S2C_SetFadeOut;
         //FIXME: 4.18+
-        public static S2C_SetFadeOut CreateBody(PacketReader reader, NetID senderNetID)
+        public static S2C_SetFadeOut CreateBody(PacketReader reader, ChannelID channelID, NetID senderNetID)
         {
             var result = new S2C_SetFadeOut();
             result.SenderNetID = senderNetID;
+            result.ChannelID = channelID;
+
         
             return result;
         }

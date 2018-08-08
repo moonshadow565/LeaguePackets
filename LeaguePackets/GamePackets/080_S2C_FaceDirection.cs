@@ -15,10 +15,12 @@ namespace LeaguePackets.GamePackets
         public Vector3 Direction { get; set; }
         public bool DoLerpTime { get; set; }
         public float LerpTime { get; set; }
-        public static S2C_FaceDirection CreateBody(PacketReader reader, NetID senderNetID)
+        public static S2C_FaceDirection CreateBody(PacketReader reader, ChannelID channelID, NetID senderNetID)
         {
             var result = new S2C_FaceDirection();
             result.SenderNetID = senderNetID;
+            result.ChannelID = channelID;
+
             result.Direction = reader.ReadVector3();
             byte flags = reader.ReadByte();
             result.DoLerpTime = (flags & 1) != 0;

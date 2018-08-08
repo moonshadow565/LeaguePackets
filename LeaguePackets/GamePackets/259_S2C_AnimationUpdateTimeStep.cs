@@ -13,10 +13,12 @@ namespace LeaguePackets.GamePackets
         public override GamePacketID ID => GamePacketID.S2C_AnimationUpdateTimeStep;
         public float UpdateTimeStep { get; set; }
         public string AnimationName { get; set; } = "";
-        public static S2C_AnimationUpdateTimeStep CreateBody(PacketReader reader, NetID senderNetID)
+        public static S2C_AnimationUpdateTimeStep CreateBody(PacketReader reader, ChannelID channelID, NetID senderNetID)
         {
             var result = new S2C_AnimationUpdateTimeStep();
             result.SenderNetID = senderNetID;
+            result.ChannelID = channelID;
+
             result.UpdateTimeStep = reader.ReadFloat();
             result.AnimationName = reader.ReadFixedString(64);
         

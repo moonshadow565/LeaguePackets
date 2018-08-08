@@ -15,10 +15,12 @@ namespace LeaguePackets.GamePackets
         public float Duration { get; set; }
         public float RunningTime { get; set; }
         public List<BuffInGroupUpdateCount> Buffs { get; set; } = new List<BuffInGroupUpdateCount>();
-        public static NPC_BuffUpdateCountGroup CreateBody(PacketReader reader, NetID senderNetID)
+        public static NPC_BuffUpdateCountGroup CreateBody(PacketReader reader, ChannelID channelID, NetID senderNetID)
         {
             var result = new NPC_BuffUpdateCountGroup();
             result.SenderNetID = senderNetID;
+            result.ChannelID = channelID;
+
             result.Duration = reader.ReadFloat();
             result.RunningTime = reader.ReadFloat();
             int numInGroup = reader.ReadByte();

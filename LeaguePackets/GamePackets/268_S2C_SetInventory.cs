@@ -19,10 +19,12 @@ namespace LeaguePackets.GamePackets
         public float[] ItemCooldowns => _itemCooldowns;
         public float[] ItemMaxCooldowns => _itemMaxCooldowns;
 
-        public static S2C_SetInventory CreateBody(PacketReader reader, NetID senderNetID)
+        public static S2C_SetInventory CreateBody(PacketReader reader, ChannelID channelID, NetID senderNetID)
         {
             var result = new S2C_SetInventory();
             result.SenderNetID = senderNetID;
+            result.ChannelID = channelID;
+
             for (var i = 0; i < result.Items.Length; i++)
             {
                 result.Items[i] = reader.ReadItemPacket();

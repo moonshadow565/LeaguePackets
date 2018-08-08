@@ -14,10 +14,12 @@ namespace LeaguePackets.GamePackets
         public byte Slot { get; set; }
         public byte SpellLevel { get; set; }
         public byte SkillPoints { get; set; }
-        public static NPC_UpgradeSpellAns CreateBody(PacketReader reader, NetID senderNetID)
+        public static NPC_UpgradeSpellAns CreateBody(PacketReader reader, ChannelID channelID, NetID senderNetID)
         {
             var result = new NPC_UpgradeSpellAns();
             result.SenderNetID = senderNetID;
+            result.ChannelID = channelID;
+
             result.Slot = reader.ReadByte();
             result.SpellLevel = reader.ReadByte();
             result.SkillPoints = reader.ReadByte();

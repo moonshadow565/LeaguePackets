@@ -13,10 +13,12 @@ namespace LeaguePackets.GamePackets
         public override GamePacketID ID => GamePacketID.SetPARState;
         public NetID UnitNetID { get; set; }
         public PARState PARState { get; set; }
-        public static SetPARState CreateBody(PacketReader reader, NetID senderNetID)
+        public static SetPARState CreateBody(PacketReader reader, ChannelID channelID, NetID senderNetID)
         {
             var result = new SetPARState();
             result.SenderNetID = senderNetID;
+            result.ChannelID = channelID;
+
             result.UnitNetID = reader.ReadNetID();
             result.PARState = reader.ReadPARState();
         

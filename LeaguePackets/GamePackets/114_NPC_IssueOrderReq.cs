@@ -19,10 +19,12 @@ namespace LeaguePackets.GamePackets
         public NetID WaypointsNetID { get; set; }
         public List<Tuple<short, short>> Waypoints { get; set; } = new List<Tuple<short, short>>();
 
-        public static NPC_IssueOrderReq CreateBody(PacketReader reader, NetID senderNetID)
+        public static NPC_IssueOrderReq CreateBody(PacketReader reader, ChannelID channelID, NetID senderNetID)
         {
             var result = new NPC_IssueOrderReq();
             result.SenderNetID = senderNetID;
+            result.ChannelID = channelID;
+
             result.OrderType = reader.ReadOrderType();
             result.Position = reader.ReadVector2();
             result.TargetNetID = reader.ReadNetID();

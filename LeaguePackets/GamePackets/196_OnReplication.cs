@@ -14,10 +14,12 @@ namespace LeaguePackets.GamePackets
         public override GamePacketID ID => GamePacketID.OnReplication;
         public uint SyncID { get; set; }
         public List<ReplicationData> ReplicationData { get; set; } = new List<CommonData.ReplicationData>();
-        public static OnReplication CreateBody(PacketReader reader, NetID senderNetID)
+        public static OnReplication CreateBody(PacketReader reader, ChannelID channelID, NetID senderNetID)
         {
             var result = new OnReplication();
             result.SenderNetID = senderNetID;
+            result.ChannelID = channelID;
+
             result.SyncID = reader.ReadUInt32();
             int count = reader.ReadByte();
             for (int i = 0; i < count; i++)

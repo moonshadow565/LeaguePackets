@@ -11,10 +11,12 @@ namespace LeaguePackets.GamePackets
     public class Dummy : GamePacket // 0x0
     {
         public override GamePacketID ID => GamePacketID.Dummy;
-        public static Dummy CreateBody(PacketReader reader, NetID senderNetID)
+        public static Dummy CreateBody(PacketReader reader, ChannelID channelID, NetID senderNetID)
         {
             var result = new Dummy();
             result.SenderNetID = senderNetID;
+            result.ChannelID = channelID;
+
             return result;
         }
         public override void WriteBody(PacketWriter writer)

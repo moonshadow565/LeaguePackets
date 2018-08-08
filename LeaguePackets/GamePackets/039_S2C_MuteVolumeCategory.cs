@@ -14,10 +14,12 @@ namespace LeaguePackets.GamePackets
         public VolumeCategoryType VolumeCategory { get; set; }
         public bool Mute { get; set; }
 
-        public static S2C_MuteVolumeCategory CreateBody(PacketReader reader, NetID senderNetID)
+        public static S2C_MuteVolumeCategory CreateBody(PacketReader reader, ChannelID channelID, NetID senderNetID)
         {
             var result = new S2C_MuteVolumeCategory();
             result.SenderNetID = senderNetID;
+            result.ChannelID = channelID;
+
             result.VolumeCategory = reader.ReadVolumeCategoryType();
             byte bitfield = reader.ReadByte();
             result.Mute = (bitfield & 0x01u) != 0;

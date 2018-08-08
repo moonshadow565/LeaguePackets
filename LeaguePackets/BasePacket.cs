@@ -11,6 +11,7 @@ namespace LeaguePackets
 {
     public abstract class BasePacket
     {
+        public ChannelID ChannelID { get; set; }
         public byte[] ExtraBytes { get; set; } = new byte[0];
         public virtual void WriteBody(PacketWriter writer) { }
         public virtual void WriteHeader(PacketWriter writer) { }
@@ -51,18 +52,18 @@ namespace LeaguePackets
             switch (channel)
             {
                 case ChannelID.Default:
-                    return KeyCheckPacket.Create(reader, rawID);
+                    return KeyCheckPacket.CreateKeyCheckPacket(reader, rawID);
                 case ChannelID.ClientToServer:
                 case ChannelID.SynchClock:
                 case ChannelID.Broadcast:
                 case ChannelID.BroadcastUnreliable:
-                    return GamePacket.Create(reader, rawID);
+                    return GamePacket.CreateGamePacket(reader, channel, rawID);
                 case ChannelID.Chat:
-                    return Chat.CreateBody(reader);
+                    return Chat.CreateBody(reader, channel);
                 case ChannelID.QuickChat:
-                    return QuickChat.CreateBody(reader);
+                    return QuickChat.CreateBody(reader, channel);
                 case ChannelID.LoadingScreen:
-                    return PayloadPacket.Create(reader, rawID);
+                    return PayloadPacket.CreatePayloadPacket(reader, channel, rawID);
                 default:
                     return null;
             }

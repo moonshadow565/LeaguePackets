@@ -17,10 +17,12 @@ namespace LeaguePackets.GamePackets
         public TeamID TeamID { get; set; }
         public ClientID ClientID { get; set; }
         public Vector3 Position { get; set; }
-        public static S2C_HandleRespawnPointUpdate CreateBody(PacketReader reader, NetID senderNetID)
+        public static S2C_HandleRespawnPointUpdate CreateBody(PacketReader reader, ChannelID channelID, NetID senderNetID)
         {
             var result = new S2C_HandleRespawnPointUpdate();
             result.SenderNetID = senderNetID;
+            result.ChannelID = channelID;
+
             result.RespawnPointCommand = reader.ReadRespawnPointCommand();
             result.RespawnPointUIID = reader.ReadRespawnPointUIID();
             result.TeamID = reader.ReadTeamID();

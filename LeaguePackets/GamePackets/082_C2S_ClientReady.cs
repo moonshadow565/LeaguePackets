@@ -13,10 +13,12 @@ namespace LeaguePackets.GamePackets
     {
         public override GamePacketID ID => GamePacketID.C2S_ClientReady;
         public TipConfig TipConfig { get; set; } = new TipConfig();
-        public static C2S_ClientReady CreateBody(PacketReader reader, NetID senderNetID)
+        public static C2S_ClientReady CreateBody(PacketReader reader, ChannelID channelID, NetID senderNetID)
         {
             var result = new C2S_ClientReady();
             result.SenderNetID = senderNetID;
+            result.ChannelID = channelID;
+
             reader.ReadPad(4);
             result.TipConfig = reader.ReadTipConfig();
             reader.ReadPad(8);

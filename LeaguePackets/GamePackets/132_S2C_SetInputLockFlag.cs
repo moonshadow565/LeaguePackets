@@ -13,10 +13,12 @@ namespace LeaguePackets.GamePackets
         public override GamePacketID ID => GamePacketID.S2C_SetInputLockFlag;
         public InputLockFlags InputLockFlag { get; set; }
         public bool Value { get; set; }
-        public static S2C_SetInputLockFlag CreateBody(PacketReader reader, NetID senderNetID)
+        public static S2C_SetInputLockFlag CreateBody(PacketReader reader, ChannelID channelID, NetID senderNetID)
         {
             var result = new S2C_SetInputLockFlag();
             result.SenderNetID = senderNetID;
+            result.ChannelID = channelID;
+
             result.InputLockFlag = reader.ReadInputLockFlags();
             byte bitfield = reader.ReadByte();
             result.Value = (bitfield & 1) != 0;

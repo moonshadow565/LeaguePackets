@@ -14,10 +14,12 @@ namespace LeaguePackets.GamePackets
         public ContextualEmoteID EmoteID { get; set; }
         public uint HashedParam { get; set; }
         public ContextualEmoteFlags EmoteFlags { get; set; }
-        public static S2C_PlayContextualEmote CreateBody(PacketReader reader, NetID senderNetID)
+        public static S2C_PlayContextualEmote CreateBody(PacketReader reader, ChannelID channelID, NetID senderNetID)
         {
             var result = new S2C_PlayContextualEmote();
             result.SenderNetID = senderNetID;
+            result.ChannelID = channelID;
+
             result.EmoteID = reader.ReadContextualEmoteID();
             result.HashedParam = reader.ReadUInt32();
             result.EmoteFlags = reader.ReadContextualEmoteFlags();

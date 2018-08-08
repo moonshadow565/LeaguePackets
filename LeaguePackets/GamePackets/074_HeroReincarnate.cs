@@ -14,10 +14,12 @@ namespace LeaguePackets.GamePackets
         public override GamePacketID ID => GamePacketID.HeroReincarnate;
         public Vector2 Position { get; set; }
         public float PARValue { get; set; }
-        public static HeroReincarnate CreateBody(PacketReader reader, NetID senderNetID)
+        public static HeroReincarnate CreateBody(PacketReader reader, ChannelID channelID, NetID senderNetID)
         {
             var result = new HeroReincarnate();
             result.SenderNetID = senderNetID;
+            result.ChannelID = channelID;
+
             result.Position = reader.ReadVector2();
             result.PARValue = reader.ReadFloat();
         

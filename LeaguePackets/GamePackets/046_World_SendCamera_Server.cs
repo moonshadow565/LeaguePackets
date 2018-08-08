@@ -16,10 +16,12 @@ namespace LeaguePackets.GamePackets
         public Vector3 CameraDirection { get; set; }
         public ClientID ClientID { get; set; }
         public byte SyncID { get; set; }
-        public static World_SendCamera_Server CreateBody(PacketReader reader, NetID senderNetID)
+        public static World_SendCamera_Server CreateBody(PacketReader reader, ChannelID channelID, NetID senderNetID)
         {
             var result = new World_SendCamera_Server();
             result.SenderNetID = senderNetID;
+            result.ChannelID = channelID;
+
             result.CameraPosition = reader.ReadVector3();
             result.CameraDirection = reader.ReadVector3();
             result.ClientID = reader.ReadClientID();

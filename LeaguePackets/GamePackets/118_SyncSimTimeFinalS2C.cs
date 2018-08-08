@@ -14,10 +14,12 @@ namespace LeaguePackets.GamePackets
         public float TimeLastClient { get; set; }
         public float TimeRTTLastOverhead { get; set; }
         public float TimeConvergance { get; set; }
-        public static SyncSimTimeFinalS2C CreateBody(PacketReader reader, NetID senderNetID)
+        public static SyncSimTimeFinalS2C CreateBody(PacketReader reader, ChannelID channelID, NetID senderNetID)
         {
             var result = new SyncSimTimeFinalS2C();
             result.SenderNetID = senderNetID;
+            result.ChannelID = channelID;
+
             result.TimeLastClient = reader.ReadFloat();
             result.TimeRTTLastOverhead = reader.ReadFloat();
             result.TimeConvergance = reader.ReadFloat();

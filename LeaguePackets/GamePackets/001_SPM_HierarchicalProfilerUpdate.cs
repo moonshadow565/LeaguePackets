@@ -11,10 +11,12 @@ namespace LeaguePackets.GamePackets
     public class SPM_HierarchicalProfilerUpdate : GamePacket, IUnusedPacket  // 0x1
     {
         public override GamePacketID ID => GamePacketID.SPM_HierarchicalProfilerUpdate;
-        public static SPM_HierarchicalProfilerUpdate CreateBody(PacketReader reader, NetID senderNetID) 
+        public static SPM_HierarchicalProfilerUpdate CreateBody(PacketReader reader, ChannelID channelID, NetID senderNetID) 
         {
             var result = new SPM_HierarchicalProfilerUpdate();
             result.SenderNetID = senderNetID;
+            result.ChannelID = channelID;
+
             return result;
         }
     }

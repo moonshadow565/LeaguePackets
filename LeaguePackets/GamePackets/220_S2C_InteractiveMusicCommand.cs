@@ -14,10 +14,12 @@ namespace LeaguePackets.GamePackets
         public MusicCommand MusicCommand { get; set; }
         public AudioEventID MusicEventID { get; set; }
         public AudioEventID MusicParamID { get; set; }
-        public static S2C_InteractiveMusicCommand CreateBody(PacketReader reader, NetID senderNetID)
+        public static S2C_InteractiveMusicCommand CreateBody(PacketReader reader, ChannelID channelID, NetID senderNetID)
         {
             var result = new S2C_InteractiveMusicCommand();
             result.SenderNetID = senderNetID;
+            result.ChannelID = channelID;
+
             result.MusicCommand = reader.ReadMusicCommand();
             result.MusicEventID = reader.ReadAudioEventID();
             result.MusicParamID = reader.ReadAudioEventID();

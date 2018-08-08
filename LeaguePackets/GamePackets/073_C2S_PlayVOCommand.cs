@@ -17,10 +17,12 @@ namespace LeaguePackets.GamePackets
         public bool HighlightPlayerIcon { get; set; }
         public bool FromPing { get; set; }
         public bool AlliesOnly { get; set; }
-        public static C2S_PlayVOCommand CreateBody(PacketReader reader, NetID senderNetID)
+        public static C2S_PlayVOCommand CreateBody(PacketReader reader, ChannelID channelID, NetID senderNetID)
         {
             var result = new C2S_PlayVOCommand();
             result.SenderNetID = senderNetID;
+            result.ChannelID = channelID;
+
             result.CommandID = reader.ReadUInt32();
             result.TargetNetID = reader.ReadNetID();
             result.EventHash = reader.ReadUInt32();

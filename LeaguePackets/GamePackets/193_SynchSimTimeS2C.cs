@@ -12,10 +12,12 @@ namespace LeaguePackets.GamePackets
     {
         public override GamePacketID ID => GamePacketID.SynchSimTimeS2C;
         public float SynchTime { get; set; }
-        public static SynchSimTimeS2C CreateBody(PacketReader reader, NetID senderNetID)
+        public static SynchSimTimeS2C CreateBody(PacketReader reader, ChannelID channelID, NetID senderNetID)
         {
             var result = new SynchSimTimeS2C();
             result.SenderNetID = senderNetID;
+            result.ChannelID = channelID;
+
             result.SynchTime = reader.ReadFloat();
         
             return result;

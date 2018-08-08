@@ -35,10 +35,12 @@ namespace LeaguePackets.GamePackets
         public CreateHeroDeath CreateHeroDeath { get; set; }
         public bool Unknown8 { get; set; } // something with scripts
 
-        public static S2C_CreateHero CreateBody(PacketReader reader, NetID senderNetID)
+        public static S2C_CreateHero CreateBody(PacketReader reader, ChannelID channelID, NetID senderNetID)
         {
             var result = new S2C_CreateHero();
             result.SenderNetID = senderNetID;
+            result.ChannelID = channelID;
+
             result.NetID = reader.ReadNetID();
             result.PlayerUID = reader.ReadClientID();
             result.NetNodeID = reader.ReadNetNodeID();

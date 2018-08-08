@@ -12,10 +12,12 @@ namespace LeaguePackets.GamePackets
     {
         public override GamePacketID ID => GamePacketID.FX_Kill;
         public NetID NetID { get; set; }
-        public static FX_Kill CreateBody(PacketReader reader, NetID senderNetID)
+        public static FX_Kill CreateBody(PacketReader reader, ChannelID channelID, NetID senderNetID)
         {
             var result = new FX_Kill();
             result.SenderNetID = senderNetID;
+            result.ChannelID = channelID;
+
             result.NetID = reader.ReadNetID();
         
             return result;

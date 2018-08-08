@@ -12,10 +12,12 @@ namespace LeaguePackets.GamePackets
     {
         public override GamePacketID ID => GamePacketID.C2S_PlayEmote;
         public EmoteID EmoteID { get; set; }
-        public static C2S_PlayEmote CreateBody(PacketReader reader, NetID senderNetID)
+        public static C2S_PlayEmote CreateBody(PacketReader reader, ChannelID channelID, NetID senderNetID)
         {
             var result = new C2S_PlayEmote();
             result.SenderNetID = senderNetID;
+            result.ChannelID = channelID;
+
             result.EmoteID = reader.ReadEmoteID();
         
             return result;

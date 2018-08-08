@@ -18,10 +18,12 @@ namespace LeaguePackets.GamePackets
         public string BorderCategory { get; set; } = "";
         public string BorderScriptName { get; set; } = "";
 
-        public static S2C_UnitSetMinimapIcon CreateBody(PacketReader reader, NetID senderNetID)
+        public static S2C_UnitSetMinimapIcon CreateBody(PacketReader reader, ChannelID channelID, NetID senderNetID)
         {
             var result = new S2C_UnitSetMinimapIcon();
             result.SenderNetID = senderNetID;
+            result.ChannelID = channelID;
+
             result.UnitNetID = reader.ReadNetID();
             result.ChangeIcon = reader.ReadBool();
             result.IconCategory = reader.ReadFixedString(64);

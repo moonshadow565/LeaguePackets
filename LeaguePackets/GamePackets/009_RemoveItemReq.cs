@@ -13,10 +13,12 @@ namespace LeaguePackets.GamePackets
         public override GamePacketID ID => GamePacketID.RemoveItemReq;
         public byte Slot { get; set; }
         public bool Sell { get; set; }
-        public static RemoveItemReq CreateBody(PacketReader reader, NetID senderNetID)
+        public static RemoveItemReq CreateBody(PacketReader reader, ChannelID channelID, NetID senderNetID)
         {
             var result = new RemoveItemReq();
             result.SenderNetID = senderNetID;
+            result.ChannelID = channelID;
+
             byte bitfield = reader.ReadByte();
             result.Slot = (byte)(bitfield & 0x7Fu);
             result.Sell = (bitfield & 0x80) != 0;

@@ -11,7 +11,7 @@ namespace LeaguePackets.GamePackets
     public class C2S_PlayContextualEmote : GamePacket // 0xF4
     {
         public override GamePacketID ID => GamePacketID.C2S_PlayContextualEmote;
-        public static C2S_PlayContextualEmote CreateBody(PacketReader reader, NetID senderNetID)
+        public static C2S_PlayContextualEmote CreateBody(PacketReader reader, ChannelID channelID, NetID senderNetID)
         {
             var result = new C2S_PlayContextualEmote(); 
             return result;

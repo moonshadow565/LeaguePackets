@@ -11,10 +11,12 @@ namespace LeaguePackets.GamePackets
     public class S2C_DestroyClientMissile : GamePacket // 0x5A
     {
         public override GamePacketID ID => GamePacketID.S2C_DestroyClientMissile;
-        public static S2C_DestroyClientMissile CreateBody(PacketReader reader, NetID senderNetID) 
+        public static S2C_DestroyClientMissile CreateBody(PacketReader reader, ChannelID channelID, NetID senderNetID) 
         {
             var result = new S2C_DestroyClientMissile();
             result.SenderNetID = senderNetID;
+            result.ChannelID = channelID;
+
             return result;
         }
         public override void WriteBody(PacketWriter writer) {}

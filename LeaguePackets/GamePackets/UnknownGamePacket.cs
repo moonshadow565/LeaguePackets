@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace LeaguePackets.GamePackets
 {
-    public class UnknownGamePacket : GamePacket
+    public class UnknownGamePacket : GamePacket, IUnknownPacket
     {
         private GamePacketID _id;
         public override GamePacketID ID => _id;
@@ -21,10 +21,12 @@ namespace LeaguePackets.GamePackets
         public UnknownGamePacket(GamePacketID id) => _id = id;
         public UnknownGamePacket() {}
 
-        public static UnknownGamePacket CreateBody(PacketReader reader, NetID senderNetID, GamePacketID id)
+        public static UnknownGamePacket CreateBody(PacketReader reader, ChannelID channelID, NetID senderNetID, GamePacketID id)
         {
             var result = new UnknownGamePacket(id);
             result.SenderNetID = senderNetID;
+            result.ChannelID = channelID;
+
             return result;
         }
 

@@ -14,10 +14,12 @@ namespace LeaguePackets.GamePackets
         public CostType CostType { get; set; }
         public int SpellSlot { get; set; }
         public float Amount { get; set; }
-        public static S2C_UnitSetSpellPARCost CreateBody(PacketReader reader, NetID senderNetID)
+        public static S2C_UnitSetSpellPARCost CreateBody(PacketReader reader, ChannelID channelID, NetID senderNetID)
         {
             var result = new S2C_UnitSetSpellPARCost();
             result.SenderNetID = senderNetID;
+            result.ChannelID = channelID;
+
             result.CostType = reader.ReadCostType();
             result.SpellSlot = reader.ReadInt32();
             result.Amount = reader.ReadFloat();

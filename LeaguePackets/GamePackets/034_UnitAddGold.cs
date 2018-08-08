@@ -14,10 +14,12 @@ namespace LeaguePackets.GamePackets
         public NetID TargetNetID { get; set; }
         public NetID SourceNetID { get; set; }
         public float GoldAmmount { get; set; }
-        public static UnitAddGold CreateBody(PacketReader reader, NetID senderNetID)
+        public static UnitAddGold CreateBody(PacketReader reader, ChannelID channelID, NetID senderNetID)
         {
             var result = new UnitAddGold();
             result.SenderNetID = senderNetID;
+            result.ChannelID = channelID;
+
             result.TargetNetID = reader.ReadNetID();
             result.SourceNetID = reader.ReadNetID();
             result.GoldAmmount = reader.ReadFloat();
