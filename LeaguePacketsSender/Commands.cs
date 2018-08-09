@@ -48,6 +48,31 @@ namespace LeaguePacketsSender
             return "AddItem!";
         }
 
+        public static string Speed(LeagueServer server, ClientID client, string args)
+        {
+            if(string.IsNullOrEmpty(args))
+            {
+                return "Missing speed value!";
+            }
+            float value = float.Parse(args);
+            byte[] buffer = BitConverter.GetBytes(value);
+
+            var packet = new OnReplication();
+            packet.SyncID = (uint)Environment.TickCount;
+            var data = new ReplicationData()
+            {
+                UnitNetID = (NetID)0x40000001,
+            };
+            data.Data[3] = new Tuple<uint, byte[]>(1 << 10, buffer);
+
+            packet.ReplicationData = new List<ReplicationData>()
+            {
+                data
+            };
+            server.SendEncrypted(client, ChannelID.Broadcast, packet);
+            return "Speed!";
+        }
+
         public static string TestRep(LeagueServer server, ClientID client, string args)
         {
             var packet = new OnReplication();
@@ -67,19 +92,14 @@ namespace LeaguePacketsSender
                 buffer = new byte[stream.Length];
                 Buffer.BlockCopy(stream.GetBuffer(), 0, buffer, 0, buffer.Length);
             }
-
-            BitArray array = new BitArray(32);
-            array.Set(0, true);
-            array.Set(1, true);
-
-            data.Data[3] = new Tuple<BitArray, byte[]>(array, buffer);
+            data.Data[3] = new Tuple<uint, byte[]>((1 << 0) | (1 << 1), buffer);
 
             packet.ReplicationData = new List<ReplicationData>()
             {
                 data
             };
             server.SendEncrypted(client, ChannelID.Broadcast, packet);
-            return "AddItem!";
+            return "TestRep!";
         }
 
         public static string Test002(LeagueServer server, ClientID client, string args)
