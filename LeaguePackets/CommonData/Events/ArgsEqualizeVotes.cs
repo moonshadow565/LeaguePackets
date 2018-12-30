@@ -15,6 +15,8 @@ namespace LeaguePackets.CommonData.Events
         public TeamID TeamID { get; set; }
         public override void ReadArgs(PacketReader reader)
         {
+            base.ReadArgs(reader);
+            // FIXME: this shouldn't be serialized?
             ForVote = reader.ReadInt32();
             AgainstVote = reader.ReadInt32();
             GoldGranted = reader.ReadFloat();
@@ -24,6 +26,7 @@ namespace LeaguePackets.CommonData.Events
         }
         public override void WriteArgs(PacketWriter writer)
         {
+            base.WriteArgs(writer);
             writer.WriteInt32(ForVote);
             writer.WriteInt32(AgainstVote);
             writer.WriteFloat(GoldGranted);

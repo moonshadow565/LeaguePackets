@@ -6,13 +6,15 @@ namespace LeaguePackets.CommonData.Events
         public float Ammount { get; set; }
         public override void ReadArgs(PacketReader reader)
         {
+            base.ReadArgs(reader);
             Ammount = reader.ReadFloat();
-            reader.ReadPad(8);
+            reader.ReadUInt64();
         }
         public override void WriteArgs(PacketWriter writer)
         {
+            base.WriteArgs(writer);
             writer.WriteFloat(Ammount);
-            writer.WritePad(8);
+            writer.WriteUInt64(0);
         }
     }
 }

@@ -14,6 +14,7 @@ namespace LeaguePackets.CommonData.Events
 
         public override void ReadArgs(PacketReader reader)
         {
+            base.ReadArgs(reader);
             ScriptNameHash = reader.ReadUInt32();
             EventSource = reader.ReadByte();
             SourceObjectNetID = reader.ReadNetID();
@@ -23,6 +24,7 @@ namespace LeaguePackets.CommonData.Events
         }
         public override void WriteArgs(PacketWriter writer)
         {
+            base.WriteArgs(writer);
             writer.WriteUInt32(ScriptNameHash);
             writer.WriteByte(EventSource);
             writer.WriteNetID(SourceObjectNetID);

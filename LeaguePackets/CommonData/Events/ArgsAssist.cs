@@ -15,6 +15,7 @@ namespace LeaguePackets.CommonData.Events
 
         public override void ReadArgs(PacketReader reader)
         {
+            base.ReadArgs(reader);
             AtTime = reader.ReadFloat();
             PhysicalDamage = reader.ReadFloat();
             MagicalDamage = reader.ReadFloat();
@@ -25,6 +26,7 @@ namespace LeaguePackets.CommonData.Events
         }
         public override void WriteArgs(PacketWriter writer)
         {
+            base.WriteArgs(writer);
             writer.WriteFloat(AtTime);
             writer.WriteFloat(PhysicalDamage);
             writer.WriteFloat(MagicalDamage);

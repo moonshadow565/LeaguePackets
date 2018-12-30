@@ -6,12 +6,12 @@ namespace LeaguePackets.CommonData.Events
         public byte Bitfield { get; set; }
         public override void ReadArgs(PacketReader reader)
         {
-            reader.ReadPad(4);
+            base.ReadArgs(reader);
             Bitfield = reader.ReadByte();
         }
         public override void WriteArgs(PacketWriter writer)
         {
-            writer.WritePad(4);
+            base.WriteArgs(writer);
             writer.WriteByte(Bitfield);
         }
     }

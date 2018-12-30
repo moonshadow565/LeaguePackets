@@ -10,6 +10,7 @@ namespace LeaguePackets.CommonData.Events
         public TeamID TeamID { get; set; }
         public override void ReadArgs(PacketReader reader)
         {
+            base.ReadArgs(reader);
             ItemID = reader.ReadItemID();
             ItemCount = reader.ReadUInt32();
             reader.ReadPad(24);
@@ -17,6 +18,7 @@ namespace LeaguePackets.CommonData.Events
         }
         public override void WriteArgs(PacketWriter writer)
         {
+            base.WriteArgs(writer);
             writer.WriteItemID(ItemID);
             writer.WriteUInt32(ItemCount);
             writer.WritePad(24);

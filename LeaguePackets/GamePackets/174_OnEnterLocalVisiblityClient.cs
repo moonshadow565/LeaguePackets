@@ -9,7 +9,7 @@ using LeaguePackets.CommonData;
 
 namespace LeaguePackets.GamePackets
 {
-    public class OnEnterLocalVisiblityClient : GamePacket // 0xAE
+    public class OnEnterLocalVisiblityClient : GamePacket, IGamePacketsList // 0xAE
     {
         public override GamePacketID ID => GamePacketID.OnEnterLocalVisiblityClient;
         public List<GamePacket> Packets { get; set; } = new List<GamePacket>();

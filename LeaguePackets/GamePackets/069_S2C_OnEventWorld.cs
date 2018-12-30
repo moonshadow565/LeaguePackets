@@ -22,7 +22,7 @@ namespace LeaguePackets.GamePackets
             this.ChannelID = channelID;
 
             this.Event = reader.ReadEvent();
-        
+
             this.ExtraBytes = reader.ReadLeft();
         }
         public override void WriteBody(PacketWriter writer)

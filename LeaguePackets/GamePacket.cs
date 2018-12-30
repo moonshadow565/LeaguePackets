@@ -62,7 +62,7 @@ namespace LeaguePackets
             {
                 packet = _lookup[id](reader, channelID, sender);
             }
-            packet.ExtraBytes = reader.ReadLeft();
+            // packet.ExtraBytes = reader.ReadLeft(); We do this in each packet individualy instead??
             return packet;
         }
     }

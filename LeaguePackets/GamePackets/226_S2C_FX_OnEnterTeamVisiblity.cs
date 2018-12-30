@@ -12,7 +12,7 @@ namespace LeaguePackets.GamePackets
     {
         public override GamePacketID ID => GamePacketID.S2C_FX_OnEnterTeamVisiblity;
         public NetID NetID { get; set; }
-        public TeamID Team { get; set; }
+        public VisibilityTeam Team { get; set; }
         public S2C_FX_OnEnterTeamVisiblity(){}
 
         public S2C_FX_OnEnterTeamVisiblity(PacketReader reader, ChannelID channelID, NetID senderNetID)
@@ -21,13 +21,13 @@ namespace LeaguePackets.GamePackets
             this.ChannelID = channelID;
 
             this.NetID = reader.ReadNetID();
-            this.Team = reader.ReadTeamID();
+            this.Team = reader.ReadVisibilityTeam();
             this.ExtraBytes = reader.ReadLeft();
         }
         public override void WriteBody(PacketWriter writer)
         {
             writer.WriteNetID(NetID);
-            writer.WriteTeamID(Team);
+            writer.WriteVisibilityTeam(Team);
         }
     }
 }

@@ -5,11 +5,11 @@ namespace LeaguePackets.CommonData.Events
     {
         public override void ReadArgs(PacketReader reader)
         {
-             reader.ReadPad(4);
+            base.ReadArgs(reader);
         }
         public override void WriteArgs(PacketWriter writer)
         {
-            writer.WritePad(4);
+            base.WriteArgs(writer);
         }
     }
 }

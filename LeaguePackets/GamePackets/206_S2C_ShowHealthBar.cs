@@ -13,6 +13,7 @@ namespace LeaguePackets.GamePackets
         public override GamePacketID ID => GamePacketID.S2C_ShowHealthBar;
         public bool ShowHealthBar { get; set;}
         public bool ChangeHealthBarType { get; set; }
+        // TODO: make HealthBarType optional instead of using a bool
         public HealthBarType HealthBarType { get; set; }
         public TeamID ObserverTeam { get; set; }
         public S2C_ShowHealthBar(){}
@@ -25,9 +26,11 @@ namespace LeaguePackets.GamePackets
             byte bitfield = reader.ReadByte();
             this.ShowHealthBar = (bitfield & 1) != 0;
             this.ChangeHealthBarType = (bitfield & 2) != 0;
-            this.HealthBarType = reader.ReadHealthBarType();
-            this.ObserverTeam = reader.ReadTeamID();
-
+            this.HealthBarType = reader.ReadHealthBarType(); // should be writen only when ObserverTeam
+            if (this.ChangeHealthBarType)
+            {
+                this.ObserverTeam = reader.ReadTeamID();
+            }
             this.ExtraBytes = reader.ReadLeft();
         }
         public override void WriteBody(PacketWriter writer)
@@ -43,7 +46,10 @@ namespace LeaguePackets.GamePackets
             }
             writer.WriteByte(bitfield);
             writer.WriteHealthBarType(HealthBarType);
-            writer.WriteTeamID(ObserverTeam);
+            if (ChangeHealthBarType)
+            {
+                writer.WriteTeamID(ObserverTeam);
+            }
         }
     }
 }

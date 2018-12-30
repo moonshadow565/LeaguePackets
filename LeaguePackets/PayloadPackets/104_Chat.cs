@@ -39,11 +39,13 @@ namespace LeaguePackets.PayloadPackets
             {
                 Params = Encoding.UTF8.GetString(pars);
                 Message = Encoding.UTF8.GetString(msg);
+                reader.ReadPad(1);
             }
             else
             {
                 Params = Encoding.ASCII.GetString(pars);
                 Message = Encoding.ASCII.GetString(msg);
+                reader.ReadPad(1);
             }
             ExtraBytes = reader.ReadLeft();
         }

@@ -12,6 +12,7 @@ namespace LeaguePackets.CommonData.Events
 
         public override void ReadArgs(PacketReader reader) 
         {
+            base.ReadArgs(reader);
             GoldGiven = reader.ReadFloat();
             AssistCount = reader.ReadInt32();
             for (int i = 0; i < Assists.Length; i++)
@@ -21,6 +22,7 @@ namespace LeaguePackets.CommonData.Events
         }
         public override void WriteArgs(PacketWriter writer) 
         {
+            base.WriteArgs(writer);
             writer.WriteFloat(GoldGiven);
             writer.WriteInt32(AssistCount);
             for (int i = 0; i < Assists.Length; i++)

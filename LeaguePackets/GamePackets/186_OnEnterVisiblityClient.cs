@@ -11,7 +11,7 @@ using System.Numerics;
 namespace LeaguePackets.GamePackets
 {
 
-    public class OnEnterVisiblityClient : GamePacket // 0xBA
+    public class OnEnterVisiblityClient : GamePacket, IGamePacketsList // 0xBA
     {
         public override GamePacketID ID => GamePacketID.OnEnterVisiblityClient;
         public List<GamePacket> Packets { get; set; } = new List<GamePacket>();

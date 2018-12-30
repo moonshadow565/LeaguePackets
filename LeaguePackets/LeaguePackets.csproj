@@ -345,6 +345,7 @@
     <Compile Include="GamePackets\302_UNK_0x12E.cs" />
     <Compile Include="GamePackets\303_S2C_UnlockAnimation.cs" />
     <Compile Include="GamePackets\UnknownGamePacket.cs" />
+    <Compile Include="IGamePacketsList.cs" />
     <Compile Include="PayloadPacketID.cs" />
     <Compile Include="Common\NetID.cs" />
     <Compile Include="Common\NetNodeID.cs" />
@@ -491,9 +492,6 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup />
-  <ItemGroup>
-    <Folder Include="CommonData\" />
-    <Folder Include="CommonData\Events\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

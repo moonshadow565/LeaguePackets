@@ -5,13 +5,14 @@ namespace LeaguePackets.CommonData.Events
 {
     public class ArgsBase
     {
+        public NetID OtherNetID { get; set; }
         public virtual void ReadArgs(PacketReader reader) 
-        { 
-            reader.ReadPad(8);
+        {
+            OtherNetID = reader.ReadNetID();
         }
         public virtual void WriteArgs(PacketWriter writer) 
-        { 
-            writer.WritePad(8);
+        {
+            writer.WriteNetID(OtherNetID);
         }
     }
 }

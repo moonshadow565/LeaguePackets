@@ -6,12 +6,12 @@ namespace LeaguePackets.CommonData.Events
         public int UndoStackLength { get; set; }
         public override void ReadArgs(PacketReader reader)
         {
-            reader.ReadPad(4);
+            base.ReadArgs(reader);
             UndoStackLength = reader.ReadInt32();
         }
         public override void WriteArgs(PacketWriter writer)
         {
-            writer.WritePad(4);
+            base.WriteArgs(writer);
             writer.WriteInt32(UndoStackLength);
         }
     }

@@ -9,12 +9,14 @@ namespace LeaguePackets.CommonData.Events
 
         public override void ReadArgs(PacketReader reader)
         {
+            base.ReadArgs(reader);
             EnableSubstitution = reader.ReadBool();
             OriginalItemId = reader.ReadUInt32();
             SubstitutedItemId = reader.ReadUInt32();
         }
         public override void WriteArgs(PacketWriter writer)
         {
+            base.WriteArgs(writer);
             writer.WriteBool(EnableSubstitution);
             writer.WriteUInt32(OriginalItemId);
             writer.WriteUInt32(SubstitutedItemId);

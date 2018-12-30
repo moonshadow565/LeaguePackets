@@ -20,7 +20,7 @@ namespace LeaguePackets.GamePackets
             this.SenderNetID = senderNetID;
             this.ChannelID = channelID;
 
-            int size = reader.ReadUInt16() / 85;
+            int size = reader.ReadUInt16();
             for (int i = 0; i < size; i++)
             {
                 this.Tooltips.Add(reader.ReadTooltipValues());
@@ -30,7 +30,7 @@ namespace LeaguePackets.GamePackets
         }
         public override void WriteBody(PacketWriter writer)
         {
-            int size = Tooltips.Count * 85;
+            int size = Tooltips.Count;
             if(size > 0xFFFF)
             {
                 throw new IOException("Tooltips list too big!");

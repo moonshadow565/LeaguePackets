@@ -120,7 +120,7 @@ namespace LeaguePackets.CommonData
             byte bitfield = reader.ReadByte();
             byte size = (byte)(bitfield >> 1);
             HasTeleportID = (bitfield & 1) != 0;
-            if(size > 1)
+            if(size > 0)
             {
                 TeleportNetID = reader.ReadNetID();
                 if (HasTeleportID)
