@@ -120,14 +120,14 @@ namespace LeaguePackets.CommonData
             byte bitfield = reader.ReadByte();
             byte size = (byte)(bitfield >> 1);
             HasTeleportID = (bitfield & 1) != 0;
-            if(size >= 2)
+            if(size > 1)
             {
                 TeleportNetID = reader.ReadNetID();
                 if (HasTeleportID)
                 {
                     TeleportID = reader.ReadByte();
                 }
-                Waypoints = reader.ReadCompressedWaypoints(size / 2u);
+                Waypoints = reader.ReadCompressedWaypoints(size);
             }
         }
     }
@@ -170,7 +170,7 @@ namespace LeaguePackets.CommonData
             byte bitfield = reader.ReadByte();
             byte size = (byte)(bitfield >> 1);
             HasTeleportID = (bitfield & 1) != 0;
-            if (size >= 2)
+            if (size > 0)
             {
                 TeleportNetID = reader.ReadNetID();
                 if(HasTeleportID)
@@ -178,7 +178,7 @@ namespace LeaguePackets.CommonData
                     TeleportID = reader.ReadByte();
                 }
                 SpeedParams = reader.ReadWaypointSpeedParams();
-                Waypoints = reader.ReadCompressedWaypoints(size / 2u);
+                Waypoints = reader.ReadCompressedWaypoints(size);
             }
         }
     }
@@ -200,7 +200,7 @@ namespace LeaguePackets.CommonData
         {
             var data = new List<Tuple<short, short>>();
             BitArray flags;
-            if(size >= 2)
+            if(size > 1)
             {
                 byte[] flagsBuffer = reader.ReadBytes((int)((size - 2) / 4 + 1));
                 flags = new BitArray(flagsBuffer);
@@ -246,7 +246,7 @@ namespace LeaguePackets.CommonData
                 throw new IOException("Need at least 1 waypoint!");
             }
             byte[] flagsBuffer;
-            if(size >= 2)
+            if(size > 1)
             {
                 flagsBuffer = new byte[(size - 2) / 4 + 1u];
             }

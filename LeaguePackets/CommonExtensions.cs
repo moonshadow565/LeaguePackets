@@ -194,12 +194,12 @@ namespace LeaguePackets
 
         public static FloatTextType ReadFloatTextType(this PacketReader reader)
         {
-            return (FloatTextType)(reader.ReadByte());
+            return (FloatTextType)(reader.ReadUInt32());
         }
 
         public static void WriteFloatTextType(this PacketWriter writer, FloatTextType data)
         {
-            writer.WriteByte((byte)data);
+            writer.WriteUInt32((uint)data);
         }
 
         public static AudioVOEventType ReadAudioVOEventType(this PacketReader reader)

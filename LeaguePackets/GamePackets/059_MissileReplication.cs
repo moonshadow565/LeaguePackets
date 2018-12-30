@@ -78,6 +78,7 @@ namespace LeaguePackets.GamePackets
             {
                 bitfield |= 1;
             }
+            writer.WriteByte(bitfield);
 
             writer.WriteCastInfo(CastInfo);
         }

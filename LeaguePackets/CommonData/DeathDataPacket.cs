@@ -11,7 +11,7 @@ namespace LeaguePackets.CommonData
         public float DeathDuration { get; set; }
         //TODO: change to enum or variables
         public byte Bitfield { get; set; }
-        //TODO: enum?
+        //TODO: enum: MINION_DIE = 0x0, NETURAL_DIE = 0x1,
         public byte DieType { get; set; }
     }
 

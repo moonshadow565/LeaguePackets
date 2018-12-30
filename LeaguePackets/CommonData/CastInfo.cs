@@ -48,8 +48,8 @@ namespace LeaguePackets.CommonData
         public static CastInfo ReadCastInfo(this PacketReader reader)
         {
             var data = new CastInfo();
-            var size = reader.ReadUInt16();
             var startPos = reader.Stream.Position;
+            var size = reader.ReadUInt16();
 
             data.SpellHash = reader.ReadUInt32();
             data.SpellNetID = reader.ReadNetID();

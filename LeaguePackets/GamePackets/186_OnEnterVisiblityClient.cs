@@ -55,8 +55,8 @@ namespace LeaguePackets.GamePackets
                         {
                             throw new IOException("Packet too big!");
                         }
-                        writer.WriteUInt16((ushort)data.Length);
-                        writer.WriteBytes(data);
+                        writer2.WriteUInt16((ushort)data.Length);
+                        writer2.WriteBytes(data);
                     }
                 }
                 buffer = new byte[stream.Length];
