@@ -22,7 +22,7 @@ namespace LeaguePackets.GamePackets
             this.SenderNetID = senderNetID;
             this.ChannelID = channelID;
 
-            this.Reason = reader.ReadSurrenderReason();
+            this.Reason = (SurrenderReason)reader.ReadUInt32();
             this.ForVote = reader.ReadByte();
             this.AgainstVote = reader.ReadByte();
             this.TeamID = reader.ReadTeamID();
@@ -31,7 +31,7 @@ namespace LeaguePackets.GamePackets
         }
         public override void WriteBody(PacketWriter writer)
         {
-            writer.WriteSurrenderReason(Reason);
+            writer.WriteUInt32((uint)Reason);
             writer.WriteByte(ForVote);
             writer.WriteByte(AgainstVote);
             writer.WriteTeamID(TeamID);

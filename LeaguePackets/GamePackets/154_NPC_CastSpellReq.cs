@@ -27,9 +27,10 @@ namespace LeaguePackets.GamePackets
             this.ChannelID = channelID;
 
             byte bitfield = reader.ReadByte();
-            this.Slot = (byte)(bitfield & 0x3F);
-            this.IsSummonerSpellBook = (bitfield & 0x40) != 0;
-            this.IsHudClickCast = (bitfield & 0x80) != 0;
+            this.IsSummonerSpellBook = (bitfield & 0x01) != 0;
+            this.IsHudClickCast = (bitfield & 0x02) != 0;
+
+            this.Slot = reader.ReadByte();
             this.Position = reader.ReadVector2();
             this.EndPosition = reader.ReadVector2();
             this.TargetNetID = reader.ReadNetID();
@@ -39,12 +40,13 @@ namespace LeaguePackets.GamePackets
         public override void WriteBody(PacketWriter writer)
         {
             byte bitfield = 0;
-            bitfield |= (byte)(Slot & 0x3F);
             if (IsSummonerSpellBook)
-                bitfield |= 0x40;
+                bitfield |= 0x01;
             if (IsHudClickCast)
-                bitfield |= 0x80;
+                bitfield |= 0x02;
             writer.WriteByte(bitfield);
+
+            writer.WriteByte(Slot);
             writer.WriteVector2(Position);
             writer.WriteVector2(EndPosition);
             writer.WriteNetID(TargetNetID);

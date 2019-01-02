@@ -12,8 +12,8 @@ namespace LeaguePackets.GamePackets
     {
         public override GamePacketID ID => GamePacketID.RemoveItemAns;
         public byte Slot { get; set; }
-        public bool NotifyInventoryChange { get; set; }
         public byte ItemsInSlot { get; set; }
+        public bool NotifyInventoryChange { get; set; }
         public RemoveItemAns(){}
 
         public RemoveItemAns(PacketReader reader, ChannelID channelID, NetID senderNetID)
@@ -21,21 +21,23 @@ namespace LeaguePackets.GamePackets
             this.SenderNetID = senderNetID;
             this.ChannelID = channelID;
 
-            byte bitfield = reader.ReadByte();
-            this.Slot = (byte)(bitfield & 0x7Fu);
-            this.NotifyInventoryChange = (bitfield & 0x80) != 0;
+            this.Slot = reader.ReadByte();
             this.ItemsInSlot = reader.ReadByte();
-        
+
+            byte bitfield = reader.ReadByte();
+            this.NotifyInventoryChange = (bitfield & 0x01) != 0;
+
             this.ExtraBytes = reader.ReadLeft();
         }
         public override void WriteBody(PacketWriter writer)
         {
-            byte bitfield = 0;
-            bitfield |= (byte)((byte)Slot & 0x7Fu);
-            if (NotifyInventoryChange)
-                bitfield |= 0x80;
-            writer.WriteByte(bitfield);
+            writer.WriteByte(Slot);
             writer.WriteByte(ItemsInSlot);
+
+            byte bitfield = 0;
+            if (NotifyInventoryChange)
+                bitfield |= 0x01;
+            writer.WriteByte(bitfield);
         }
     }
 }

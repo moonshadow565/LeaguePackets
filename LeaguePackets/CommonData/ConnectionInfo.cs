@@ -9,8 +9,9 @@ namespace LeaguePackets.CommonData
         public PlayerID PlayerID { get; set; }
         public float Percentage { get; set; }
         public float ETA { get; set; }
-        // TODO: change bitfield to variables
-        public uint Bitfield { get; set; }
+        public ushort Count { get; set; }
+        public ushort Ping { get; set; }
+        public bool Ready { get; set; }
     }
 
     public static class ConnectionInfoExtension
@@ -22,7 +23,9 @@ namespace LeaguePackets.CommonData
             info.PlayerID = reader.ReadPlayerID();
             info.Percentage = reader.ReadFloat();
             info.ETA = reader.ReadFloat();
-            info.Bitfield = reader.ReadUInt32();
+            info.Count = reader.ReadUInt16();
+            info.Ping = reader.ReadUInt16();
+            info.Ready = reader.ReadBool();
             return info;
         }
 
@@ -36,7 +39,9 @@ namespace LeaguePackets.CommonData
             writer.WritePlayerID(info.PlayerID);
             writer.WriteFloat(info.Percentage);
             writer.WriteFloat(info.ETA);
-            writer.WriteUInt32(info.Bitfield);
+            writer.WriteUInt16(info.Count);
+            writer.WriteUInt16(info.Ping);
+            writer.WriteBool(info.Ready);
         }
     }
 }

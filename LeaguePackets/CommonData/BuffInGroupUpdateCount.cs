@@ -8,6 +8,7 @@ namespace LeaguePackets.CommonData
     {
         public NetID OwnerNetID { get; set; }
         public NetID CasterNetID { get; set; }
+        public byte BuffSlot { get; set; }
         public byte Count { get; set; }
     }
 
@@ -18,6 +19,7 @@ namespace LeaguePackets.CommonData
             var data = new BuffInGroupUpdateCount();
             data.OwnerNetID = reader.ReadNetID();
             data.CasterNetID = reader.ReadNetID();
+            data.BuffSlot = reader.ReadByte();
             data.Count = reader.ReadByte();
             return data;
         }
@@ -30,6 +32,7 @@ namespace LeaguePackets.CommonData
             }
             writer.WriteNetID(data.OwnerNetID);
             writer.WriteNetID(data.CasterNetID);
+            writer.WriteByte(data.BuffSlot);
             writer.WriteByte(data.Count);
         }
     }

@@ -10,7 +10,7 @@ namespace LeaguePackets.CommonData
         protected float _floatParam2;
         public NetID NetID { get; set; }
         protected uint _flags1;
-        protected abstract byte _command { get; }
+        protected abstract uint _command { get; }
         protected byte _byteParam1;
         protected byte _byteParam2;
         protected byte _byteParam3;
@@ -22,7 +22,7 @@ namespace LeaguePackets.CommonData
             float floatParam2 = reader.ReadFloat();
             NetID netID = reader.ReadNetID();
             uint flags1 = reader.ReadUInt32();
-            byte command = reader.ReadByte();
+            uint command = reader.ReadUInt32();
             byte byteParam1 = reader.ReadByte();
             byte byteParam2 = reader.ReadByte();
             byte byteParam3 = reader.ReadByte();
@@ -30,13 +30,13 @@ namespace LeaguePackets.CommonData
             UpdateLevelPropData result;
             switch (command)
             {
-                case 2:
+                case 3:
                     result = new UpdateLevelPropDataChangeSkin();
                     break;
-                case 1:
+                case 2:
                     result = new UpdateLevelPropDataSetParticleValue();
                     break;
-                case 0:
+                case 1:
                     result = new UpdateLevelPropDataPlayAnimation();
                     break;
                 default:
@@ -66,7 +66,7 @@ namespace LeaguePackets.CommonData
             writer.WriteFloat(_floatParam2);
             writer.WriteNetID(NetID);
             writer.WriteUInt32(_flags1);
-            writer.WriteByte(_command);
+            writer.WriteUInt32(_command);
             writer.WriteByte(_byteParam1);
             writer.WriteByte(_byteParam2);
             writer.WriteByte(_byteParam3);
@@ -87,14 +87,14 @@ namespace LeaguePackets.CommonData
 
     public class UpdateLevelPropDataChangeSkin : UpdateLevelPropData
     {
-        protected override byte _command => 2;
+        protected override uint _command => 3;
         public string SkinName { get => _stringParam1; set => _stringParam1 = value; }
         public uint SkinID { get => _flags1; set => _flags1 = value; }
     }
 
     public class UpdateLevelPropDataSetParticleValue : UpdateLevelPropData
     {
-        protected override byte _command => 1;
+        protected override uint _command => 2;
         public bool DestroyPropAfterAnimation { get => _byteParam1 != 0; set => _byteParam1 = (byte)(value ? 1 : 0); }
         public byte FlexID { get => _byteParam2; set => _byteParam2 = value; }
         public byte CapPointIndex { get => _byteParam3; set => _byteParam3 = value; }
@@ -102,7 +102,7 @@ namespace LeaguePackets.CommonData
 
     public class UpdateLevelPropDataPlayAnimation : UpdateLevelPropData
     {
-        protected override byte _command => 0;
+        protected override uint _command => 1;
         public string AnimationName { get => _stringParam1; set => _stringParam1 = value; }
         public uint AnimationFlags { get => _flags1; set => _flags1 = value; }
         public float StartMissionTime { get => _floatParam1; set => _floatParam1 = value; }
@@ -116,11 +116,11 @@ namespace LeaguePackets.CommonData
         public float FloatParam1 { get => _floatParam1; set => _floatParam1 = value; }
         public float FloatParam2 { get => _floatParam2; set => _floatParam2 = value; }
         public uint Flags1 { get => _flags1; set => _flags1 = value; }
-        public byte Command { get; set; }
+        public uint Command { get; set; }
         public byte ByteParam1 { get => _byteParam1; set => _byteParam1 = value; }
         public byte ByteParam2 { get => _byteParam2; set => _byteParam2 = value; }
         public byte ByteParam3 { get => _byteParam3; set => _byteParam3 = value; }
 
-        protected override byte _command => Command;
+        protected override uint _command => Command;
     }
 }

@@ -28,7 +28,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="ENetCS, Version=1.3.1.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\ENetSharpLeague-4.17.1.2.1\lib\net461\ENetCS.dll</HintPath>
+      <HintPath>..\packages\ENetSharpLeague.1.1.0\lib\net461\ENetCS.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Numerics" />

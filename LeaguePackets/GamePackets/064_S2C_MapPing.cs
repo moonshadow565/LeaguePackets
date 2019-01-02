@@ -32,12 +32,12 @@ namespace LeaguePackets.GamePackets
             this.Position = reader.ReadVector2();
             this.TargetNetID = reader.ReadNetID();
             this.SourceNetID = reader.ReadNetID();
+            this.PingCategory = (PingCategory)reader.ReadByte();
             byte bitfield = reader.ReadByte();
-            this.PingCategory = (PingCategory)(bitfield & 0x0F);
-            this.PlayAudio = (bitfield & 0x10) != 0;
-            this.ShowChat = (bitfield & 0x20) != 0;
-            this.PingThrottled = (bitfield & 0x40) != 0;
-            this.PlayVO = (bitfield & 0x80) != 0;
+            this.PlayAudio = (bitfield & 0x01) != 0;
+            this.ShowChat = (bitfield & 0x02) != 0;
+            this.PingThrottled = (bitfield & 0x04) != 0;
+            this.PlayVO = (bitfield & 0x08) != 0;
         
             this.ExtraBytes = reader.ReadLeft();
         }
@@ -46,16 +46,16 @@ namespace LeaguePackets.GamePackets
             writer.WriteVector2(Position);
             writer.WriteNetID(TargetNetID);
             writer.WriteNetID(SourceNetID);
+            writer.WriteByte((byte)PingCategory);
             byte bitfield = 0;
-            bitfield |= (byte)((byte)PingCategory & 0x0F);
             if (PlayAudio)
-                bitfield |= 0x10;
+                bitfield |= 0x01;
             if (ShowChat)
-                bitfield |= 0x20;
+                bitfield |= 0x02;
             if (PingThrottled)
-                bitfield |= 0x40;
+                bitfield |= 0x04;
             if (PlayVO)
-                bitfield |= 0x80;
+                bitfield |= 0x08;
             writer.WriteByte(bitfield);
         }
     }

@@ -25,7 +25,7 @@ namespace LeaguePackets.GamePackets
             this.NetID = reader.ReadNetID();
             this.FlexID = reader.ReadFlexID();
             this.CpIndex = reader.ReadByte();
-            this.ParticleAttachType = reader.ReadParticleAttachType();
+            this.ParticleAttachType = (ParticleAttachType)reader.ReadUInt32();
         
             this.ExtraBytes = reader.ReadLeft();
         }
@@ -34,7 +34,7 @@ namespace LeaguePackets.GamePackets
             writer.WriteNetID(NetID);
             writer.WriteFlexID(FlexID);
             writer.WriteByte(CpIndex);
-            writer.WriteParticleAttachType(ParticleAttachType);
+            writer.WriteUInt32((uint)ParticleAttachType);
         }
     }
 }

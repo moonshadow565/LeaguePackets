@@ -22,16 +22,23 @@ namespace LeaguePackets.GamePackets
             this.ChannelID = channelID;
 
             this.NetID = reader.ReadNetID();
-            this.ShowIndicator = reader.ReadBool();
-            this.ShowMinimapIndicator = reader.ReadBool();
+
+            byte bitfield = reader.ReadByte();
+            this.ShowIndicator = (bitfield & 0x01) != 0;
+            this.ShowMinimapIndicator = (bitfield & 0x02) != 0;
         
             this.ExtraBytes = reader.ReadLeft();
         }
         public override void WriteBody(PacketWriter writer)
         {
             writer.WriteNetID(NetID);
-            writer.WriteBool(ShowIndicator);
-            writer.WriteBool(ShowMinimapIndicator);
+
+            byte bitfield = 0;
+            if (ShowIndicator)
+                bitfield |= 0x01;
+            if (ShowMinimapIndicator)
+                bitfield |= 0x02;
+            writer.WriteByte(bitfield);
         }
     }
 }

@@ -14,6 +14,7 @@ namespace LeaguePackets.GamePackets
         public override GamePacketID ID => GamePacketID.NPC_BuffUpdateCountGroup;
         public float Duration { get; set; }
         public float RunningTime { get; set; }
+        // FIXME this should probably be List<NPC_BuffUpdateCount> 
         public List<BuffInGroupUpdateCount> Buffs { get; set; } = new List<BuffInGroupUpdateCount>();
         public NPC_BuffUpdateCountGroup(){}
 

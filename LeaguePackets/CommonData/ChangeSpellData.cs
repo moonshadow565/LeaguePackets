@@ -17,7 +17,7 @@ namespace LeaguePackets.CommonData
         public static IChangeSpellData ReadChangeSpellData(this PacketReader reader)
         {
             IChangeSpellData data;
-            ChangeSlotSpellDataType type = (ChangeSlotSpellDataType)reader.ReadByte();
+            ChangeSlotSpellDataType type = (ChangeSlotSpellDataType)reader.ReadUInt32();
             switch (type)
             {
                 case ChangeSlotSpellDataType.TargetingType:
@@ -50,7 +50,7 @@ namespace LeaguePackets.CommonData
         }
         public static void WriteChangeSpellData(this PacketWriter writer, IChangeSpellData data)
         {
-            writer.WriteByte((byte)data.ChangeSlotSpellDataType);
+            writer.WriteUInt32((uint)data.ChangeSlotSpellDataType);
             data.WriteBodyInternal(writer);
         }
     }

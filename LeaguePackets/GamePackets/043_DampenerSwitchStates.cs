@@ -11,8 +11,8 @@ namespace LeaguePackets.GamePackets
     public class DampenerSwitchStates : GamePacket // 0x2B
     {
         public override GamePacketID ID => GamePacketID.DampenerSwitchStates;
+        public byte State { get; set; }
         public ushort Duration { get; set; }
-        public bool State { get; set; }
         public DampenerSwitchStates(){}
 
         public DampenerSwitchStates(PacketReader reader, ChannelID channelID, NetID senderNetID)
@@ -20,19 +20,15 @@ namespace LeaguePackets.GamePackets
             this.SenderNetID = senderNetID;
             this.ChannelID = channelID;
 
-            ushort bitfield = reader.ReadUInt16();
-            this.Duration = (ushort)(bitfield & 0x7FFF);
-            this.State = (bitfield & 0x8000) != 0;
+            this.State = reader.ReadByte();
+            this.Duration = reader.ReadUInt16();
         
             this.ExtraBytes = reader.ReadLeft();
         }
         public override void WriteBody(PacketWriter writer)
         {
-            ushort bitfield = 0;
-            bitfield |= (ushort)(Duration & 0x7FFF);
-            if (State)
-                bitfield |= 0x8000;
-            writer.WriteUInt16(bitfield);
+            writer.WriteByte(State);
+            writer.WriteUInt16(Duration);
         }
     }
 }

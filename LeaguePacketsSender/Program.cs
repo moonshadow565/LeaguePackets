@@ -31,6 +31,9 @@ namespace LeaguePacketsSender
                 PlayerID = (PlayerID)1,
                 SummonorLevel = 30,
                 TeamId = TeamID.Order,
+                EloRanking = "BRONZE",
+                ProfileIconId = 666,
+                Bitfield = 108,
             };
             var skinID = 0u;
             var championName = "Annie";
@@ -52,6 +55,7 @@ namespace LeaguePacketsSender
                 var packet = e.Packet;
                 var cid = e.ClientID;
                 var channel = e.ChannelID;
+                Console.WriteLine($"Recieving {e.Packet.GetType().Name} on {e.ChannelID.ToString()} from {(uint)cid}");
                 if(packet is IUnusedPacket)
                 {
                     
@@ -59,7 +63,6 @@ namespace LeaguePacketsSender
                 else if (packet is C2S_QueryStatusReq statusReq)
                 {
                     var answer = new S2C_QueryStatusAns();
-                    answer.SenderNetID = (NetID)(uint)cid;
                     answer.Response = true;
                     server.SendEncrypted(cid, ChannelID.Broadcast, answer);
                 }
@@ -100,11 +103,12 @@ namespace LeaguePacketsSender
                     answer.MapToLoad = mapNum;
                     answer.PlayerInfo[0] = playerLiteInfo;
                     answer.MapMode = "CLASSIC";
-                    answer.PlatformID = "NA1";
+                    answer.PlatformID = "EUW";
                     answer.GameFeatures |= GameFeatures.FoundryOptions;
                     answer.GameFeatures |= GameFeatures.EarlyWarningForFOWMissiles;
                     answer.GameFeatures |= GameFeatures.NewPlayerRecommendedPages;
                     answer.GameFeatures |= GameFeatures.HighlightLineMissileTargets;
+                    answer.GameFeatures |= GameFeatures.ItemUndo;
                     server.SendEncrypted(cid, ChannelID.Broadcast, answer);
                 }
                 else if(packet is C2S_CharSelected reqSelected)
@@ -140,6 +144,12 @@ namespace LeaguePacketsSender
                     var startGame = new S2C_StartGame();
                     startGame.EnablePause = true;
                     server.SendEncrypted(cid, ChannelID.Broadcast, startGame);
+
+                    var answer2 = new TeamRosterUpdate();
+                    answer2.TeamSizeOrder = 1;
+                    answer2.OrderMembers[0] = (PlayerID)cid;
+                    answer2.TeamSizeOrderCurrent = 1;
+                    server.SendEncrypted(cid, ChannelID.LoadingScreen, answer2);
                 }
                 else if(packet is World_SendCamera_Server reqCamerPosition)
                 {

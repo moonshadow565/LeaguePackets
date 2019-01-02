@@ -19,8 +19,7 @@ namespace LeaguePackets.GamePackets
         public Vector3 FacingDirection { get; set; }
         public Vector3 PositionOffset { get; set; }
         public Vector3 Scale { get; set; }
-        //TODO: bitfield
-        public ushort Bitfield { get; set; }
+        public TeamID Team { get; set; }
         public byte SkillLevel { get; set; }
         public byte Rank { get; set; }
         public byte Type { get; set; }
@@ -40,10 +39,10 @@ namespace LeaguePackets.GamePackets
             this.FacingDirection = reader.ReadVector3();
             this.PositionOffset = reader.ReadVector3();
             this.Scale = reader.ReadVector3();
-            this.Bitfield = reader.ReadUInt16();
+            this.Team = (TeamID)reader.ReadUInt16();
             this.Rank = reader.ReadByte();
             this.SkillLevel = reader.ReadByte();
-            this.Type = reader.ReadByte();
+            this.Type = (byte)reader.ReadUInt32();
             this.Name = reader.ReadFixedString(64);
             this.PropName = reader.ReadFixedStringLast(64);
         
@@ -58,10 +57,10 @@ namespace LeaguePackets.GamePackets
             writer.WriteVector3(FacingDirection);
             writer.WriteVector3(PositionOffset);
             writer.WriteVector3(Scale);
-            writer.WriteUInt16(Bitfield);
+            writer.WriteUInt16((ushort)Team);
             writer.WriteByte(Rank);
             writer.WriteByte(SkillLevel);
-            writer.WriteByte(Type);
+            writer.WriteUInt32((byte)Type);
             writer.WriteFixedString(Name, 64);
             writer.WriteFixedStringLast(PropName, 64);
         }

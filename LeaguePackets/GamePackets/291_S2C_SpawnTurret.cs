@@ -20,9 +20,9 @@ namespace LeaguePackets.GamePackets
         public int SkinID { get; set; }
         public Vector3 Position { get; set; }
         public float ModelDisappearOnDeathTime { get; set; }
-        public TeamID TeamID { get; set; }
-        public bool IsTargetable { get; set; }
         public bool IsInvulnerable { get; set; }
+        public bool IsTargetable { get; set; }
+        public TeamID TeamID { get; set; }
 
         public SpellFlags IsTargetableToTeam { get; set; }
         public S2C_SpawnTurret(){}
@@ -40,11 +40,12 @@ namespace LeaguePackets.GamePackets
             this.SkinID = reader.ReadInt32();
             this.Position = reader.ReadVector3();
             this.ModelDisappearOnDeathTime = reader.ReadFloat();
-            ushort bitfield = reader.ReadUInt16();
-            this.TeamID = (TeamID)(bitfield & 0x01FF);
-            this.IsTargetable = (bitfield & 0x0200) != 0;
-            this.IsInvulnerable = (bitfield & 0x400) != 0;
 
+            byte bitfield = reader.ReadByte();
+            this.IsInvulnerable = (bitfield & 0x01) != 0;
+            this.IsTargetable = (bitfield & 0x02) != 0;
+
+            this.TeamID = (TeamID)reader.ReadUInt16();
             this.IsTargetableToTeam = reader.ReadSpellFlags();
         
             this.ExtraBytes = reader.ReadLeft();
@@ -59,14 +60,15 @@ namespace LeaguePackets.GamePackets
             writer.WriteInt32(SkinID);
             writer.WriteVector3(Position);
             writer.WriteFloat(ModelDisappearOnDeathTime);
-            ushort bitfield = 0;
-            bitfield |= (ushort)((ushort)TeamID & 0x01FF);
-            if (IsTargetable)
-                bitfield |= 0x0200;
-            if (IsInvulnerable)
-                bitfield |= 0x0400;
-            writer.WriteUInt16(bitfield);
 
+            byte bitfield = 0;
+            if (IsInvulnerable)
+                bitfield |= 0x01;
+            if (IsTargetable)
+                bitfield |= 0x02;
+            writer.WriteByte(bitfield);
+
+            writer.WriteUInt16((ushort)TeamID);
             writer.WriteSpellFlags(IsTargetableToTeam);
         }
     }

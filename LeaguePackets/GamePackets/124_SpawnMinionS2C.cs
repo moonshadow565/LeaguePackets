@@ -44,13 +44,14 @@ namespace LeaguePackets.GamePackets
             this.Position = reader.ReadVector3();
             this.SkinID = reader.ReadInt32();
             this.CloneNetID = reader.ReadNetID();
-            ushort bitfield = reader.ReadUInt16();
-            this.TeamID = (TeamID)(bitfield & 0x1FF);
-            this.IgnoreCollision = (bitfield & 0x0200) != 0;
-            this.IsWard = (bitfield & 0x0400) != 0;
-            this.IsLaneMinion = (bitfield & 0x0800) != 0;
-            this.IsBot = (bitfield & 0x1000) != 0;
-            this.IsTargetable = (bitfield & 0x2000) != 0;
+            this.TeamID = (TeamID)reader.ReadUInt16();
+
+            byte bitfield = reader.ReadByte();
+            this.IgnoreCollision = (bitfield & 0x01) != 0;
+            this.IsWard = (bitfield & 0x02) != 0;
+            this.IsLaneMinion = (bitfield & 0x04) != 0;
+            this.IsBot = (bitfield & 0x08) != 0;
+            this.IsTargetable = (bitfield & 0x10) != 0;
 
             this.IsTargetableToTeam = reader.ReadSpellFlags();
             this.VisibilitySize = reader.ReadFloat();
@@ -69,20 +70,21 @@ namespace LeaguePackets.GamePackets
             writer.WriteVector3(Position);
             writer.WriteInt32(SkinID);
             writer.WriteNetID(CloneNetID);
-            ushort bitfield = 0;
-            bitfield |= (ushort)((ushort)TeamID & 0x01FF);
+            writer.WriteUInt16((ushort)TeamID);
+
+            byte bitfield = 0;
             if (IgnoreCollision)
-                bitfield |= 0x0200;
+                bitfield |= 0x01;
             if (IsWard)
-                bitfield |= 0x0400;
+                bitfield |= 0x02;
             if (IsLaneMinion)
-                bitfield |= 0x0800;
+                bitfield |= 0x04;
             if (IsBot)
-                bitfield |= 0x1000;
+                bitfield |= 0x08;
             if (IsTargetable)
-                bitfield |= 0x2000;
-                    
-            writer.WriteUInt16(bitfield);
+                bitfield |= 0x10;
+            writer.WriteByte(bitfield);
+
             writer.WriteSpellFlags(IsTargetableToTeam);
             writer.WriteFloat(VisibilitySize);
             writer.WriteFixedString(Name, 64);

@@ -7,9 +7,11 @@ namespace LeaguePackets.CommonData
     {
         private uint[] _itemIDs = new uint[30];
         private uint[] _summonerSpellIDs = new uint[2];
+        private uint[] _summonerSpellIDs2 = new uint[2];
         private Talent[] _talents = new Talent[80];
         public uint[] ItemIDs => _itemIDs;
         public uint[] SummonerIDs => _summonerSpellIDs;
+        public uint[] SummonerIDs2 => _summonerSpellIDs;
         public Talent[] Talents => _talents;
         public byte Level { get; set; }
         public byte WardSkin { get; set; }
@@ -27,6 +29,10 @@ namespace LeaguePackets.CommonData
             for (var i = 0; i < info.SummonerIDs.Length; i++)
             {
                 info.SummonerIDs[i] = reader.ReadUInt32();
+            }
+            for (var i = 0; i < info.SummonerIDs2.Length; i++)
+            {
+                info.SummonerIDs2[i] = reader.ReadUInt32();
             }
             for (var i = 0; i < info.Talents.Length; i++)
             {
@@ -50,6 +56,10 @@ namespace LeaguePackets.CommonData
             for (var i = 0; i < info.SummonerIDs.Length; i++)
             {
                 writer.WriteUInt32(info.SummonerIDs[i]);
+            }
+            for (var i = 0; i < info.SummonerIDs2.Length; i++)
+            {
+                writer.WriteUInt32(info.SummonerIDs2[i]);
             }
             for (var i = 0; i < info.Talents.Length; i++)
             {

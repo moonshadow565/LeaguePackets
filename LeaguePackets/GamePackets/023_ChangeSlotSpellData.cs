@@ -23,10 +23,11 @@ namespace LeaguePackets.GamePackets
             this.ChannelID = channelID;
             this.SenderNetID = senderNetID;
 
+            this.SpellSlot = reader.ReadByte();
+
             byte bitfield = reader.ReadByte();
-            byte spellSlot = (byte)(bitfield & 0x3F);
-            bool isSummonerSpell = (bitfield & 0x40) != 0;
-            this.SpellSlot = spellSlot;
+            bool isSummonerSpell = (bitfield & 0x01) != 0;
+
             this.IsSummonerSpell = isSummonerSpell;
             this.ChangeSpellData = reader.ReadChangeSpellData();
             this.ExtraBytes = reader.ReadLeft();
@@ -34,10 +35,11 @@ namespace LeaguePackets.GamePackets
 
         public override void WriteBody(PacketWriter writer)
         {
+            writer.WriteByte(SpellSlot);
+
             byte bitfield = 0;
-            bitfield |= (byte)((byte)SpellSlot & 0x3F);
             if (IsSummonerSpell)
-                bitfield |= 0x40;
+                bitfield |= 0x01;
 
             writer.WriteByte(bitfield);
             ChangeSpellData.WriteBodyInternal(writer);

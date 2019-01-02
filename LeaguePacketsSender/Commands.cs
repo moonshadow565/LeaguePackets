@@ -129,6 +129,14 @@ namespace LeaguePacketsSender
             return "Test!";
         }
 
+        public static string TestUndo(LeagueServer server, ClientID client, string args)
+        {
+            var packet = new S2C_SetUndoEnabled();
+            packet.UndoStackSize = 2;
+            server.SendEncrypted(client, ChannelID.Broadcast, packet);
+            return "Test!";
+        }
+
         public static string TestBatch(LeagueServer server, ClientID client, string args)
         {
             var batched = new BatchPacket();

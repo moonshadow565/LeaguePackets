@@ -191,6 +191,7 @@ namespace LeaguePacketsSender
                     case EventType.None:
                         break;
                     case EventType.Connect:
+                        eevent.Peer.Mtu = 996;
                         break;
                     case EventType.Disconnect:
                         if((uint)eevent.Peer.UserData != 0)
@@ -201,7 +202,6 @@ namespace LeaguePacketsSender
                         }
                         break;
                     case EventType.Receive:
-
                         if((uint)eevent.Peer.UserData == 0)
                         {
                             if(eevent.ChannelID != (byte)ChannelID.Default)

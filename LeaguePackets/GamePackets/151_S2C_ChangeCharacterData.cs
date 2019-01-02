@@ -20,19 +20,18 @@ namespace LeaguePackets.GamePackets
             this.SenderNetID = senderNetID;
             this.ChannelID = channelID;
 
-            this.Data.ID = reader.ReadUInt32();
             byte bitfield = reader.ReadByte();
             this.Data.OverrideSpells = (bitfield & 1) != 0;
             this.Data.ModelOnly = (bitfield & 2) != 0;
             this.Data.ReplaceCharacterPackage = (bitfield & 4) != 0;
 
+            this.Data.ID = reader.ReadUInt32();
             this.Data.SkinID = reader.ReadUInt32();
             this.Data.SkinName = reader.ReadFixedStringLast(64);
             this.ExtraBytes = reader.ReadLeft();
         }
         public override void WriteBody(PacketWriter writer)
         {
-            writer.WriteUInt32(Data.ID);
             byte bitfield = 0;
             if(Data.OverrideSpells)
             {
@@ -48,6 +47,7 @@ namespace LeaguePackets.GamePackets
             }
             writer.WriteByte(bitfield);
 
+            writer.WriteUInt32(Data.ID);
             writer.WriteUInt32(Data.SkinID);
             writer.WriteFixedStringLast(Data.SkinName, 64);
         }

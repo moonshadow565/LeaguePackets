@@ -24,7 +24,17 @@ namespace LeaguePackets.GamePackets
 
             this.TargetCount = reader.ReadInt32();
             this.OwnerNetworkID = reader.ReadNetID();
-            for (var i = 0; i < this.TargetNetIDs.Length; i++)
+            var left = reader.Stream.Length - reader.Stream.Position;
+
+            // FIXME: not sure what to make of this
+            // Maybe they write it variable when its not chain missile??
+            var toread = this.TargetCount;
+            if(left > (toread * 4) && left == (this.TargetNetIDs.Length * 4))
+            {
+                toread = this.TargetNetIDs.Length;
+            }
+
+            for (var i = 0; i < toread; i++)
                 this.TargetNetIDs[i] = reader.ReadNetID();
         
             this.ExtraBytes = reader.ReadLeft();

@@ -13,7 +13,7 @@ namespace LeaguePackets.GamePackets
         public override GamePacketID ID => GamePacketID.S2C_ChangeEmitterGroup;
         public string GroupName { get; set; } = "";
         public int OperationData { get; set; }
-        public byte GroupOperation { get; set; }
+        public int GroupOperation { get; set; }
         public S2C_ChangeEmitterGroup(){}
 
         public S2C_ChangeEmitterGroup(PacketReader reader, ChannelID channelID, NetID senderNetID)
@@ -23,7 +23,7 @@ namespace LeaguePackets.GamePackets
 
             this.GroupName = reader.ReadFixedString(256);
             this.OperationData = reader.ReadInt32();
-            this.GroupOperation = reader.ReadByte();
+            this.GroupOperation = reader.ReadInt32();
         
             this.ExtraBytes = reader.ReadLeft();
         }
@@ -31,7 +31,7 @@ namespace LeaguePackets.GamePackets
         {
             writer.WriteFixedString(GroupName, 256);
             writer.WriteInt32(OperationData);
-            writer.WriteByte(GroupOperation);
+            writer.WriteInt32(GroupOperation);
         }
     }
 }

@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace LeaguePackets.GamePackets
 {
-    public enum CreateHeroDeath : byte
+    public enum CreateHeroDeath : uint
     {
         Alive = 0,
         Zombie = 1,
@@ -33,7 +33,9 @@ namespace LeaguePackets.GamePackets
         public float TimeSinceDeath { get; set; }
 
         public CreateHeroDeath CreateHeroDeath { get; set; }
-        public bool Unknown8 { get; set; } // something with scripts
+        // FIXME: fix those unknowns
+        public bool Unknown1 { get; set; } // something with scripts
+        public bool Unknown2 { get; set; } // something with spawn
 
         public S2C_CreateHero(){}
 
@@ -46,8 +48,11 @@ namespace LeaguePackets.GamePackets
             this.PlayerUID = reader.ReadClientID();
             this.NetNodeID = reader.ReadNetNodeID();
             this.SkillLevel = reader.ReadByte();
-            this.TeamIsOrder = reader.ReadBool();
-            this.IsBot = reader.ReadBool();
+
+            byte bitfield1 = reader.ReadByte();
+            this.TeamIsOrder = (bitfield1 & 0x01) != 0;
+            this.IsBot = (bitfield1 & 0x02) != 0;
+
             this.BotRank = reader.ReadByte();
             this.SpawnPositionIndex = reader.ReadByte();
             this.SkinID = reader.ReadInt32();
@@ -55,10 +60,12 @@ namespace LeaguePackets.GamePackets
             this.Skin = reader.ReadFixedString(40);
             this.DeathDurationRemaining = reader.ReadFloat();
             this.TimeSinceDeath = reader.ReadFloat();
-            byte bitfield = reader.ReadByte();
-            this.CreateHeroDeath = (CreateHeroDeath)(bitfield & 7);
-            this.Unknown8 = (bitfield & 8) != 0;
-        
+            this.CreateHeroDeath = (CreateHeroDeath)reader.ReadUInt32();
+
+            byte bitfield2 = reader.ReadByte();
+            this.Unknown1 = (bitfield2 & 0x01) != 0;
+            this.Unknown2 = (bitfield2 & 0x02) != 0;
+
             this.ExtraBytes = reader.ReadLeft();
         }
         public override void WriteBody(PacketWriter writer)
@@ -67,8 +74,18 @@ namespace LeaguePackets.GamePackets
             writer.WriteClientID(PlayerUID);
             writer.WriteNetNodeID(NetNodeID);
             writer.WriteByte(SkillLevel);
-            writer.WriteBool(TeamIsOrder);
-            writer.WriteBool(IsBot);
+
+            byte bitfield1 = 0;
+            if(TeamIsOrder)
+            {
+                bitfield1 |= 0x01;
+            }
+            if(IsBot)
+            {
+                bitfield1 |= 0x02;
+            }
+            writer.WriteByte(bitfield1);
+
             writer.WriteByte(BotRank);
             writer.WriteByte(SpawnPositionIndex);
             writer.WriteInt32(SkinID);
@@ -76,12 +93,18 @@ namespace LeaguePackets.GamePackets
             writer.WriteFixedString(Skin, 40);
             writer.WriteFloat(DeathDurationRemaining);
             writer.WriteFloat(TimeSinceDeath);
-            byte bitfield = 0;
-            bitfield |= (byte)((byte)CreateHeroDeath & 7);
-            if (Unknown8)
-                bitfield |= 8;
+            writer.WriteUInt32((uint)CreateHeroDeath);
 
-            writer.WriteByte(bitfield);
+            byte bitfield2 = 0;
+            if (Unknown1)
+            {
+                bitfield2 |= 0x01;
+            }
+            if (Unknown2)
+            {
+                bitfield2 |= 0x02;
+            }
+            writer.WriteByte(bitfield2);
         }
     }
 }

@@ -25,7 +25,7 @@ namespace LeaguePackets
             PlayerID = reader.ReadPlayerID();
             VersionNumber = reader.ReadUInt32();
             CheckSum = reader.ReadUInt64();
-            ExtraBytes = reader.ReadLeft();
+            reader.ReadLeft();
         }
 
         public override void WriteHeader(PacketWriter writer)
@@ -40,6 +40,7 @@ namespace LeaguePackets
             writer.WritePlayerID(PlayerID);
             writer.WriteUInt32(VersionNumber);
             writer.WriteUInt64(CheckSum);
+            writer.WritePad(4);
         }
     }
 }

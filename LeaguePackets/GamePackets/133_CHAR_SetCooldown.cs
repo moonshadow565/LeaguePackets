@@ -24,10 +24,11 @@ namespace LeaguePackets.GamePackets
             this.SenderNetID = senderNetID;
             this.ChannelID = channelID;
 
+            this.Slot = reader.ReadByte();
+
             byte bitfield = reader.ReadByte();
-            this.Slot = (byte)(bitfield & 0x3F);
-            this.PlayVOWhenCooldownReady = (bitfield & 0x40) != 0;
-            this.IsSummonerSpell = (bitfield & 0x80) != 0;
+            this.PlayVOWhenCooldownReady = (bitfield & 0x01) != 0;
+            this.IsSummonerSpell = (bitfield & 0x02) != 0;
 
             this.Cooldown = reader.ReadFloat();
             this.MaxCooldownForDisplay = reader.ReadFloat();
@@ -36,14 +37,15 @@ namespace LeaguePackets.GamePackets
         }
         public override void WriteBody(PacketWriter writer)
         {
-            byte bitfield = 0;
-            bitfield |= (byte)(Slot & 0x3F);
-            if (PlayVOWhenCooldownReady)
-                bitfield |= 0x40;
-            if (IsSummonerSpell)
-                bitfield |= 0x80;
+            writer.WriteByte(Slot);
 
+            byte bitfield = 0;
+            if (PlayVOWhenCooldownReady)
+                bitfield |= 0x01;
+            if (IsSummonerSpell)
+                bitfield |= 0x02;
             writer.WriteByte(bitfield);
+
             writer.WriteFloat(Cooldown);
             writer.WriteFloat(MaxCooldownForDisplay);
         }

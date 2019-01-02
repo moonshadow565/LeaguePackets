@@ -41,7 +41,7 @@ namespace LeaguePackets.CommonData
             data.TargetPositionX = reader.ReadInt16();
             data.TargetPositionY = reader.ReadFloat();
             data.TargetPositionZ = reader.ReadInt16();
-            data.PositionX = reader.ReadInt16();
+            data.OwnerPositionX = reader.ReadInt16();
             data.OwnerPositionY = reader.ReadFloat();
             data.OwnerPositionZ = reader.ReadInt16();
             data.OrientationVector = reader.ReadVector3();
@@ -63,7 +63,7 @@ namespace LeaguePackets.CommonData
             writer.WriteInt16(data.TargetPositionX);
             writer.WriteFloat(data.TargetPositionY);
             writer.WriteInt16(data.TargetPositionZ);
-            writer.WriteInt16(data.PositionX);
+            writer.WriteInt16(data.OwnerPositionX);
             writer.WriteFloat(data.OwnerPositionY);
             writer.WriteInt16(data.OwnerPositionZ);
             writer.WriteVector3(data.OrientationVector);

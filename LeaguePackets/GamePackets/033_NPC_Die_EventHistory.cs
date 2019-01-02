@@ -32,9 +32,9 @@ namespace LeaguePackets.GamePackets
             this.SenderNetID = senderNetID;
             this.ChannelID = channelID;
 
+            this.EventSourceType = reader.ReadEventSourceType();
             this.KillerNetID = reader.ReadNetID();
             this.Duration = reader.ReadFloat();
-            this.EventSourceType = reader.ReadEventSourceType();
             int events = reader.ReadInt32();
             for (int i = 0; i < events; i++)
             {
@@ -48,9 +48,9 @@ namespace LeaguePackets.GamePackets
         }
         public override void WriteBody(PacketWriter writer)
         {
+            writer.WriteEventSourceType(EventSourceType);
             writer.WriteNetID(KillerNetID);
             writer.WriteFloat(Duration);
-            writer.WriteEventSourceType(EventSourceType);
             writer.WriteInt32(Events.Count);
             foreach (var data in Events )
             {
