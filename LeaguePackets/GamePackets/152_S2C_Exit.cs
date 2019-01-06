@@ -12,6 +12,7 @@ namespace LeaguePackets.GamePackets
     {
         public override GamePacketID ID => GamePacketID.S2C_Exit;
         public NetID NetID { get; set; }
+        // Unknown1 is perhaps "IsAlly" ?
         public bool Unknown1 { get; set; }
         public S2C_Exit(){}
 

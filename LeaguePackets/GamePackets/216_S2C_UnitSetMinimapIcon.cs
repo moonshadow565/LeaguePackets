@@ -26,9 +26,9 @@ namespace LeaguePackets.GamePackets
             this.ChannelID = channelID;
 
             this.UnitNetID = reader.ReadNetID();
-            this.ChangeIcon = reader.ReadBool();
+            this.ChangeIcon = (reader.ReadByte() & 0x01) != 0;
             this.IconCategory = reader.ReadFixedString(64);
-            this.ChangeBorder = reader.ReadBool();
+            this.ChangeBorder = (reader.ReadByte() & 0x01) != 0;
             this.BorderCategory = reader.ReadFixedString(64);
             this.BorderScriptName = reader.ReadFixedStringLast(64);
         

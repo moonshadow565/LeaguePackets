@@ -27,6 +27,9 @@ namespace LeaguePackets.GamePackets
         public NetID CloneID { get; set; }
         public bool CloneInventory { get; set; }
         public bool ShowMinimapIconIfClone { get; set; }
+        //FIXME: figure those out:
+        public bool Unknown4 { get; set; }
+        public bool DoFade { get; set; }
         string AIscript { get; set; }
         public CHAR_SpawnPet(){}
 
@@ -48,9 +51,13 @@ namespace LeaguePackets.GamePackets
             this.SkinID = reader.ReadInt32();
             this.BuffName = reader.ReadFixedString(64);
             this.CloneID = reader.ReadNetID();
+
             byte bitfield = reader.ReadByte();
             this.CloneInventory = (bitfield & 1) != 0;
             this.ShowMinimapIconIfClone = (bitfield & 2) != 0;
+            this.Unknown4 = (bitfield & 4) != 0;
+            this.DoFade = (bitfield & 8) != 0;
+
             this.AIscript = reader.ReadFixedStringLast(32);
 
             this.ExtraBytes = reader.ReadLeft();
@@ -75,6 +82,11 @@ namespace LeaguePackets.GamePackets
                 bitfield |= 1;
             if (ShowMinimapIconIfClone)
                 bitfield |= 2;
+            if (Unknown4)
+                bitfield |= 4;
+            if (DoFade)
+                bitfield |= 8;
+
             writer.WriteByte(bitfield);
             writer.WriteFixedStringLast(AIscript, 32);            
         }

@@ -5,18 +5,27 @@ using LeaguePackets.Common;
 
 namespace LeaguePackets.CommonData
 {
-    public interface IChangeSpellData
+    public abstract class ChangeSpellData
     {
-        ChangeSlotSpellDataType ChangeSlotSpellDataType { get; }
-        void ReadBodyInternal(PacketReader reader);
-        void WriteBodyInternal(PacketWriter writer);
+        public abstract ChangeSlotSpellDataType ChangeSlotSpellDataType { get; }
+        public byte SpellSlot { get; set; }
+        public bool IsSummonerSpell { get; set; }
+
+        public abstract void ReadBodyInternal(PacketReader reader);
+        public abstract void WriteBodyInternal(PacketWriter writer);
     }
 
     public static class ChangeSpellDataExtension
     {
-        public static IChangeSpellData ReadChangeSpellData(this PacketReader reader)
+        public static ChangeSpellData ReadChangeSpellData(this PacketReader reader)
         {
-            IChangeSpellData data;
+            ChangeSpellData data;
+
+            byte spellSlot = reader.ReadByte();
+
+            byte bitfield = reader.ReadByte();
+            bool isSummonerSpell = (bitfield & 0x01) != 0;
+
             ChangeSlotSpellDataType type = (ChangeSlotSpellDataType)reader.ReadUInt32();
             switch (type)
             {
@@ -45,120 +54,130 @@ namespace LeaguePackets.CommonData
                     data = new ChangeSpellDataUnknown();
                     break;
             }
+
+            data.SpellSlot = spellSlot;
+            data.IsSummonerSpell = isSummonerSpell;
             data.ReadBodyInternal(reader);
             return data;
         }
-        public static void WriteChangeSpellData(this PacketWriter writer, IChangeSpellData data)
+        public static void WriteChangeSpellData(this PacketWriter writer, ChangeSpellData data)
         {
+            writer.WriteByte(data.SpellSlot);
+
+            byte bitfield = 0;
+            if (data.IsSummonerSpell)
+                bitfield |= 0x01;
+
+            writer.WriteByte(bitfield);
             writer.WriteUInt32((uint)data.ChangeSlotSpellDataType);
             data.WriteBodyInternal(writer);
         }
     }
 
-    public class ChangeSpellDataUnknown : IChangeSpellData
+    public class ChangeSpellDataUnknown : ChangeSpellData
     {
         private ChangeSlotSpellDataType _changeSlotSpellDataType;
         public ChangeSpellDataUnknown() { }
         public ChangeSpellDataUnknown(ChangeSlotSpellDataType type) => _changeSlotSpellDataType = type;
-        public ChangeSlotSpellDataType ChangeSlotSpellDataTypeRaw
+        public ChangeSlotSpellDataType  ChangeSlotSpellDataTypeRaw
         {
-            get => _changeSlotSpellDataType;
+            get  => _changeSlotSpellDataType;
             set => _changeSlotSpellDataType = value;
         }
-        public ChangeSlotSpellDataType ChangeSlotSpellDataType => _changeSlotSpellDataType;
-        public void ReadBodyInternal(PacketReader reader) { }
-        public void WriteBodyInternal(PacketWriter writer) { }
+        public override ChangeSlotSpellDataType ChangeSlotSpellDataType => _changeSlotSpellDataType;
+        public override void ReadBodyInternal(PacketReader reader) { }
+        public override void WriteBodyInternal(PacketWriter writer) { }
     }
 
-    public class ChangeSpellDataTargetingType : IChangeSpellData
+    public class ChangeSpellDataTargetingType : ChangeSpellData
     {
-        public ChangeSlotSpellDataType ChangeSlotSpellDataType => ChangeSlotSpellDataType.TargetingType;
+        public override ChangeSlotSpellDataType ChangeSlotSpellDataType => ChangeSlotSpellDataType.TargetingType;
         public TargetingType TargetingType { get; set; }
-        public void ReadBodyInternal(PacketReader reader)
+        public override void ReadBodyInternal(PacketReader reader)
         {
             TargetingType = reader.ReadTargetingType();
         }
-        public void WriteBodyInternal(PacketWriter writer)
+        public override void WriteBodyInternal(PacketWriter writer)
         {
             writer.WriteTargetingType(TargetingType);
         }
     }
 
-    public class ChangeSpellDataSpellName : IChangeSpellData
+    public class ChangeSpellDataSpellName : ChangeSpellData
     {
-        public ChangeSlotSpellDataType ChangeSlotSpellDataType => ChangeSlotSpellDataType.SpellName;
+        public override ChangeSlotSpellDataType ChangeSlotSpellDataType => ChangeSlotSpellDataType.SpellName;
         public string SpellName { get; set; } = "";
-        public void ReadBodyInternal(PacketReader reader)
+        public override void ReadBodyInternal(PacketReader reader)
         {
             SpellName = reader.ReadZeroTerminatedString();
         }
-        public void WriteBodyInternal(PacketWriter writer)
+        public override void WriteBodyInternal(PacketWriter writer)
         {
             writer.WriteZeroTerminatedString(SpellName);
         }
     }
 
-    public class ChangeSpellDataRange : IChangeSpellData
+    public class ChangeSpellDataRange : ChangeSpellData
     {
-        public ChangeSlotSpellDataType ChangeSlotSpellDataType => ChangeSlotSpellDataType.Range;
+        public override ChangeSlotSpellDataType ChangeSlotSpellDataType => ChangeSlotSpellDataType.Range;
         public float CastRange { get; set; }
-        public void ReadBodyInternal(PacketReader reader)
+        public override void ReadBodyInternal(PacketReader reader)
         {
             CastRange = reader.ReadFloat();
         }
-        public void WriteBodyInternal(PacketWriter writer)
+        public override void WriteBodyInternal(PacketWriter writer)
         {
             writer.WriteFloat(CastRange);
         }
     }
 
-    public class ChangeSpellDataMaxGrowthRange : IChangeSpellData
+    public class ChangeSpellDataMaxGrowthRange : ChangeSpellData
     {
-        public ChangeSlotSpellDataType ChangeSlotSpellDataType => ChangeSlotSpellDataType.MaxGrowthRange;
+        public override ChangeSlotSpellDataType ChangeSlotSpellDataType => ChangeSlotSpellDataType.MaxGrowthRange;
         public float OverrideMaxCastRange { get; set; }
-        public void ReadBodyInternal(PacketReader reader)
+        public override void ReadBodyInternal(PacketReader reader)
         {
             OverrideMaxCastRange = reader.ReadFloat();
         }
-        public void WriteBodyInternal(PacketWriter writer)
+        public override void WriteBodyInternal(PacketWriter writer)
         {
             writer.WriteFloat(OverrideMaxCastRange);
         }
     }
 
-    public class ChangeSpellDataRangeDisplay : IChangeSpellData
+    public class ChangeSpellDataRangeDisplay : ChangeSpellData
     {
-        public ChangeSlotSpellDataType ChangeSlotSpellDataType => ChangeSlotSpellDataType.RangeDisplay;
+        public override ChangeSlotSpellDataType ChangeSlotSpellDataType => ChangeSlotSpellDataType.RangeDisplay;
         public float OverrideCastRangeDisplay { get; set; }
-        public void ReadBodyInternal(PacketReader reader)
+        public override void ReadBodyInternal(PacketReader reader)
         {
             OverrideCastRangeDisplay = reader.ReadFloat();
         }
-        public void WriteBodyInternal(PacketWriter writer)
+        public override void WriteBodyInternal(PacketWriter writer)
         {
             writer.WriteFloat(OverrideCastRangeDisplay);
         }
     }
 
-    public class ChangeSpellDataIconIndex : IChangeSpellData
+    public class ChangeSpellDataIconIndex : ChangeSpellData
     {
-        public ChangeSlotSpellDataType ChangeSlotSpellDataType => ChangeSlotSpellDataType.IconIndex;
+        public override ChangeSlotSpellDataType ChangeSlotSpellDataType => ChangeSlotSpellDataType.IconIndex;
         public byte IconIndex { get; set; }
-        public void ReadBodyInternal(PacketReader reader)
+        public override void ReadBodyInternal(PacketReader reader)
         {
             IconIndex = reader.ReadByte();
         }
-        public void WriteBodyInternal(PacketWriter writer)
+        public override void WriteBodyInternal(PacketWriter writer)
         {
             writer.WriteByte(IconIndex);
         }
     }
 
-    public class ChangeSpellDataOffsetTarget : IChangeSpellData
+    public class ChangeSpellDataOffsetTarget : ChangeSpellData
     {
-        public ChangeSlotSpellDataType ChangeSlotSpellDataType => ChangeSlotSpellDataType.OffsetTarget;
+        public override ChangeSlotSpellDataType ChangeSlotSpellDataType => ChangeSlotSpellDataType.OffsetTarget;
         public List<NetID> Targets { get; set; } = new List<NetID>();
-        public void ReadBodyInternal(PacketReader reader)
+        public override void ReadBodyInternal(PacketReader reader)
         {
             int count = reader.ReadByte();
             for (int i = 0; i < count; i++)
@@ -166,7 +185,7 @@ namespace LeaguePackets.CommonData
                 Targets.Add(reader.ReadNetID());
             }
         }
-        public void WriteBodyInternal(PacketWriter writer)
+        public override void WriteBodyInternal(PacketWriter writer)
         {
             var count = Targets.Count;
             if (count > 0xFF)

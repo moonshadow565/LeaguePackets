@@ -21,9 +21,11 @@ namespace LeaguePackets.GamePackets
         {
             this.SenderNetID = senderNetID;
             this.ChannelID = channelID;
+
             byte bitfield = reader.ReadByte();
             this.DoOverrideMax = (bitfield & 1) != 0;
             this.DoOverrideMin = (bitfield & 2) != 0;
+
             this.MaxAttackSpeedOverride = reader.ReadFloat();
             this.MinAttackSpeedOverride = reader.ReadFloat();
         
@@ -41,6 +43,7 @@ namespace LeaguePackets.GamePackets
                 bitfield |= 0x02;
             }
             writer.WriteByte(bitfield);
+
             writer.WriteFloat(MaxAttackSpeedOverride);
             writer.WriteFloat(MinAttackSpeedOverride);
         }

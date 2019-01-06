@@ -112,8 +112,8 @@ namespace LeaguePackets
                 (r,c,n) => new ChangeSlotSpellData(r,c,n)
             },
             {
-                GamePacketID.NPC_MessageToClient,
-                (r,c,n) => new NPC_MessageToClient(r,c,n)
+                GamePacketID.NPC_MessageToClient_Broadcast,
+                (r,c,n) => new NPC_MessageToClient_Broadcast(r,c,n)
             },
             {
                 GamePacketID.DisplayFloatingText,
@@ -648,8 +648,8 @@ namespace LeaguePackets
                 (r,c,n) => new S2C_CreateTurret(r,c,n)
             },
             {
-                GamePacketID.NPC_Die,
-                (r,c,n) => new NPC_Die(r,c,n)
+                GamePacketID.NPC_Die_Broadcast,
+                (r,c,n) => new NPC_Die_Broadcast(r,c,n)
             },
             {
                 GamePacketID.UseItemAns,
@@ -1086,8 +1086,8 @@ namespace LeaguePackets
                 (r,c,n) => new S2C_SetUndoEnabled(r,c,n)
             },
             {
-                GamePacketID.S2C_SetInventory,
-                (r,c,n) => new S2C_SetInventory(r,c,n)
+                GamePacketID.S2C_SetInventory_Broadcast,
+                (r,c,n) => new S2C_SetInventory_Broadcast(r,c,n)
             },
             {
                 GamePacketID.S2C_ChangeMissileSpeed,
@@ -1186,32 +1186,32 @@ namespace LeaguePackets
                 (r,c,n) => new S2C_UpdateAscended(r,c,n)
             },
             {
-                GamePacketID.S2C_ChangeSpell_OwnerOnly,
-                (r,c,n) => new S2C_ChangeSpell_OwnerOnly(r,c,n)
+                GamePacketID.ChangeSlotSpellData_OwnerOnly,
+                (r,c,n) => new ChangeSlotSpellData_OwnerOnly(r,c,n)
             },
             {
-                GamePacketID.S2C_Die_MapView,
-                (r,c,n) => new S2C_Die_MapView(r,c,n)
+                GamePacketID.S2C_NPC_Die_MapView,
+                (r,c,n) => new S2C_NPC_Die_MapView(r,c,n)
             },
             {
                 GamePacketID.S2C_SetInventory_MapView,
                 (r,c,n) => new S2C_SetInventory_MapView(r,c,n)
             },
             {
-                GamePacketID.S2C_FloatingText2,
-                (r,c,n) => new S2C_FloatingText2(r,c,n)
+                GamePacketID.NPC_MessageToClient_MapView,
+                (r,c,n) => new NPC_MessageToClient_MapView(r,c,n)
             },
             {
-                GamePacketID.S2C_ForceTargetSpell,
-                (r,c,n) => new S2C_ForceTargetSpell(r,c,n)
+                GamePacketID.S2C_StartSpellTargeter,
+                (r,c,n) => new S2C_StartSpellTargeter(r,c,n)
             },
             {
-                GamePacketID.S2C_StopForceTargetSpell,
-                (r,c,n) => new S2C_StopForceTargetSpell(r,c,n)
+                GamePacketID.S2C_StopSpellTargeter,
+                (r,c,n) => new S2C_StopSpellTargeter(r,c,n)
             },
             {
-                GamePacketID.S2C_Guessed_LockCamera,
-                (r,c,n) => new S2C_Guessed_LockCamera(r,c,n)
+                GamePacketID.S2C_CameraLock,
+                (r,c,n) => new S2C_CameraLock(r,c,n)
             },
             {
                 GamePacketID.UNK_0x12C,
@@ -1222,8 +1222,8 @@ namespace LeaguePackets
                 (r,c,n) => new S2C_SetFadeOut(r,c,n)
             },
             {
-                GamePacketID.UNK_0x12E,
-                (r,c,n) => new UNK_0x12E(r,c,n)
+                GamePacketID.UNK_0x12E_AddRegion,
+                (r,c,n) => new UNK_0x12E_AddRegion(r,c,n)
             },
             {
                 GamePacketID.S2C_UnlockAnimation,

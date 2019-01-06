@@ -11,7 +11,6 @@ namespace LeaguePackets.GamePackets
     public class S2C_DisableHUDForEndOfGame : GamePacket // 0xBC
     {
         public override GamePacketID ID => GamePacketID.S2C_DisableHUDForEndOfGame;
-        //NOTE: Should be empty?
         public S2C_DisableHUDForEndOfGame(){}
 
         public S2C_DisableHUDForEndOfGame(PacketReader reader, ChannelID channelID, NetID senderNetID)

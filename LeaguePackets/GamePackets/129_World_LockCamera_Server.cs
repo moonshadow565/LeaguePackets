@@ -20,14 +20,20 @@ namespace LeaguePackets.GamePackets
             this.SenderNetID = senderNetID;
             this.ChannelID = channelID;
 
-            this.Locked = reader.ReadBool();
+            byte bitfield = reader.ReadByte();
+            this.Locked = (bitfield & 0x01) != 0;
+
             this.ClientID = reader.ReadClientID();
         
             this.ExtraBytes = reader.ReadLeft();
         }
         public override void WriteBody(PacketWriter writer)
         {
-            writer.WriteBool(Locked);
+            byte bitfield = 0;
+            if (Locked)
+                bitfield |= 0x01;
+            writer.WriteByte(bitfield);
+
             writer.WriteClientID(ClientID);
         }
     }

@@ -31,7 +31,6 @@ namespace LeaguePackets.GamePackets
             this.HighlightPlayerIcon = (bitfield & 1) != 0;
             this.FromPing = (bitfield & 2) != 0;
             this.AlliesOnly = (bitfield & 4) != 0;
-            reader.ReadPad(3);
         
             this.ExtraBytes = reader.ReadLeft();
         }
@@ -48,7 +47,6 @@ namespace LeaguePackets.GamePackets
             if (AlliesOnly)
                 bitfield |= (byte)4;
             writer.WriteByte(bitfield);
-            writer.WritePad(3);
         }
     }
 }

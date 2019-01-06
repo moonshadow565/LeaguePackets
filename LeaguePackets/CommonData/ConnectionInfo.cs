@@ -25,7 +25,10 @@ namespace LeaguePackets.CommonData
             info.ETA = reader.ReadFloat();
             info.Count = reader.ReadUInt16();
             info.Ping = reader.ReadUInt16();
-            info.Ready = reader.ReadBool();
+
+            byte bitfield = reader.ReadByte();
+            info.Ready = (bitfield & 0x01) != 0;
+
             return info;
         }
 
@@ -41,7 +44,11 @@ namespace LeaguePackets.CommonData
             writer.WriteFloat(info.ETA);
             writer.WriteUInt16(info.Count);
             writer.WriteUInt16(info.Ping);
-            writer.WriteBool(info.Ready);
+
+            byte bitfield = 0;
+            if (info.Ready)
+                bitfield |= 0x01;
+            writer.WriteByte(bitfield);
         }
     }
 }

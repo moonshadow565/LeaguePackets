@@ -11,7 +11,8 @@ namespace LeaguePackets.GamePackets
     public class S2C_PlayAnimation : GamePacket // 0xB0
     {
         public override GamePacketID ID => GamePacketID.S2C_PlayAnimation;
-        public AnimationFlags AnimationFlags { get; set; }
+        //TODO: figure out this stupid bitfield
+        public byte AnimationFlags { get; set; }
         public float ScaleTime { get; set; }
         public float StartProgress { get; set; }
         public float SpeedRatio { get; set; }
@@ -24,7 +25,7 @@ namespace LeaguePackets.GamePackets
             this.SenderNetID = senderNetID;
             this.ChannelID = channelID;
 
-            this.AnimationFlags = reader.ReadAnimationFlags();
+            this.AnimationFlags = reader.ReadByte();
             this.ScaleTime = reader.ReadFloat();
             this.StartProgress = reader.ReadFloat();
             this.SpeedRatio = reader.ReadFloat();
@@ -34,7 +35,7 @@ namespace LeaguePackets.GamePackets
 
         public override void WriteBody(PacketWriter writer)
         {
-            writer.WriteAnimationFlags(AnimationFlags);
+            writer.WriteByte(AnimationFlags);
             writer.WriteFloat(ScaleTime);
             writer.WriteFloat(StartProgress);
             writer.WriteFloat(SpeedRatio);

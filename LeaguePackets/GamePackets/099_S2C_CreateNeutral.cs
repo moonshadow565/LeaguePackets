@@ -25,7 +25,7 @@ namespace LeaguePackets.GamePackets
         public int HealthBonus { get; set; }
         public MinionRoamState RoamState { get; set; }
         public int GroupNumber { get; set; }
-        public int BuffSide { get; set; }
+        public TeamID BuffSide { get; set; }
         public int RevealEvent { get; set; }
         public int InitialLevel { get; set; }
         public float SpawnDuration { get; set; }
@@ -54,7 +54,7 @@ namespace LeaguePackets.GamePackets
             this.HealthBonus = reader.ReadInt32();
             this.RoamState = reader.ReadMinionRoamState();
             this.GroupNumber = reader.ReadInt32();
-            this.BuffSide = reader.ReadInt32();
+            this.BuffSide = (TeamID)reader.ReadUInt32();
             this.RevealEvent = reader.ReadInt32();
             this.InitialLevel = reader.ReadInt32();
             this.SpawnDuration = reader.ReadFloat();
@@ -80,7 +80,7 @@ namespace LeaguePackets.GamePackets
             writer.WriteInt32(HealthBonus);
             writer.WriteMinionRoamState(RoamState);
             writer.WriteInt32(GroupNumber);
-            writer.WriteInt32(BuffSide);
+            writer.WriteUInt32((uint)BuffSide);
             writer.WriteInt32(RevealEvent);
             writer.WriteInt32(InitialLevel);
             writer.WriteFloat(SpawnDuration);

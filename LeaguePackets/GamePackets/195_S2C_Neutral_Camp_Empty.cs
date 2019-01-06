@@ -13,9 +13,9 @@ namespace LeaguePackets.GamePackets
         public override GamePacketID ID => GamePacketID.S2C_Neutral_Camp_Empty;
         public NetID KillerNetID { get; set; }
         public int CampIndex { get; set; }
-        public bool DoPlayVO { get; set; } 
         public int TimerType { get; set; }
         public float TimerExpire { get; set; }
+        public bool DoPlayVO { get; set; }
         public S2C_Neutral_Camp_Empty(){}
 
         public S2C_Neutral_Camp_Empty(PacketReader reader, ChannelID channelID, NetID senderNetID)
@@ -25,25 +25,25 @@ namespace LeaguePackets.GamePackets
 
             this.KillerNetID = reader.ReadNetID();
             this.CampIndex = reader.ReadInt32();
-            byte bitfield = reader.ReadByte();
-            this.DoPlayVO = (bitfield & 1) != 0;
-
             this.TimerType = reader.ReadInt32();
             this.TimerExpire = reader.ReadFloat();
-        
+
+            byte bitfield = reader.ReadByte();
+            this.DoPlayVO = (bitfield & 1) != 0;
+            
             this.ExtraBytes = reader.ReadLeft();
         }
         public override void WriteBody(PacketWriter writer)
         {
             writer.WriteNetID(KillerNetID);
             writer.WriteInt32(CampIndex);
+            writer.WriteInt32(TimerType);
+            writer.WriteFloat(TimerExpire);
+            
             byte bitfield = 0;
             if (DoPlayVO)
                 bitfield |= 1;
             writer.WriteByte(bitfield);
-
-            writer.WriteInt32(TimerType);
-            writer.WriteFloat(TimerExpire);
         }
     }
 }

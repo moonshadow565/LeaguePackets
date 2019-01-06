@@ -26,7 +26,9 @@ namespace LeaguePackets.GamePackets
             this.Position = reader.ReadVector2();
             this.Goal = reader.ReadVector2();
             this.Speed = reader.ReadFloat();
-            this.FaceGoalPosition = reader.ReadBool();
+
+            byte bitfield = reader.ReadByte();
+            this.FaceGoalPosition = (bitfield & 0x01) != 0;
         
             this.ExtraBytes = reader.ReadLeft();
         }
@@ -35,7 +37,12 @@ namespace LeaguePackets.GamePackets
             writer.WriteVector2(Position);
             writer.WriteVector2(Goal);
             writer.WriteFloat(Speed);
-            writer.WriteBool(FaceGoalPosition);
+
+            byte bitfield = 0;
+            if (FaceGoalPosition)
+                bitfield |= 0x01;
+
+            writer.WriteByte(bitfield);
         }
     }
 }

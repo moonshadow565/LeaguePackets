@@ -73,6 +73,38 @@ namespace LeaguePacketsSender
             return "Speed!";
         }
 
+        public static string AddGold(LeagueServer server, ClientID client, string args)
+        {
+            if (string.IsNullOrEmpty(args))
+            {
+                return "Missing speed value!";
+            }
+            float value = float.Parse(args);
+            byte[] buffer = BitConverter.GetBytes(value);
+
+            var packet = new OnReplication();
+            packet.SyncID = (uint)Environment.TickCount;
+            var data = new ReplicationData()
+            {
+                UnitNetID = (NetID)0x40000001,
+            };
+            data.Data[0] = new Tuple<uint, byte[]>(1, buffer);
+            packet.ReplicationData = new List<ReplicationData>()
+            {
+                data
+            };
+            server.SendEncrypted(client, ChannelID.Broadcast, packet);
+
+
+            var packet2 = new UnitAddGold
+            {
+                GoldAmmount = value,
+                TargetNetID = (NetID)0x40000001,
+            };
+            server.SendEncrypted(client, ChannelID.Broadcast, packet2);
+            return "Gold Added!";
+        }
+
         public static string TestRep(LeagueServer server, ClientID client, string args)
         {
             var packet = new OnReplication();
@@ -108,7 +140,7 @@ namespace LeaguePacketsSender
             packet.SenderNetID = (NetID)0x40000001;
             packet.Message = "hello!";
             server.SendEncrypted(client, ChannelID.Broadcast, packet);
-            return "Test!";
+            return "Test S2C_DisplayLocalizedTutorialChatText!";
         }
 
         public static string Test013(LeagueServer server, ClientID client, string args)
@@ -117,7 +149,7 @@ namespace LeaguePacketsSender
             packet.SenderNetID = (NetID)0x40000001;
             packet.TextID = "hello!";
             server.SendEncrypted(client, ChannelID.Broadcast, packet);
-            return "Test!";
+            return "Test S2C_ReplaceObjectiveText!";
         }
 
         public static string Test016(LeagueServer server, ClientID client, string args)
@@ -126,7 +158,7 @@ namespace LeaguePacketsSender
             packet.TargetNetID = (NetID)0x40000001;
             packet.ExpAmmount = 100.0f;
             server.SendEncrypted(client, ChannelID.Broadcast, packet);
-            return "Test!";
+            return "Test UnitAddEXP!";
         }
 
         public static string TestUndo(LeagueServer server, ClientID client, string args)
@@ -134,7 +166,7 @@ namespace LeaguePacketsSender
             var packet = new S2C_SetUndoEnabled();
             packet.UndoStackSize = 2;
             server.SendEncrypted(client, ChannelID.Broadcast, packet);
-            return "Test!";
+            return "Test S2C_SetUndoEnabled!";
         }
 
         public static string TestBatch(LeagueServer server, ClientID client, string args)

@@ -19,13 +19,17 @@ namespace LeaguePackets.GamePackets
             this.SenderNetID = senderNetID;
             this.ChannelID = channelID;
 
-            this.AutoAttackEnabled = reader.ReadBool();
+            byte bitfield = reader.ReadByte();
+            this.AutoAttackEnabled = (bitfield & 0x01) != 0;
         
             this.ExtraBytes = reader.ReadLeft();
         }
         public override void WriteBody(PacketWriter writer)
         {
-            writer.WriteBool(AutoAttackEnabled);
+            byte bitfield = 0;
+            if (AutoAttackEnabled)
+                bitfield |= 0x01;
+            writer.WriteByte(bitfield);
         }
     }
 }

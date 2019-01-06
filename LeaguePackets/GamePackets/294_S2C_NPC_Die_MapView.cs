@@ -1,27 +1,27 @@
 ﻿using LeaguePackets.Common;
+using LeaguePackets.CommonData;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.IO;
 using System.Text;
 using System.Threading.Tasks;
-using LeaguePackets.CommonData;
 
 namespace LeaguePackets.GamePackets
 {
-    public class NPC_Die : GamePacket // 0x9E
+    public class S2C_NPC_Die_MapView : GamePacket // 0x126
     {
-        public override GamePacketID ID => GamePacketID.NPC_Die;
+        public override GamePacketID ID => GamePacketID.S2C_NPC_Die_MapView;
         public DeathDataPacket DeathData { get; set; } = new DeathDataPacket();
-        public NPC_Die(){}
+        public S2C_NPC_Die_MapView(){}
 
-        public NPC_Die(PacketReader reader, ChannelID channelID, NetID senderNetID)
+        public S2C_NPC_Die_MapView(PacketReader reader, ChannelID channelID, NetID senderNetID)
         {
             this.SenderNetID = senderNetID;
             this.ChannelID = channelID;
 
             this.DeathData = reader.ReadDeathDataPacket();
-        
+
             this.ExtraBytes = reader.ReadLeft();
         }
         public override void WriteBody(PacketWriter writer)

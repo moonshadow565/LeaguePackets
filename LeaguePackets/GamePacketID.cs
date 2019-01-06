@@ -32,7 +32,7 @@ namespace LeaguePackets
         NPC_UpgradeSpellAns = 0x15,                     //DONE?
         C2S_Ping_Load_Info = 0x16,                      //DONE?
         ChangeSlotSpellData = 0x17,                     //DONE?
-        NPC_MessageToClient = 0x18,                     //DONE?
+        NPC_MessageToClient_Broadcast = 0x18,                     //DONE?
         DisplayFloatingText = 0x19,                     //DONE?
         Basic_Attack_Pos = 0x1A,                        //DONE?
         NPC_ForceDead = 0x1B,                           //DONE?
@@ -166,7 +166,7 @@ namespace LeaguePackets
         S2C_ToggleInputLockFlag = 0x9B,                 //DONE?
         C2S_SoftReconnect = 0x9C,                       //DONE?
         S2C_CreateTurret = 0x9D,                        //DONE?
-        NPC_Die = 0x9E,                                 //DONE?
+        NPC_Die_Broadcast = 0x9E,                                 //DONE?
         UseItemAns = 0x9F,                              //DONE?
         S2C_ShowAuxiliaryText = 0xA0,                   //DONE?
         PausePacket = 0xA1,                             //DONE?
@@ -276,7 +276,7 @@ namespace LeaguePackets
         NPC_BuffUpdateNumCounter = 0x109,               //DONE?
         C2S_UndoItemReq = 0x10A,                        //DONE?
         S2C_SetUndoEnabled = 0x10B,                     //DONE?
-        S2C_SetInventory = 0x10C,                       //DONE?
+        S2C_SetInventory_Broadcast = 0x10C,                       //DONE?
         S2C_ChangeMissileSpeed = 0x10D,                 //DONE?
         S2C_SetCanSurrender = 0x10E,                    //DONE?
         S2C_UnitSetLookAt = 0x10F,                      //DONE?
@@ -301,16 +301,16 @@ namespace LeaguePackets
         S2C_CreateMinionCamp = 0x122,                   //DONE?
         S2C_SpawnTurret = 0x123,                        //DONE?
         S2C_UpdateAscended = 0x124,                     //DONE?
-        S2C_ChangeSpell_OwnerOnly = 0x125,              //4.18+
-        S2C_Die_MapView = 0x126,                        //4.18+
+        ChangeSlotSpellData_OwnerOnly = 0x125,              //4.18+
+        S2C_NPC_Die_MapView = 0x126,                        //4.18+
         S2C_SetInventory_MapView = 0x127,               //4.18+
-        S2C_FloatingText2 = 0x128,                      //4.18+
-        S2C_ForceTargetSpell = 0x129,                   //4.18+
-        S2C_StopForceTargetSpell = 0x12A,               //4.18+
-        S2C_Guessed_LockCamera = 0x12B,                 //4.18+
+        NPC_MessageToClient_MapView = 0x128,                      //4.18+
+        S2C_StartSpellTargeter = 0x129,                   //4.18+
+        S2C_StopSpellTargeter = 0x12A,               //4.18+
+        S2C_CameraLock = 0x12B,                 //4.18+
         UNK_0x12C = 0x12C,                              //4.18+
         S2C_SetFadeOut = 0x12D,                         //4.18+
-        UNK_0x12E = 0x12E,                              //4.18+
+        UNK_0x12E_AddRegion = 0x12E,                              //4.18+
         S2C_UnlockAnimation = 0x12F,                    //4.18+
     }
 }

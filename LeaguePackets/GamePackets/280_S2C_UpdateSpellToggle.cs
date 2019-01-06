@@ -21,14 +21,20 @@ namespace LeaguePackets.GamePackets
             this.ChannelID = channelID;
 
             this.SpellSlot = reader.ReadInt32();
-            this.ToggleValue = reader.ReadBool();
+
+            byte bitfield = reader.ReadByte();
+            this.ToggleValue = (bitfield & 0x01) != 0;
         
             this.ExtraBytes = reader.ReadLeft();
         }
         public override void WriteBody(PacketWriter writer)
         {
             writer.WriteInt32(SpellSlot);
-            writer.WriteBool(ToggleValue);
+
+            byte bitfield = 0;
+            if (ToggleValue)
+                bitfield |= 0x01;
+            writer.WriteByte(bitfield);
         }
     }
 }

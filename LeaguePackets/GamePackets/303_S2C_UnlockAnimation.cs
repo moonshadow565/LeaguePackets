@@ -8,10 +8,10 @@ using System.Threading.Tasks;
 
 namespace LeaguePackets.GamePackets
 {
-    public class S2C_UnlockAnimation : GamePacket, IUnusedPacket // 0x12F
+    public class S2C_UnlockAnimation : GamePacket // 0x12F
     {
         public override GamePacketID ID => GamePacketID.S2C_UnlockAnimation;
-        //FIXME: 4.18+
+        public string AnimationName { get; set; } = "";
         public S2C_UnlockAnimation(){}
 
         public S2C_UnlockAnimation(PacketReader reader, ChannelID channelID, NetID senderNetID)
@@ -19,11 +19,13 @@ namespace LeaguePackets.GamePackets
             this.SenderNetID = senderNetID;
             this.ChannelID = channelID;
 
-        
+            this.AnimationName = reader.ReadFixedStringLast(64);
+
             this.ExtraBytes = reader.ReadLeft();
         }
         public override void WriteBody(PacketWriter writer)
         {
+            writer.WriteFixedStringLast(AnimationName, 64);
         }
     }
 }

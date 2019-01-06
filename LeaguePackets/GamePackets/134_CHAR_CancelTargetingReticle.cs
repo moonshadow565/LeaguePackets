@@ -12,26 +12,28 @@ namespace LeaguePackets.GamePackets
     {
         public override GamePacketID ID => GamePacketID.CHAR_CancelTargetingReticle;
         public byte SpellSlot { get; set; }
-        public bool Unknown1 { get; set; }
+        //TOOD: not sure what to name the bool
+        public bool ResetSpecified { get; set; }
         public CHAR_CancelTargetingReticle(){}
 
         public CHAR_CancelTargetingReticle(PacketReader reader, ChannelID channelID, NetID senderNetID)
         {
             this.SenderNetID = senderNetID;
             this.ChannelID = channelID;
+            this.SpellSlot = reader.ReadByte();
 
             byte bitfield = reader.ReadByte();
-            this.SpellSlot = (byte)(bitfield & 0x3F);
-            this.Unknown1 = (bitfield & 0x40) != 0;
-        
+            this.ResetSpecified = (bitfield & 0x01) != 0;
+
             this.ExtraBytes = reader.ReadLeft();
         }
         public override void WriteBody(PacketWriter writer)
         {
+            writer.WriteByte(SpellSlot);
+
             byte bitfield = 0;
-            bitfield |= (byte)((byte)SpellSlot & 0x3F);
-            if (Unknown1)
-                bitfield |= 0x40;
+            if (ResetSpecified)
+                bitfield |= 0x01;
             writer.WriteByte(bitfield);
         }
     }

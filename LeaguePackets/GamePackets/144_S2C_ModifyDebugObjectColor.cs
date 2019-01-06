@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace LeaguePackets.GamePackets
 {
-    public class S2C_ModifyDebugObjectColor : GamePacket // 0x90
+    public class S2C_ModifyDebugObjectColor : GamePacket, IUnusedPacket // 0x90
     {
         public override GamePacketID ID => GamePacketID.S2C_ModifyDebugObjectColor;
         public int ObjectID { get; set; }

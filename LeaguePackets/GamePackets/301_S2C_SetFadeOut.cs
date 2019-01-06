@@ -11,7 +11,8 @@ namespace LeaguePackets.GamePackets
     public class S2C_SetFadeOut : GamePacket, IUnusedPacket // 0x12D
     {
         public override GamePacketID ID => GamePacketID.S2C_SetFadeOut;
-        //FIXME: 4.18+
+        public float FadeTime { get; set; }
+        public float FadeTargetValue { get; set; }
         public S2C_SetFadeOut(){}
 
         public S2C_SetFadeOut(PacketReader reader, ChannelID channelID, NetID senderNetID)
@@ -19,11 +20,15 @@ namespace LeaguePackets.GamePackets
             this.SenderNetID = senderNetID;
             this.ChannelID = channelID;
 
-        
+            this.FadeTime = reader.ReadFloat();
+            this.FadeTargetValue = reader.ReadFloat();
+
             this.ExtraBytes = reader.ReadLeft();
         }
         public override void WriteBody(PacketWriter writer)
         {
+            writer.WriteFloat(FadeTime);
+            writer.WriteFloat(FadeTargetValue);
         }
     }
 }

@@ -8,22 +8,24 @@ using System.Threading.Tasks;
 
 namespace LeaguePackets.GamePackets
 {
-    public class S2C_ForceTargetSpell : GamePacket, IUnusedPacket // 0x129
+    public class S2C_StopSpellTargeter : GamePacket // 0x12A
     {
-        public override GamePacketID ID => GamePacketID.S2C_ForceTargetSpell;
-        //FIXME: 4.18+
-        public S2C_ForceTargetSpell(){}
+        public override GamePacketID ID => GamePacketID.S2C_StopSpellTargeter;
+        public byte Slot { get; set; }
+        public S2C_StopSpellTargeter(){}
 
-        public S2C_ForceTargetSpell(PacketReader reader, ChannelID channelID, NetID senderNetID)
+        public S2C_StopSpellTargeter(PacketReader reader, ChannelID channelID, NetID senderNetID)
         {
             this.SenderNetID = senderNetID;
             this.ChannelID = channelID;
 
-        
+            Slot = (byte)reader.ReadUInt32();
+
             this.ExtraBytes = reader.ReadLeft();
         }
         public override void WriteBody(PacketWriter writer)
         {
+            writer.WriteUInt32((uint)Slot);
         }
     }
 }

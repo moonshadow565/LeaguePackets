@@ -9,23 +9,22 @@ using LeaguePackets.CommonData;
 
 namespace LeaguePackets.GamePackets
 {
-    public class ChangeSlotSpellData : GamePacket // 0x17
+    public class ChangeSlotSpellData_OwnerOnly : GamePacket // 0x125
     {
-        public override GamePacketID ID => GamePacketID.ChangeSlotSpellData;
+        public override GamePacketID ID => GamePacketID.ChangeSlotSpellData_OwnerOnly;
         public ChangeSpellData ChangeSpellData { get; set; } = null;
 
-        public ChangeSlotSpellData(){}
+        public ChangeSlotSpellData_OwnerOnly(){}
 
-        public ChangeSlotSpellData(PacketReader reader, ChannelID channelID, NetID senderNetID)
+        public ChangeSlotSpellData_OwnerOnly(PacketReader reader, ChannelID channelID, NetID senderNetID)
         {
-            this.ChannelID = channelID;
             this.SenderNetID = senderNetID;
+            this.ChannelID = channelID;
 
             this.ChangeSpellData = reader.ReadChangeSpellData();
 
             this.ExtraBytes = reader.ReadLeft();
         }
-
         public override void WriteBody(PacketWriter writer)
         {
             writer.WriteChangeSpellData(ChangeSpellData);

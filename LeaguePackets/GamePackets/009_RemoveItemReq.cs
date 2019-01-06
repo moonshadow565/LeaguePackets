@@ -20,18 +20,18 @@ namespace LeaguePackets.GamePackets
             this.SenderNetID = senderNetID;
             this.ChannelID = channelID;
 
+            this.Slot = reader.ReadByte();
             byte bitfield = reader.ReadByte();
-            this.Slot = (byte)(bitfield & 0x7Fu);
-            this.Sell = (bitfield & 0x80) != 0;
+            this.Sell = (bitfield & 0x01) != 0;
         
             this.ExtraBytes = reader.ReadLeft();
         }
         public override void WriteBody(PacketWriter writer)
         {
+            writer.WriteByte(Slot);
             byte bitfield = 0;
-            bitfield |= (byte)(Slot & 0x7Fu);
             if (Sell)
-                bitfield |= (byte)0x80u;
+                bitfield |= (byte)0x01;
             writer.WriteByte(bitfield);
         }
     }

@@ -8,21 +8,21 @@ using System.Threading.Tasks;
 
 namespace LeaguePackets.GamePackets
 {
-    public class NPC_MessageToClient : GamePacket // 0x18
+    public class NPC_MessageToClient_Broadcast : GamePacket // 0x18
     {
-        public override GamePacketID ID => GamePacketID.NPC_MessageToClient;
+        public override GamePacketID ID => GamePacketID.NPC_MessageToClient_Broadcast;
 
         public float BubbleDelay { get; set; }
-        int SlotNumber { get; set; }
-        bool IsError { get; set; }
-        byte ColorIndex { get; set; }
+        public int SlotNumber { get; set; }
+        public bool IsError { get; set; }
+        public byte ColorIndex { get; set; }
         public FloatTextType FloatingTextType { get; set; }
         public string Message { get; set; } = "";
 
 
-        public NPC_MessageToClient(){}
+        public NPC_MessageToClient_Broadcast(){}
 
-        public NPC_MessageToClient(PacketReader reader, ChannelID channelID, NetID senderNetID)
+        public NPC_MessageToClient_Broadcast(PacketReader reader, ChannelID channelID, NetID senderNetID)
         {
             this.SenderNetID = senderNetID;
             this.ChannelID = channelID;
@@ -33,6 +33,7 @@ namespace LeaguePackets.GamePackets
             this.ColorIndex = reader.ReadByte();
             this.FloatingTextType = reader.ReadFloatTextType();
             this.Message = reader.ReadSizedFixedStringLast(1024);
+
             this.ExtraBytes = reader.ReadLeft();
         }
 

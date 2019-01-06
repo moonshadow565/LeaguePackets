@@ -134,6 +134,8 @@ namespace LeaguePacketsSerializer
             }
 
             Console.WriteLine($"Processed! Good: {serializedPackets.Count}, Soft Error: {softBadPackets.Count}, Hard Error: {hardBadPackets.Count}");
+            Console.WriteLine($"Soft bad IDs:{string.Join(",", softBadPackets.Select(x => x.RawID.ToString()).Distinct())}");
+            Console.WriteLine($"Hard bad IDs:{string.Join(",", hardBadPackets.Select(x => x.RawID.ToString()).Distinct())}");
 
             Console.WriteLine("Writing hard bad to file .hardbad.json");
             SerializeToFile(hardBadPackets, fileName.Replace(".rlp.json", ".rlp.hardbad.json"));

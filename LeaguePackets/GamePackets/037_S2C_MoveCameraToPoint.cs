@@ -12,8 +12,10 @@ namespace LeaguePackets.GamePackets
     public class S2C_MoveCameraToPoint : GamePacket // 0x25
     {
         public override GamePacketID ID => GamePacketID.S2C_MoveCameraToPoint;
-        // TODO: change bitfield to variables
-        public byte Bitfield { get; set; }
+        public bool StartFromCurrentPosition { get; set; }
+        // This is applied only when StartFromCurrentPosition is true
+        public bool UnlockCamera { get; set; }
+        // This is used only when StartFromCurrentPosition is false
         public Vector3 StartPosition { get; set; }
         public Vector3 TargetPosition { get; set; }
         public float TravelTime { get; set; }
@@ -24,7 +26,10 @@ namespace LeaguePackets.GamePackets
             this.SenderNetID = senderNetID;
             this.ChannelID = channelID;
 
-            this.Bitfield = reader.ReadByte();
+            byte bitfield = reader.ReadByte();
+            this.StartFromCurrentPosition = (bitfield & 0x01) != 0;
+            this.UnlockCamera = (bitfield & 0x02) != 0; 
+
             this.StartPosition = reader.ReadVector3();
             this.TargetPosition = reader.ReadVector3();
             this.TravelTime = reader.ReadFloat();
@@ -33,7 +38,13 @@ namespace LeaguePackets.GamePackets
         }
         public override void WriteBody(PacketWriter writer)
         {
-            writer.WriteByte(Bitfield);
+            byte bitfield = 0;
+            if (StartFromCurrentPosition)
+                bitfield |= 0x01;
+            if (UnlockCamera)
+                bitfield |= 0x02;
+            writer.WriteByte(bitfield);
+
             writer.WriteVector3(StartPosition);
             writer.WriteVector3(TargetPosition);
             writer.WriteFloat(TravelTime);

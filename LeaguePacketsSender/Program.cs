@@ -34,9 +34,10 @@ namespace LeaguePacketsSender
                 EloRanking = "BRONZE",
                 ProfileIconId = 666,
                 Bitfield = 108,
+                SummonorSpell1 = 106858133,
             };
             var skinID = 0u;
-            var championName = "Annie";
+            var championName = "Nautilus";
             var playerName = "Test";
             var jSettings = new JsonSerializerSettings
             {
@@ -133,6 +134,8 @@ namespace LeaguePacketsSender
 
                     var avatarInfo = new AvatarInfo_Server();
                     avatarInfo.SenderNetID = (NetID)0x40000001;
+                    avatarInfo.AvatarInfo.SummonerIDs[0] = 106858133;
+                    avatarInfo.AvatarInfo.SummonerIDs2[0] = 106858133;
                     server.SendEncrypted(cid, ChannelID.Broadcast, avatarInfo);
 
 

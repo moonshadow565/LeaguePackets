@@ -14,7 +14,7 @@ namespace LeaguePackets.GamePackets
         public override GamePacketID ID => GamePacketID.S2C_SetCircularMovementRestriction;
         public Vector3 Center { get; set; }
         public float Radius { get; set; }
-        public bool Unk1 { get; set; }
+        public bool RestrictCamera { get; set; }
         public S2C_SetCircularMovementRestriction(){}
 
         public S2C_SetCircularMovementRestriction(PacketReader reader, ChannelID channelID, NetID senderNetID)
@@ -26,7 +26,7 @@ namespace LeaguePackets.GamePackets
             this.Radius = reader.ReadFloat();
 
             var bitfield = reader.ReadByte();
-            this.Unk1 = (bitfield & 0x01u) != 0; 
+            this.RestrictCamera = (bitfield & 0x01u) != 0; 
 
             this.ExtraBytes = reader.ReadLeft();
         }
@@ -36,7 +36,7 @@ namespace LeaguePackets.GamePackets
             writer.WriteFloat(Radius);
 
             byte bitfield = 0;
-            if (Unk1) 
+            if (RestrictCamera) 
                 bitfield |= 1;
             
             writer.WriteByte(bitfield);

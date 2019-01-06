@@ -483,16 +483,6 @@ namespace LeaguePackets
             writer.WriteUInt32((uint)data);
         }
 
-        public static AnimationFlags ReadAnimationFlags(this PacketReader reader)
-        {
-            return (AnimationFlags)(reader.ReadUInt32());
-        }
-
-        public static void WriteAnimationFlags(this PacketWriter writer, AnimationFlags data)
-        {
-            writer.WriteUInt32((uint)data);
-        }
-
         public static ParticleAttachType ReadParticleAttachType(this PacketReader reader)
         {
             return (ParticleAttachType)(reader.ReadByte());

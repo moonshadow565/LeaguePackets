@@ -9,9 +9,11 @@ using LeaguePackets.CommonData;
 
 namespace LeaguePackets.GamePackets
 {
-    public class S2C_SetInventory : GamePacket // 0x10C
+    //TODO: make common class for this and S2C_SetInventory_MapView in CommonData
+    public class S2C_SetInventory_Broadcast : GamePacket // 0x10C
     {
-        public override GamePacketID ID => GamePacketID.S2C_SetInventory;
+        public override GamePacketID ID => GamePacketID.S2C_SetInventory_Broadcast;
+        // NOTE: 4.20 uses only first 9 but still sends all 10 for all 3 of the arrays
         private ItemDataPacket[] _items = new ItemDataPacket[10];
         private float[] _itemCooldowns = new float[10];
         private float[] _itemMaxCooldowns = new float[10];
@@ -19,9 +21,9 @@ namespace LeaguePackets.GamePackets
         public float[] ItemCooldowns => _itemCooldowns;
         public float[] ItemMaxCooldowns => _itemMaxCooldowns;
 
-        public S2C_SetInventory(){}
+        public S2C_SetInventory_Broadcast(){}
 
-        public S2C_SetInventory(PacketReader reader, ChannelID channelID, NetID senderNetID)
+        public S2C_SetInventory_Broadcast(PacketReader reader, ChannelID channelID, NetID senderNetID)
         {
             this.SenderNetID = senderNetID;
             this.ChannelID = channelID;
