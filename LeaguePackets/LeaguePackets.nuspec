@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>LeaguePackets420</id>
+    <version>0.0.1</version>
+    <authors>moonshadow565@gmail.com</authors>
+    <owners>moonshadow565@gmail.com</owners>
+    <licenseUrl>https://raw.githubusercontent.com/moonshadow565/LeaguePackets/master/LICENSE</licenseUrl>
+    <projectUrl>https://github.com/moonshadow565/LeaguePackets</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>League of Legends 4.20 packet protocol</description>
+    <releaseNotes>Pre-release expect API breakage in future</releaseNotes>
+    <copyright></copyright>
+    <tags>LeageuofLegends 4.20 420 Packets LeaguePackets</tags>
+    <references>
+        <reference file="LeaguePackets.dll" />
+    </references>
+  </metadata>
+  <files>
+    <file src="bin/Release/LeaguePackets.dll" target="lib/net462/LeaguePackets.dll" />
+    <file src="bin/Release/LeaguePackets.pdb" target="lib/net462/LeaguePackets.pdb" />
+  </files>
+</package>
