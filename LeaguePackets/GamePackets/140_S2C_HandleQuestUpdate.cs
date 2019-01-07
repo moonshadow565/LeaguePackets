@@ -60,7 +60,7 @@ namespace LeaguePackets.GamePackets
                 bitfield |= 0x01;
             if (Ceremony)
                 bitfield |= 0x02;
-            if (HandleRollovers)
+            if (Success)
                 bitfield |= 0x04;
             writer.WriteByte(bitfield);
 
