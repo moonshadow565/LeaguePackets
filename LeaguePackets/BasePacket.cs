@@ -5,71 +5,65 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using LeaguePackets.PayloadPackets;
+using LeaguePackets.LoadScreen;
 
 namespace LeaguePackets
 {
     public abstract class BasePacket
     {
-        public ChannelID ChannelID { get; set; }
         public byte[] ExtraBytes { get; set; } = new byte[0];
-        public virtual void WriteBody(PacketWriter writer) { }
-        public virtual void WriteHeader(PacketWriter writer) { }
-        public void Write(PacketWriter writer)
+
+        protected abstract void ReadHeader(ByteReader reader);
+        protected abstract void ReadBody(ByteReader reader);
+        public void Read(byte[] data)
         {
-            WriteHeader(writer);
-            WriteBody(writer);
-            writer.WriteBytes(ExtraBytes);
+            using (var reader = new ByteReader(data))
+            {
+                ReadHeader(reader);
+                ReadBody(reader);
+                this.ExtraBytes = reader.ReadLeft();
+            }
         }
 
-        public byte[] GetBytes()
+        public static BasePacket Create(byte[] data, ChannelID channel)
         {
-            byte[] buffer;
-            using(var stream = new MemoryStream())
-            {
-                using(var writer = new PacketWriter(stream, true))
-                {
-                    Write(writer);
-                }
-                buffer = new byte[stream.Length];
-                Buffer.BlockCopy(stream.GetBuffer(), 0, buffer, 0, buffer.Length);
-            }
-            return buffer;
-        }
-    }
-
-    public static class BasePacketExtension
-    {
-        public static BasePacket ReadPacket(this PacketReader reader, ChannelID channel)
-        {
-            byte rawID = reader.ReadByte();
-            if (rawID == 0xFF)
-            {
-                return new BatchPacket(reader, channel);
-            }
             switch (channel)
             {
                 case ChannelID.Default:
-                    return new KeyCheckPacket(reader, channel, rawID);
+                    return KeyCheckPacket.Create(data);
                 case ChannelID.ClientToServer:
                 case ChannelID.SynchClock:
                 case ChannelID.Broadcast:
                 case ChannelID.BroadcastUnreliable:
-                    return reader.ReadGamePacket(channel, rawID);
-                case ChannelID.Chat:
-                    return new Chat(reader, channel);
-                case ChannelID.QuickChat:
-                    return new QuickChat(reader, channel);
+                    return GamePacket.Create(data);
+                case ChannelID.Chat: {
+                        var packet = new Chat();
+                        packet.Read(data);
+                        return packet;
+                    }
+                case ChannelID.QuickChat:{
+                        var packet = new QuickChat();
+                        packet.Read(data);
+                        return packet;
+                    }
                 case ChannelID.LoadingScreen:
-                    return reader.ReadPayloadPacket(channel, rawID);
+                    return LoadScreenPacket.Create(data);
                 default:
-                    return new UnknownPacket(reader, channel, rawID);
+                    throw new IOException("Unknown packet channel.");
             }
         }
 
-        public static void WritePacket(this PacketWriter writer, BasePacket packet)
+        protected abstract void WriteHeader(ByteWriter writer);
+        protected abstract void WriteBody(ByteWriter writer);
+        public byte[] GetBytes()
         {
-            packet.Write(writer);
+            using(var writer = new ByteWriter())
+            {
+                WriteHeader(writer);
+                WriteBody(writer);
+                writer.WriteBytes(this.ExtraBytes);
+                return writer.GetBytes();
+            }
         }
     }
 }

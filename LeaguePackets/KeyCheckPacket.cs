@@ -1,43 +1,47 @@
 ﻿using System;
-using LeaguePackets.Common;
+
 
 namespace LeaguePackets
 {
     public class KeyCheckPacket : BasePacket
     {
-        public ClientID ClientID { get; set; }
-        public PlayerID PlayerID { get; set; }
+        public byte Action { get; set; }
+        public int ClientID { get; set; }
+        public long PlayerID { get; set; }
         public uint VersionNumber { get; set; }
         public ulong CheckSum { get; set; }
 
-        public KeyCheckPacket() {}
-
-        public KeyCheckPacket(PacketReader reader, ChannelID channelID) 
-            : this(reader, channelID, reader.ReadByte())
+        public static KeyCheckPacket Create(byte[] data) 
         {
+            var packet = new KeyCheckPacket();
+            packet.Read(data);
+            return packet;
         }
 
-        public KeyCheckPacket(PacketReader reader, ChannelID channelID, byte rawID)
+        protected override void ReadHeader(ByteReader reader)
         {
-            ChannelID = channelID;
+            this.Action = reader.ReadByte();
             reader.ReadPad(3);
-            ClientID = reader.ReadClientID();
-            PlayerID = reader.ReadPlayerID();
+        }
+       
+        protected override void ReadBody(ByteReader reader)
+        {
+            ClientID = reader.ReadInt32();
+            PlayerID = reader.ReadInt64();
             VersionNumber = reader.ReadUInt32();
             CheckSum = reader.ReadUInt64();
-            reader.ReadLeft();
         }
 
-        public override void WriteHeader(PacketWriter writer)
+        protected override void WriteHeader(ByteWriter writer)
         {
-            writer.WriteByte(0);
-        }
-
-        public override void WriteBody(PacketWriter writer)
-        {
+            writer.WriteByte(this.Action);
             writer.WritePad(3);
-            writer.WriteClientID(ClientID);
-            writer.WritePlayerID(PlayerID);
+        }
+
+        protected override void WriteBody(ByteWriter writer)
+        {
+            writer.WriteInt32(ClientID);
+            writer.WriteInt64(PlayerID);
             writer.WriteUInt32(VersionNumber);
             writer.WriteUInt64(CheckSum);
             writer.WritePad(4);

@@ -72,65 +72,63 @@ namespace LeaguePacketsSerializer
             Console.WriteLine("Processing raw packets...");
             foreach (var rPacket in rawPackets)
             {
-                using (var reader = new PacketReader(rPacket.Bytes))
+                if (rPacket.Channel < 8)
                 {
-                    if (rPacket.Channel < 8)
+                    int rawID = rPacket.Bytes[0];
+                    if (rawID == 254)
                     {
-                        int rawID = rPacket.Bytes[0];
-                        if (rawID == 254)
+                        rawID = rPacket.Bytes[5] | rPacket.Bytes[6] << 8;
+                    }
+                    try
+                    {
+                        var packet = BasePacket.Create(rPacket.Bytes, (ChannelID)rPacket.Channel);
+                        serializedPackets.Add(new SerializedPacket
                         {
-                            rawID = rPacket.Bytes[5] | rPacket.Bytes[6] << 8;
-                        }
-                        try
+                            RawID = rawID,
+                            Packet = packet,
+                            Time = rPacket.Time,
+                            ChannelID = rPacket.Channel < 8 ? (ChannelID)rPacket.Channel : (ChannelID?)null,
+                            RawChannel = rPacket.Channel,
+                        });
+                        if (rawID != 0 && packet.ExtraBytes.Length > 0 /*&& !packet.ExtraBytes.All((b) => b == 0)*/)
                         {
-                            var packet = reader.ReadPacket((ChannelID)rPacket.Channel);
-                            serializedPackets.Add(new SerializedPacket
-                            {
-                                RawID = rawID,
-                                Packet = packet,
-                                Time = rPacket.Time,
-                                ChannelID = rPacket.Channel < 8 ? (ChannelID)rPacket.Channel : (ChannelID?)null,
-                                RawChannel = rPacket.Channel,
-                            });
-                            if (rawID != 0 && packet.ExtraBytes.Length > 0 /*&& !packet.ExtraBytes.All((b) => b == 0)*/)
-                            {
-                                softBadPackets.Add(new BadPacket()
-                                {
-                                    RawID = rawID,
-                                    Raw = rPacket.Bytes,
-                                    RawChannel = rPacket.Channel,
-                                    Error = $"Extra bytes: {Convert.ToBase64String(packet.ExtraBytes)}",
-                                });
-                            }
-                            if(packet is IGamePacketsList list)
-                            {
-                                foreach(var packet2 in list.Packets)
-                                {
-                                    if (rawID != 0 && packet2.ExtraBytes.Length > 0 /*&& !packet2.ExtraBytes.All((b) => b == 0)*/)
-                                    {
-                                        softBadPackets.Add(new BadPacket()
-                                        {
-                                            RawID = (int)packet2.ID,
-                                            Raw = rPacket.Bytes,
-                                            RawChannel = rPacket.Channel,
-                                            Error = $"Extra bytes in {packet2.GetType().Name}: {Convert.ToBase64String(packet2.ExtraBytes)}",
-                                        });
-                                    }
-                                }
-                            }
-                        }
-                        catch (Exception exception)
-                        {
-                            hardBadPackets.Add(new BadPacket()
+                            softBadPackets.Add(new BadPacket()
                             {
                                 RawID = rawID,
                                 Raw = rPacket.Bytes,
                                 RawChannel = rPacket.Channel,
-                                Error = exception.ToString(),
+                                Error = $"Extra bytes: {Convert.ToBase64String(packet.ExtraBytes)}",
                             });
                         }
+                        if(packet is IGamePacketsList list)
+                        {
+                            foreach(var packet2 in list.Packets)
+                            {
+                                if (rawID != 0 && packet2.ExtraBytes.Length > 0 /*&& !packet2.ExtraBytes.All((b) => b == 0)*/)
+                                {
+                                    softBadPackets.Add(new BadPacket()
+                                    {
+                                        RawID = (int)packet2.ID,
+                                        Raw = rPacket.Bytes,
+                                        RawChannel = rPacket.Channel,
+                                        Error = $"Extra bytes in {packet2.GetType().Name}: {Convert.ToBase64String(packet2.ExtraBytes)}",
+                                    });
+                                }
+                            }
+                        }
+                    }
+                    catch (Exception exception)
+                    {
+                        hardBadPackets.Add(new BadPacket()
+                        {
+                            RawID = rawID,
+                            Raw = rPacket.Bytes,
+                            RawChannel = rPacket.Channel,
+                            Error = exception.ToString(),
+                        });
                     }
                 }
+
             }
 
             Console.WriteLine($"Processed! Good: {serializedPackets.Count}, Soft Error: {softBadPackets.Count}, Hard Error: {hardBadPackets.Count}");

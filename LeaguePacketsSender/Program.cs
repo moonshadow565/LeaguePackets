@@ -3,10 +3,9 @@ using System.IO;
 using System.Collections.Generic;
 using ENet;
 using LeaguePackets;
-using LeaguePackets.Common;
-using LeaguePackets.GamePackets;
-using LeaguePackets.CommonData;
-using LeaguePackets.PayloadPackets;
+using LeaguePackets.Game;
+using LeaguePackets.Game.Common;
+using LeaguePackets.LoadScreen;
 using Newtonsoft.Json;
 using System.Numerics;
 using System.Linq;
@@ -23,14 +22,14 @@ namespace LeaguePacketsSender
         {
             var address = new Address(Address.IPv4HostAny, 5119);
             var key = Convert.FromBase64String("17BLOhi6KZsTtldTsizvHg==");
-            var cids = new List<ClientID> { (ClientID)1 };
+            var cids = new List<int> { 1 };
             var server = new LeagueServer(address, key, cids);
             var mapNum = 1;
             var playerLiteInfo = new PlayerLoadInfo
             {
-                PlayerID = (PlayerID)1,
+                PlayerID = 1,
                 SummonorLevel = 30,
-                TeamId = TeamID.Order,
+                TeamId = 0x64,
                 EloRanking = "BRONZE",
                 ProfileIconId = 666,
                 Bitfield = 108,
@@ -71,19 +70,19 @@ namespace LeaguePacketsSender
                 {
                     var answer2 = new TeamRosterUpdate();
                     answer2.TeamSizeOrder = 1;
-                    answer2.OrderMembers[0] = (PlayerID)cid;
+                    answer2.OrderMembers[0] = cid;
                     answer2.TeamSizeOrderCurrent = 1;
                     server.SendEncrypted(cid, ChannelID.LoadingScreen, answer2);
 
                     var answer1 = new RequestReskin();
-                    answer1.PlayerID = (PlayerID)cid;
+                    answer1.PlayerID = cid;
                     answer1.SkinID = (int)skinID;
                     answer1.SkinName = championName;
                     server.SendEncrypted(cid, ChannelID.LoadingScreen, answer1);
 
 
                     var answer3 = new RequestRename();
-                    answer3.PlayerID = (PlayerID)cid;
+                    answer3.PlayerID = cid;
                     answer3.SkinID = 0;
                     answer3.PlayerName = playerName;
                     server.SendEncrypted(cid, ChannelID.LoadingScreen, answer3);
@@ -91,9 +90,9 @@ namespace LeaguePacketsSender
                 else if(packet is C2S_Ping_Load_Info reqPingLoadInfo)
                 {
                     var answer = new S2C_Ping_Load_Info();
-                    answer.SenderNetID = (NetID)(uint)cid;
+                    answer.SenderNetID = (uint)cid;
                     answer.ConnectionInfo = reqPingLoadInfo.ConnectionInfo;
-                    answer.ConnectionInfo.PlayerID = (PlayerID)cid;
+                    answer.ConnectionInfo.PlayerID = cid;
                     server.SendEncrypted(cid, ChannelID.Broadcast, answer);
                 }
                 else if (packet is SynchVersionC2S syncReq)
@@ -105,11 +104,11 @@ namespace LeaguePacketsSender
                     answer.PlayerInfo[0] = playerLiteInfo;
                     answer.MapMode = "CLASSIC";
                     answer.PlatformID = "EUW";
-                    answer.GameFeatures |= GameFeatures.FoundryOptions;
-                    answer.GameFeatures |= GameFeatures.EarlyWarningForFOWMissiles;
-                    answer.GameFeatures |= GameFeatures.NewPlayerRecommendedPages;
-                    answer.GameFeatures |= GameFeatures.HighlightLineMissileTargets;
-                    answer.GameFeatures |= GameFeatures.ItemUndo;
+                    answer.GameFeatures |= (1 << 0x1);
+                    answer.GameFeatures |= (1 << 0x4);
+                    answer.GameFeatures |= (1 << 0x7);
+                    answer.GameFeatures |= (1 << 0x8);
+                    answer.GameFeatures |= (1 << 0x6);
                     server.SendEncrypted(cid, ChannelID.Broadcast, answer);
                 }
                 else if(packet is C2S_CharSelected reqSelected)
@@ -119,23 +118,23 @@ namespace LeaguePacketsSender
 
 
                     var spawnHero = new S2C_CreateHero();
-                    spawnHero.SenderNetID = (NetID)0x40000001;
+                    spawnHero.SenderNetID = 0x40000001;
                     spawnHero.Name = playerName;
                     spawnHero.Skin = championName;
                     spawnHero.SkinID = 0;
-                    spawnHero.NetNodeID = NetNodeID.Spawned;
-                    spawnHero.NetID = (NetID)0x40000001;
+                    spawnHero.NetNodeID = 0x40;
+                    spawnHero.NetID = 0x40000001;
                     spawnHero.TeamIsOrder = true;
                     spawnHero.CreateHeroDeath = CreateHeroDeath.Alive;
-                    spawnHero.PlayerUID = cid;
+                    spawnHero.ClientID = cid;
                     spawnHero.SpawnPositionIndex = 2;
                     server.SendEncrypted(cid, ChannelID.Broadcast, spawnHero);
 
 
                     var avatarInfo = new AvatarInfo_Server();
-                    avatarInfo.SenderNetID = (NetID)0x40000001;
-                    avatarInfo.AvatarInfo.SummonerIDs[0] = 106858133;
-                    avatarInfo.AvatarInfo.SummonerIDs2[0] = 106858133;
+                    avatarInfo.SenderNetID = 0x40000001;
+                    avatarInfo.SummonerIDs[0] = 106858133;
+                    avatarInfo.SummonerIDs2[0] = 106858133;
                     server.SendEncrypted(cid, ChannelID.Broadcast, avatarInfo);
 
 
@@ -150,7 +149,7 @@ namespace LeaguePacketsSender
 
                     var answer2 = new TeamRosterUpdate();
                     answer2.TeamSizeOrder = 1;
-                    answer2.OrderMembers[0] = (PlayerID)cid;
+                    answer2.OrderMembers[0] = cid;
                     answer2.TeamSizeOrderCurrent = 1;
                     server.SendEncrypted(cid, ChannelID.LoadingScreen, answer2);
                 }
@@ -179,7 +178,7 @@ namespace LeaguePacketsSender
                                 var response = new Chat();
                                 response.Localized = false;
                                 response.Message = strResult;
-                                response.ChatType = ChatType.Team;
+                                response.ChatType = 1;
                                 response.ClientID = e.ClientID;
                                 //response.Params = "Command";
                                 server.SendEncrypted(e.ClientID, ChannelID.Chat, response);
@@ -191,16 +190,12 @@ namespace LeaguePacketsSender
                 else
                 {
                     Console.WriteLine(JsonConvert.SerializeObject(e, jSettings));
-                    if(packet is NPC_IssueOrderReq movReq && movReq.OrderType == OrderType.MoveTo)
+                    if(packet is NPC_IssueOrderReq movReq && movReq.OrderType == 2)
                     {
                         var resWaypoints = new WaypointGroup();
-                        resWaypoints.SenderNetID = (NetID)0x40000001;
+                        resWaypoints.SenderNetID = 0x40000001;
                         resWaypoints.SyncID = (int)Environment.TickCount;
-                        resWaypoints.Movements.Add(new MovementDataNormal
-                        {
-                            TeleportNetID = (NetID)0x40000001,
-                            Waypoints = movReq.Waypoints
-                        });
+                        resWaypoints.Movements.Add(movReq.MovementData);
                         server.SendEncrypted(e.ClientID, ChannelID.Broadcast, resWaypoints);
                     }
                 }
