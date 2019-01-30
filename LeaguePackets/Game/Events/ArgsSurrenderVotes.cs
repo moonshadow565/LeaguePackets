@@ -10,7 +10,6 @@ namespace LeaguePackets.Game.Events
         public override void ReadArgs(ByteReader reader)
         {
             base.ReadArgs(reader);
-            //FIXME: this doesn't appear to be serialized?
             ForVote = reader.ReadInt32();
             AgainstVote = reader.ReadInt32();
             TeamID = reader.ReadUInt16();

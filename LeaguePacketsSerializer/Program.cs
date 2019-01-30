@@ -90,7 +90,7 @@ namespace LeaguePacketsSerializer
                             ChannelID = rPacket.Channel < 8 ? (ChannelID)rPacket.Channel : (ChannelID?)null,
                             RawChannel = rPacket.Channel,
                         });
-                        if (rawID != 0 && packet.ExtraBytes.Length > 0 /*&& !packet.ExtraBytes.All((b) => b == 0)*/)
+                        if (rPacket.Channel > 0 && packet.ExtraBytes.Length > 0)
                         {
                             softBadPackets.Add(new BadPacket()
                             {
@@ -104,7 +104,7 @@ namespace LeaguePacketsSerializer
                         {
                             foreach(var packet2 in list.Packets)
                             {
-                                if (rawID != 0 && packet2.ExtraBytes.Length > 0 /*&& !packet2.ExtraBytes.All((b) => b == 0)*/)
+                                if (rPacket.Channel > 0 && packet2.ExtraBytes.Length > 0)
                                 {
                                     softBadPackets.Add(new BadPacket()
                                     {

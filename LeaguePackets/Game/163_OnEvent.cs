@@ -13,15 +13,15 @@ namespace LeaguePackets.Game
     public class OnEvent : GamePacket // 0xA3
     {
         public override GamePacketID ID => GamePacketID.OnEvent;
-        public BaseEvent Event { get; set; }
+        public IEvent Event { get; set; }
 
         protected override void ReadBody(ByteReader reader)
         {
-            this.Event = reader.ReadEvent(false);
+            this.Event = reader.ReadEvent();
         }
         protected override void WriteBody(ByteWriter writer)
         {
-            writer.WriteEvent(Event, false);
+            writer.WriteEvent(Event);
         }
     }
 }

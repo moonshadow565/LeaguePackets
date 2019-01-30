@@ -13,16 +13,15 @@ namespace LeaguePackets.Game
     public class S2C_OnEventWorld : GamePacket // 0x45
     {
         public override GamePacketID ID => GamePacketID.S2C_OnEventWorld;
-        public BaseEvent Event { get; set; }
+        public EventWorld EventWorld = new EventWorld();
 
         protected override void ReadBody(ByteReader reader)
         {
-
-            this.Event = reader.ReadEvent();
+            this.EventWorld = reader.ReadEventWorld();
         }
         protected override void WriteBody(ByteWriter writer)
         {
-            writer.WriteEvent(Event);
+            writer.WriteEventWorld(EventWorld);
         }
     }
 }

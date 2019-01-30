@@ -44,61 +44,68 @@ namespace LeaguePackets.Game
                 totalSize -= size;
             }
 
-            if(reader.BytesLeft > 8) 
+            if (reader.BytesLeft < 8)
             {
-                
-                byte itemCount = reader.ReadByte();
-                for (int i = 0; i < itemCount; i++)
+                if(reader.BytesLeft == 1)
                 {
-                    var item = new ItemData();
-                    item.Slot = reader.ReadByte();
-                    item.ItemsInSlot = reader.ReadByte();
-                    item.SpellCharges = reader.ReadByte();
-                    item.ItemID = reader.ReadUInt32();
+                    reader.ReadPad(1);
                 }
-
-                bool hasShield = reader.ReadBool();
-                if (hasShield)
-                {
-                    ShieldValues = new ShieldValues();
-                    ShieldValues.Magical = reader.ReadFloat();
-                    ShieldValues.Phyisical = reader.ReadFloat();
-                    ShieldValues.MagicalAndPhysical = reader.ReadFloat();
-                }
-
-                int countCharStack = reader.ReadInt32();
-                for (int i = 0; i < countCharStack; i++)
-                {
-                    var data = new CharacterStackData();
-                    data.SkinName = reader.ReadSizedString();
-                    data.SkinID = reader.ReadUInt32();
-                    byte bitfield = reader.ReadByte();
-                    data.OverrideSpells = (bitfield & 1) != 0;
-                    data.ModelOnly = (bitfield & 2) != 0;
-                    data.ReplaceCharacterPackage = (bitfield & 4) != 0;
-                    data.ID = reader.ReadUInt32();
-                    CharacterDataStack.Add(data);
-                }
-
-                LookAtNetID = reader.ReadUInt32();
-                LookAtType = reader.ReadByte();
-                LookAtPosition = reader.ReadVector3();
-
-                int numOfBuffCount = reader.ReadInt32();
-                for (int i = 0; i < numOfBuffCount; i++)
-                {
-                    byte slot = reader.ReadByte();
-                    int count = reader.ReadInt32();
-                    BuffCount.Add(new KeyValuePair<byte, int>(slot, count));
-                }
-
-                UnknownIsHero = reader.ReadBool();
-
-                if(reader.BytesLeft > 4)
-                {
-                    MovementData = reader.ReadMovementDataWithHeader();
-                }
+                return;
             }
+                
+            byte itemCount = reader.ReadByte();
+            for (int i = 0; i < itemCount; i++)
+            {
+                var item = new ItemData();
+                item.Slot = reader.ReadByte();
+                item.ItemsInSlot = reader.ReadByte();
+                item.SpellCharges = reader.ReadByte();
+                item.ItemID = reader.ReadUInt32();
+            }
+
+            bool hasShield = reader.ReadBool();
+            if (hasShield)
+            {
+                ShieldValues = new ShieldValues();
+                ShieldValues.Magical = reader.ReadFloat();
+                ShieldValues.Phyisical = reader.ReadFloat();
+                ShieldValues.MagicalAndPhysical = reader.ReadFloat();
+            }
+
+            int countCharStack = reader.ReadInt32();
+            for (int i = 0; i < countCharStack; i++)
+            {
+                var data = new CharacterStackData();
+                data.SkinName = reader.ReadSizedString();
+                data.SkinID = reader.ReadUInt32();
+                byte bitfield = reader.ReadByte();
+                data.OverrideSpells = (bitfield & 1) != 0;
+                data.ModelOnly = (bitfield & 2) != 0;
+                data.ReplaceCharacterPackage = (bitfield & 4) != 0;
+                data.ID = reader.ReadUInt32();
+                CharacterDataStack.Add(data);
+            }
+
+            LookAtNetID = reader.ReadUInt32();
+            LookAtType = reader.ReadByte();
+            LookAtPosition = reader.ReadVector3();
+
+            int numOfBuffCount = reader.ReadInt32();
+            for (int i = 0; i < numOfBuffCount; i++)
+            {
+                byte slot = reader.ReadByte();
+                int count = reader.ReadInt32();
+                BuffCount.Add(new KeyValuePair<byte, int>(slot, count));
+            }
+
+            UnknownIsHero = reader.ReadBool();
+
+            if(reader.BytesLeft < 5)
+            {
+                return;
+            }
+
+            MovementData = reader.ReadMovementDataWithHeader();
         }
 
         protected override void WriteBody(ByteWriter writer)

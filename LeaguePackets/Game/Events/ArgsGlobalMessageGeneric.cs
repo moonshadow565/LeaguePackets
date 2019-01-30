@@ -1,20 +1,18 @@
 ﻿using System;
-
 namespace LeaguePackets.Game.Events
 {
-    public class ArgsAlert : ArgsBase
+    public class ArgsGlobalMessageGeneric: ArgsBase
     {
+        public int MapNumber { get; set; }
         public override void ReadArgs(ByteReader reader)
         {
             base.ReadArgs(reader);
-            reader.ReadPad(4);
-            reader.ReadPad(4);
+            MapNumber = reader.ReadInt32();
         }
         public override void WriteArgs(ByteWriter writer)
         {
             base.WriteArgs(writer);
-            writer.WritePad(4);
-            writer.WritePad(4);
+            writer.WriteInt32(MapNumber);
         }
     }
 }

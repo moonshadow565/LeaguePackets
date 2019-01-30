@@ -63,8 +63,8 @@
     <Compile Include="Game\020_C2S_QueryStatusReq.cs" />
     <Compile Include="Game\021_NPC_UpgradeSpellAns.cs" />
     <Compile Include="Game\022_C2S_Ping_Load_Info.cs" />
-    <Compile Include="Game\023_ChangeSlotSpellData.cs" />
     <Compile Include="Game\024_NPC_MessageToClient_Broadcast.cs" />
+    <Compile Include="Game\023_ChangeSlotSpellData.cs" />
     <Compile Include="Game\025_DisplayFloatingText.cs" />
     <Compile Include="Game\026_Basic_Attack_Pos.cs" />
     <Compile Include="Game\027_NPC_ForceDead.cs" />
@@ -413,6 +413,7 @@
     <Compile Include="Game\Common\ChangeSpellData.cs" />
     <Compile Include="Game\Common\UpdateLevelPropData.cs" />
     <Compile Include="Game\255_Batched.cs" />
+    <Compile Include="Game\Events\ArgsGlobalMessageGeneric.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

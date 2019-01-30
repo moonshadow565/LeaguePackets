@@ -6,80 +6,147 @@ using System.Reflection;
 
 namespace LeaguePackets.Game.Events
 {
-    using EventDict = Dictionary<EventID, Func<BaseEvent>>;
-    public abstract class BaseEvent
+    using EventDict = Dictionary<EventID, Func<IEvent>>;
+
+    public interface IEvent
     {
-        public abstract EventID EventID { get; }
+        EventID ID { get; }
+        uint OtherNetID { get; set; }
+
+        void ReadArgs(ByteReader reader);
+        void WriteArgs(ByteWriter writer);
+    }
+
+    public interface IEventEmptyHistory : IEvent {}
+
+    public class EventWorld
+    {
         public uint Source { get; set; }
-        public abstract void ReadArgs(ByteReader reader);
-        public abstract void WriteArgs(ByteWriter writer);
+        public IEvent Event { get; set; } = new OnDelete();
+    };
+
+    public class EventHistoryEntry
+    {
+        public float Timestamp { get; set; }
+        public ushort Count { get; set; }
+        public uint Source { get; set; }
+        public IEvent Event { get; set; } = new OnDelete();
+    }
+
+    public static class EventExtension
+    {
+        public static readonly EventDict Lookup = GenerateLookup();
+
+        private static IEvent CreateEvent(byte rawID)
+        {
+            var id = (EventID)rawID;
+            if (!Lookup.ContainsKey(id))
+            {
+                throw new IOException("Unknow event ID!");
+            }
+            return Lookup[id]();
+        }
+
+        public static IEvent ReadEvent(this ByteReader reader)
+        {
+            var id = reader.ReadByte();
+            var ev = CreateEvent(id);
+            ev.ReadArgs(reader);
+            return ev;
+        }
+
+        public static void WriteEvent(this ByteWriter writer, IEvent ev)
+        {
+            writer.WriteByte((byte)ev.ID);
+            ev.WriteArgs(writer);
+        }
+
+        public static EventWorld ReadEventWorld(this ByteReader reader)
+        {
+            var id = reader.ReadByte();
+            var source = reader.ReadUInt32();
+            var ev = CreateEvent(id);
+            ev.ReadArgs(reader);
+            return new EventWorld { Source = source, Event = ev };
+        }
+
+        public static void WriteEventWorld(this ByteWriter writer, EventWorld ev)
+        {
+            if(ev == null)
+            {
+                ev = new EventWorld();
+            }
+            writer.WriteByte((byte)ev.Event.ID);
+            writer.WriteUInt32(ev.Source);
+            ev.Event.WriteArgs(writer);
+        }
+
+        public static EventHistoryEntry ReadEventHistoryEntry(this ByteReader reader)
+        {
+            var timestamp = reader.ReadFloat();
+            var count = reader.ReadUInt16();
+            var id = reader.ReadByte();
+            var source = reader.ReadUInt32();
+            var ev = CreateEvent(id);
+            if(ev is IEventEmptyHistory)
+            {
+                ev.OtherNetID = reader.ReadUInt32();
+            }
+            else
+            {
+                ev.ReadArgs(reader);
+            }
+            return new EventHistoryEntry
+            {
+                Timestamp = timestamp,
+                Count = count,
+                Source = source,
+                Event = ev,
+            };
+        }
+
+        public static void WriteEventHistoryEntry(this ByteWriter writer, EventHistoryEntry ev)
+        {
+            if (ev == null)
+            {
+                ev = new EventHistoryEntry();
+            }
+            writer.WriteFloat(ev.Timestamp);
+            writer.WriteUInt16(ev.Count);
+            writer.WriteByte((byte)ev.Event.ID);
+            writer.WriteUInt32(ev.Source);
+            if (ev.Event is IEventEmptyHistory)
+            {
+                writer.WriteUInt32(ev.Event.OtherNetID);
+            }
+            else
+            {
+                ev.Event.WriteArgs(writer);
+            }
+        }
 
         private static EventDict GenerateLookup()
         {
             var lookup = new EventDict();
-            foreach (Type type in Assembly.GetAssembly(typeof(BaseEvent)).GetTypes())
+            foreach (Type type in Assembly.GetAssembly(typeof(IEvent)).GetTypes())
             {
-                if (!type.IsClass || type.IsAbstract || !type.IsSubclassOf(typeof(BaseEvent)))
+                if (!type.IsClass || type.IsAbstract || type.IsInterface || !typeof(IEvent).IsAssignableFrom(type))
                 {
                     continue;
                 }
-                var tmp = (BaseEvent)Activator.CreateInstance(type);
-                var id = tmp.EventID;
+                var tmp = (IEvent)Activator.CreateInstance(type);
+                var id = tmp.ID;
                 if (lookup.ContainsKey(id))
                 {
                     throw new Exception("ID already in lookup map");
                 }
-                var lambda = Expression.Lambda<Func<BaseEvent>>(
+                var lambda = Expression.Lambda<Func<IEvent>>(
                     Expression.New(type),
                     Array.Empty<ParameterExpression>()
                 ).Compile();
                 lookup.Add(id, lambda);
             }
             return lookup;
-        }
-        public static readonly EventDict Lookup = GenerateLookup();
-    }
-
-    public abstract class Event<TArgs> : BaseEvent where TArgs : ArgsBase, new()
-    {
-        public TArgs Args { get; set; } = new TArgs();
-        public override void ReadArgs(ByteReader reader)
-        {
-            Args.ReadArgs(reader);
-        }
-
-        public override void WriteArgs(ByteWriter writer)
-        {
-            Args.WriteArgs(writer);
-        }
-    }
-
-    public static partial class EventExtension
-    {
-        public static BaseEvent ReadEvent(this ByteReader reader, bool useSource = true)
-        {
-            var id = (EventID)reader.ReadByte();
-            if (!BaseEvent.Lookup.ContainsKey(id))
-            {
-                throw new IOException("Unknow event ID!");
-            }
-            var ev = BaseEvent.Lookup[id]();
-            if(useSource)
-            {
-                ev.Source = reader.ReadUInt32();
-            }
-            ev.ReadArgs(reader);
-            return ev;
-        }
-
-        public static void WriteEvent(this ByteWriter writer, BaseEvent ev, bool useSource = true)
-        {
-            writer.WriteByte((byte)ev.EventID);
-            if(useSource)
-            {
-                writer.WriteUInt32(ev.Source);
-            }
-            ev.WriteArgs(writer);
         }
     }
 }

@@ -6,6 +6,8 @@ namespace LeaguePackets.Game.Events
     {
         public uint ScriptNameHash { get; set; }
         public byte EventSource { get; set; }
+        // FIXME: new byte or EventSource bigger ?
+        public byte Unknown { get; set; }
         public uint SourceObjectNetID { get; set; }
         public float PhysicalDamage { get; set; }
         public float MagicalDamage { get; set; }
@@ -18,6 +20,7 @@ namespace LeaguePackets.Game.Events
             base.ReadArgs(reader);
             ScriptNameHash = reader.ReadUInt32();
             EventSource = reader.ReadByte();
+            Unknown = reader.ReadByte();
             SourceObjectNetID = reader.ReadUInt32();
             PhysicalDamage = reader.ReadFloat();
             MagicalDamage = reader.ReadFloat();
@@ -31,6 +34,7 @@ namespace LeaguePackets.Game.Events
             base.WriteArgs(writer);
             writer.WriteUInt32(ScriptNameHash);
             writer.WriteByte(EventSource);
+            writer.WriteByte(Unknown);
             writer.WriteUInt32(SourceObjectNetID);
             writer.WriteFloat(PhysicalDamage);
             writer.WriteFloat(MagicalDamage);
