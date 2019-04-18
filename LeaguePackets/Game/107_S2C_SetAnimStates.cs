@@ -31,6 +31,7 @@ namespace LeaguePackets.Game
             {
                 throw new IOException("AnimationOverrides list too big!");
             }
+            writer.WriteByte((byte)number);
             foreach (var kvp in AnimationOverrides)
             {
                 writer.WriteSizedString(kvp.Key);
