@@ -13,6 +13,5 @@ namespace LeaguePackets
         RequestRename = 0x66,
         TeamRosterUpdate = 0x67,
         Chat = 0x68,
-        QuickChat = 0x69,
     }
 }

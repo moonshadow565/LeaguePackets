@@ -41,11 +41,6 @@ namespace LeaguePackets
                         packet.Read(data);
                         return packet;
                     }
-                case ChannelID.QuickChat:{
-                        var packet = new QuickChat();
-                        packet.Read(data);
-                        return packet;
-                    }
                 case ChannelID.LoadingScreen:
                     return LoadScreenPacket.Create(data);
                 default:

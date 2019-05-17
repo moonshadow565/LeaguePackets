@@ -9,7 +9,6 @@ namespace LeaguePackets
         Broadcast = 0x3,
         BroadcastUnreliable = 0x4,
         Chat = 0x5,
-        QuickChat = 0x6,
-        LoadingScreen = 0x7,
+        LoadingScreen = 0x6,
     }
 }

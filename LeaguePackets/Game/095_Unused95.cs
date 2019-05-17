@@ -8,9 +8,9 @@ using System.Threading.Tasks;
 
 namespace LeaguePackets.Game
 {
-    public class S2C_PlayThemeMusic : GamePacket // 0x60
+    public class Unused95 : GamePacket // 0x60
     {
-        public override GamePacketID ID => GamePacketID.S2C_PlayThemeMusic;
+        public override GamePacketID ID => GamePacketID.Unused95;
         public uint SourceNetID { get; set; }
         public uint MusicID { get; set; }
 
