@@ -28,28 +28,29 @@ namespace LeaguePackets.Game
             this.Position = reader.ReadVector2();
             this.TargetNetID = reader.ReadUInt32();
             this.SourceNetID = reader.ReadUInt32();
-            this.PingCategory = reader.ReadByte();
+
             byte bitfield = reader.ReadByte();
-            this.PlayAudio = (bitfield & 0x01) != 0;
-            this.ShowChat = (bitfield & 0x02) != 0;
-            this.PingThrottled = (bitfield & 0x04) != 0;
-            this.PlayVO = (bitfield & 0x08) != 0;
+            this.PingCategory = (byte)(bitfield & 0x0Fu);
+            this.PlayAudio = (bitfield & 0x10u) != 0;
+            this.ShowChat = (bitfield & 0x20u) != 0;
+            this.PingThrottled = (bitfield & 0x40u) != 0;
+            this.PlayVO = (bitfield & 0x80u) != 0;
         }
         protected override void WriteBody(ByteWriter writer)
         {
             writer.WriteVector2(Position);
             writer.WriteUInt32(TargetNetID);
             writer.WriteUInt32(SourceNetID);
-            writer.WriteByte(PingCategory);
             byte bitfield = 0;
+            bitfield |= (byte)(PingCategory & 0x0Fu);
             if (PlayAudio)
-                bitfield |= 0x01;
+                bitfield |= 0x10;
             if (ShowChat)
-                bitfield |= 0x02;
+                bitfield |= 0x20;
             if (PingThrottled)
-                bitfield |= 0x04;
+                bitfield |= 0x40;
             if (PlayVO)
-                bitfield |= 0x08;
+                bitfield |= 0x80;
             writer.WriteByte(bitfield);
         }
     }

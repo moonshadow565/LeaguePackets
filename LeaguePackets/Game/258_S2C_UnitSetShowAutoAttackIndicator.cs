@@ -19,21 +19,14 @@ namespace LeaguePackets.Game
         {
 
             this.NetID = reader.ReadUInt32();
-
-            byte bitfield = reader.ReadByte();
-            this.ShowIndicator = (bitfield & 0x01) != 0;
-            this.ShowMinimapIndicator = (bitfield & 0x02) != 0;
+            this.ShowIndicator = reader.ReadBool();
+            this.ShowMinimapIndicator = reader.ReadBool();
         }
         protected override void WriteBody(ByteWriter writer)
         {
             writer.WriteUInt32(NetID);
-
-            byte bitfield = 0;
-            if (ShowIndicator)
-                bitfield |= 0x01;
-            if (ShowMinimapIndicator)
-                bitfield |= 0x02;
-            writer.WriteByte(bitfield);
+            writer.WriteBool(ShowIndicator);
+            writer.WriteBool(ShowMinimapIndicator);
         }
     }
 }

@@ -15,17 +15,11 @@ namespace LeaguePackets.Game
 
         protected override void ReadBody(ByteReader reader)
         {
-
-            byte bitfield = reader.ReadByte();
-            this.Enabled = (bitfield & 0x01) != 0;
+            this.Enabled = reader.ReadBool();
         }
         protected override void WriteBody(ByteWriter writer)
         {
-            byte bitfield = 0;
-            if (Enabled)
-                bitfield |= 0x01;
-
-            writer.WriteByte(bitfield);
+            writer.WriteBool(Enabled);
         }
     }
 }

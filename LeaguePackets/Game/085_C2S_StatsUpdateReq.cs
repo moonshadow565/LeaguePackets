@@ -14,12 +14,9 @@ namespace LeaguePackets.Game
 
         protected override void ReadBody(ByteReader reader)
         {
-
-            reader.ReadPad(20);
         }
         protected override void WriteBody(ByteWriter writer)
         {
-            writer.WritePad(20);
         }
     }
 }

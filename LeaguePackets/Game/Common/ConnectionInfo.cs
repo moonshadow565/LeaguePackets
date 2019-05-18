@@ -23,11 +23,12 @@ namespace LeaguePackets.Game.Common
             info.PlayerID = reader.ReadInt64();
             info.Percentage = reader.ReadFloat();
             info.ETA = reader.ReadFloat();
-            info.Count = reader.ReadUInt16();
-            info.Ping = reader.ReadUInt16();
 
-            byte bitfield = reader.ReadByte();
-            info.Ready = (bitfield & 0x01) != 0;
+            info.Count = reader.ReadUInt16();
+
+            ushort bitfield = reader.ReadUInt16();
+            info.Ping = (ushort)(bitfield & 0x7FFF);
+            info.Ready = (byte)(bitfield & 0x8000) != 0;
 
             return info;
         }
@@ -43,12 +44,12 @@ namespace LeaguePackets.Game.Common
             writer.WriteFloat(info.Percentage);
             writer.WriteFloat(info.ETA);
             writer.WriteUInt16(info.Count);
-            writer.WriteUInt16(info.Ping);
 
-            byte bitfield = 0;
+            ushort bitfield = 0;
+            bitfield |= (ushort)(info.Ping);
             if (info.Ready)
-                bitfield |= 0x01;
-            writer.WriteByte(bitfield);
+                bitfield |= 0x8000;
+            writer.WriteUInt16(bitfield);
         }
     }
 }

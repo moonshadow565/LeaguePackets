@@ -15,7 +15,6 @@ namespace LeaguePackets.Game
         public Vector2 Position { get; set; }
         public Vector2 Goal { get; set; }
         public float Speed { get; set; }
-        public bool FaceGoalPosition { get; set; }
 
         protected override void ReadBody(ByteReader reader)
         {
@@ -23,21 +22,12 @@ namespace LeaguePackets.Game
             this.Position = reader.ReadVector2();
             this.Goal = reader.ReadVector2();
             this.Speed = reader.ReadFloat();
-
-            byte bitfield = reader.ReadByte();
-            this.FaceGoalPosition = (bitfield & 0x01) != 0;
         }
         protected override void WriteBody(ByteWriter writer)
         {
             writer.WriteVector2(Position);
             writer.WriteVector2(Goal);
             writer.WriteFloat(Speed);
-
-            byte bitfield = 0;
-            if (FaceGoalPosition)
-                bitfield |= 0x01;
-
-            writer.WriteByte(bitfield);
         }
     }
 }

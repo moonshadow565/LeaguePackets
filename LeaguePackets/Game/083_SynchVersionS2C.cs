@@ -12,9 +12,6 @@ namespace LeaguePackets.Game
     public class SynchVersionS2C : GamePacket // 0x54
     {
         public override GamePacketID ID => GamePacketID.SynchVersionS2C;
-        private string[] _mutators = new string[8];
-        private uint[] _disabledItems = new uint[64];
-        private bool[] _enabledDradisMessages = new bool[19];
         private PlayerLoadInfo[] _playerInfo = new PlayerLoadInfo[12];
 
         public bool VersionMatches { get; set; }
@@ -25,10 +22,7 @@ namespace LeaguePackets.Game
         public int MapToLoad { get; set; }
         public PlayerLoadInfo[] PlayerInfo => _playerInfo;
         public string VersionString { get; set; } = "";
-        public string MapMode { get; set; } = "";
-        public string PlatformID { get; set; } = "";
-        public string[] Mutators => _mutators;
-        public byte MutatorsNum { get; set; }            
+        public string MapMode { get; set; } = "";         
         public string OrderRankedTeamName { get; set; } = "";
         public string OrderRankedTeamTag { get; set; } = "";
         public string ChaosRankedTeamName { get; set; } = "";
@@ -43,9 +37,7 @@ namespace LeaguePackets.Game
         public string DradisTestResource { get; set; } = "";
         public ushort DradisTestPort { get; set; }
         public TipConfig TipConfig { get; set; } = new TipConfig();
-        public ulong GameFeatures { get; set; }
-        public uint[] DisabledItems => _disabledItems;
-        public bool[] EnabledDradisMessages => _enabledDradisMessages;
+        public uint GameFeatures { get; set; }
 
         protected override void ReadBody(ByteReader reader)
         {
@@ -63,10 +55,6 @@ namespace LeaguePackets.Game
             }
             this.VersionString = reader.ReadFixedString(256);
             this.MapMode = reader.ReadFixedString(128);
-            this.PlatformID = reader.ReadFixedString(32);
-            for (var i = 0; i < this.Mutators.Length; i++)
-                this.Mutators[i] = reader.ReadFixedString(64);
-            this.MutatorsNum = reader.ReadByte();
             this.OrderRankedTeamName = reader.ReadFixedString(97);
             this.OrderRankedTeamTag = reader.ReadFixedString(25);
             this.ChaosRankedTeamName = reader.ReadFixedString(97);
@@ -81,11 +69,7 @@ namespace LeaguePackets.Game
             this.DradisTestResource = reader.ReadFixedString(256);
             this.DradisTestPort = reader.ReadUInt16();
             this.TipConfig = reader.ReadTipConfig();
-            this.GameFeatures = reader.ReadUInt64();
-            for (var i = 0; i < this.DisabledItems.Length; i++)
-                this.DisabledItems[i] = reader.ReadUInt32();
-            for (var i = 0; i < this.EnabledDradisMessages.Length; i++)
-                this.EnabledDradisMessages[i] = reader.ReadBool();
+            this.GameFeatures = reader.ReadUInt32();
         }
 
         protected override void WriteBody(ByteWriter writer)
@@ -106,10 +90,6 @@ namespace LeaguePackets.Game
                 writer.WritePlayerInfo(PlayerInfo[i]);
             writer.WriteFixedString(VersionString, 256);
             writer.WriteFixedString(MapMode, 128);
-            writer.WriteFixedString(PlatformID, 32);
-            for (var i = 0; i < Mutators.Length; i++)
-                writer.WriteFixedString(Mutators[i], 64);
-            writer.WriteByte(MutatorsNum);
             writer.WriteFixedString(OrderRankedTeamName, 97);
             writer.WriteFixedString(OrderRankedTeamTag, 25);
             writer.WriteFixedString(ChaosRankedTeamName, 97);
@@ -124,11 +104,7 @@ namespace LeaguePackets.Game
             writer.WriteFixedString(DradisTestResource, 256);
             writer.WriteUInt16(DradisTestPort);
             writer.WriteTipConfig(TipConfig);
-            writer.WriteUInt64(GameFeatures);
-            for (var i = 0; i < DisabledItems.Length; i++)
-                writer.WriteUInt32(DisabledItems[i]);
-            for (var i = 0; i < EnabledDradisMessages.Length; i++)
-                writer.WriteBool(EnabledDradisMessages[i]);
+            writer.WriteUInt32(GameFeatures);
 
         }
     }

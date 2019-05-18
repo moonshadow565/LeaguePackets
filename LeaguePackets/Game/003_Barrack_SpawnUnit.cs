@@ -18,7 +18,6 @@ namespace LeaguePackets.Game
         public byte MinionType { get; set; }
         public short DamageBonus { get; set; }
         public short HealthBonus { get; set; }
-        public byte MinionLevel { get; set; }
 
         protected override void ReadBody(ByteReader reader)
         {
@@ -30,7 +29,6 @@ namespace LeaguePackets.Game
             this.MinionType = reader.ReadByte();
             this.DamageBonus = reader.ReadInt16();
             this.HealthBonus = reader.ReadInt16();
-            this.MinionLevel = reader.ReadByte();
         }
         protected override void WriteBody(ByteWriter writer)
         {
@@ -41,7 +39,6 @@ namespace LeaguePackets.Game
             writer.WriteByte(MinionType);
             writer.WriteInt16(DamageBonus);
             writer.WriteInt16(HealthBonus);
-            writer.WriteByte(MinionLevel);
         }
     }
 }

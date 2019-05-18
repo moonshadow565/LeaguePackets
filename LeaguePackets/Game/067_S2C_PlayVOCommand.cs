@@ -18,15 +18,17 @@ namespace LeaguePackets.Game
 
         protected override void ReadBody(ByteReader reader)
         {
-
+            reader.ReadPad(3);
             this.CommandID = reader.ReadUInt32();
             this.TargetID = reader.ReadUInt32();
             byte bitfield = reader.ReadByte();
             this.HighlightPlayerIcon = (bitfield & 0x01u) != 0x00u;
             this.FromPing = (bitfield & 0x02u) != 0x00u;
+            reader.ReadPad(3);
         }
         protected override void WriteBody(ByteWriter writer)
         {
+            writer.WritePad(3);
             writer.WriteUInt32(CommandID);
             writer.WriteUInt32(TargetID);
             byte bitfield = 0;
@@ -35,6 +37,7 @@ namespace LeaguePackets.Game
             if (FromPing)
                 bitfield |= 2;
             writer.WriteByte(bitfield);
+            writer.WritePad(3);
         }
     }
 }

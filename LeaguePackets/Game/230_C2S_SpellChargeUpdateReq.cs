@@ -13,32 +13,26 @@ namespace LeaguePackets.Game
     {
         public override GamePacketID ID => GamePacketID.C2S_SpellChargeUpdateReq;
         public byte Slot { get; set; }
-        public bool IsSummonerSpellBook { get; set; }
-        // FIXME: ForceStop deprecated ?
         public bool ForceStop { get; set; }
-
         public Vector3 Position { get; set; }
 
         protected override void ReadBody(ByteReader reader)
         {
 
             byte bitfield = reader.ReadByte();
-            this.IsSummonerSpellBook = (bitfield & 0x01) != 0;
-            this.ForceStop = (bitfield & 0x02) != 0;
+            this.Slot = (byte)(bitfield & 0x3Fu);
+            this.ForceStop = (bitfield & 0x40) != 0;
 
-            this.Slot = reader.ReadByte();
             this.Position = reader.ReadVector3();
         }
         protected override void WriteBody(ByteWriter writer)
         {
             byte bitfield = 0;
-            if (IsSummonerSpellBook)
-                bitfield |= 0x01;
+            bitfield |= (byte)(Slot & 0x3Fu);
             if (ForceStop)
-                bitfield |= 0x02;
+                bitfield |= 0x40;
             writer.WriteByte(bitfield);
 
-            writer.WriteByte(Slot);
             writer.WriteVector3(Position);
         }
     }

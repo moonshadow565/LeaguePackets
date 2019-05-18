@@ -12,27 +12,26 @@ namespace LeaguePackets.Game
     {
         public override GamePacketID ID => GamePacketID.RemoveItemAns;
         public byte Slot { get; set; }
-        public byte ItemsInSlot { get; set; }
         public bool NotifyInventoryChange { get; set; }
+        public byte ItemsInSlot { get; set; }
 
         protected override void ReadBody(ByteReader reader)
         {
-
-            this.Slot = reader.ReadByte();
-            this.ItemsInSlot = reader.ReadByte();
-
             byte bitfield = reader.ReadByte();
-            this.NotifyInventoryChange = (bitfield & 0x01) != 0;
+            this.Slot = (byte)(bitfield & 0x7Fu);
+            this.NotifyInventoryChange = (bitfield & 0x80) != 0;
+
+            this.ItemsInSlot = reader.ReadByte();
         }
         protected override void WriteBody(ByteWriter writer)
         {
-            writer.WriteByte(Slot);
-            writer.WriteByte(ItemsInSlot);
-
             byte bitfield = 0;
+            bitfield |= (byte)(Slot & 0x7Fu);
             if (NotifyInventoryChange)
-                bitfield |= 0x01;
+                bitfield |= (byte)0x80u;
+
             writer.WriteByte(bitfield);
+            writer.WriteByte(ItemsInSlot);
         }
     }
 }

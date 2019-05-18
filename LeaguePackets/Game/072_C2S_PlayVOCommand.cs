@@ -20,7 +20,7 @@ namespace LeaguePackets.Game
 
         protected override void ReadBody(ByteReader reader)
         {
-
+            reader.ReadPad(3);
             this.CommandID = reader.ReadUInt32();
             this.TargetNetID = reader.ReadUInt32();
             this.EventHash = reader.ReadUInt32();
@@ -28,9 +28,11 @@ namespace LeaguePackets.Game
             this.HighlightPlayerIcon = (bitfield & 1) != 0;
             this.FromPing = (bitfield & 2) != 0;
             this.AlliesOnly = (bitfield & 4) != 0;
+            reader.ReadPad(3);
         }
         protected override void WriteBody(ByteWriter writer)
         {
+            writer.WritePad(3);
             writer.WriteUInt32(CommandID);
             writer.WriteUInt32(TargetNetID);
             writer.WriteUInt32(EventHash);
@@ -42,6 +44,7 @@ namespace LeaguePackets.Game
             if (AlliesOnly)
                 bitfield |= (byte)4;
             writer.WriteByte(bitfield);
+            writer.WritePad(3);
         }
     }
 }

@@ -13,7 +13,7 @@ namespace LeaguePackets.Game
         public override GamePacketID ID => GamePacketID.DisplayFloatingText;
         public uint TargetNetID { get; set; }
 
-        public uint FloatTextType { get; set; }
+        public byte FloatTextType { get; set; }
         public int Param { get; set; }
         public string Message { get; set; } = "";
 
@@ -21,14 +21,14 @@ namespace LeaguePackets.Game
         {
 
             this.TargetNetID = reader.ReadUInt32();
-            this.FloatTextType = reader.ReadUInt32();
+            this.FloatTextType = reader.ReadByte();
             this.Param = reader.ReadInt32();
             this.Message = reader.ReadFixedStringLast(128);
         }
         protected override void WriteBody(ByteWriter writer)
         {
             writer.WriteUInt32(TargetNetID);
-            writer.WriteUInt32(FloatTextType);
+            writer.WriteByte(FloatTextType);
             writer.WriteInt32(Param);
             writer.WriteFixedStringLast(Message, 128);
         }

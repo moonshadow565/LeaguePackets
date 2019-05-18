@@ -18,21 +18,21 @@ namespace LeaguePackets.Game
 
         protected override void ReadBody(ByteReader reader)
         {
-
+            this.Direction = reader.ReadVector3();
             byte flags = reader.ReadByte();
             this.DoLerpTime = (flags & 1) != 0;
 
-            this.Direction = reader.ReadVector3();
             this.LerpTime = reader.ReadFloat();
         }
         protected override void WriteBody(ByteWriter writer)
         {
+            writer.WriteVector3(Direction);
+
             byte flags = 0;
             if (DoLerpTime)
                 flags |= 1;
             writer.WriteByte(flags);
 
-            writer.WriteVector3(Direction);
             writer.WriteFloat(LerpTime);
         }
     }

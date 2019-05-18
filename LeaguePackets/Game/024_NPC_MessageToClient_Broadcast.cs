@@ -12,7 +12,8 @@ namespace LeaguePackets.Game
     {
         public override GamePacketID ID => GamePacketID.NPC_MessageToClient_Broadcast;
 
-        public float BubbleDelay { get; set; }
+        public uint Unknown1 { get; set; }
+        public uint Unknown2 { get; set; }
         public int SlotNumber { get; set; }
         public bool IsError { get; set; }
         public byte ColorIndex { get; set; }
@@ -21,23 +22,24 @@ namespace LeaguePackets.Game
 
         protected override void ReadBody(ByteReader reader)
         {
-
-            this.BubbleDelay = reader.ReadFloat();
+            this.Unknown1 = reader.ReadUInt32();
+            this.Unknown2 = reader.ReadUInt32();
             this.SlotNumber = reader.ReadInt32();
             this.IsError = reader.ReadBool();
             this.ColorIndex = reader.ReadByte();
             this.FloatTextType = reader.ReadUInt32();
-            this.Message = reader.ReadSizedStringLast();
+            this.Message = reader.ReadFixedStringLast(1024);
         }
 
         protected override void WriteBody(ByteWriter writer)
         {
-            writer.WriteFloat(BubbleDelay);
+            writer.WriteUInt32(Unknown1);
+            writer.WriteUInt32(Unknown2);
             writer.WriteInt32(SlotNumber);
             writer.WriteBool(IsError);
             writer.WriteByte(ColorIndex);
             writer.WriteUInt32(FloatTextType);
-            writer.WriteSizedStringLast(Message);
+            writer.WriteFixedStringLast(Message, 1024);
         }
     }
 }

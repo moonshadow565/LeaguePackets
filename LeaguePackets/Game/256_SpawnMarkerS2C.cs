@@ -15,7 +15,7 @@ namespace LeaguePackets.Game
         public uint NetID { get; set; }
         public byte NetNodeID { get; set; }
         public Vector3 Position { get; set; }
-        public float VisibilitySize { get; set; }
+        public float VisibilitySize { get; set; } // Maybe Doesn't exist?
 
         protected override void ReadBody(ByteReader reader)
         {

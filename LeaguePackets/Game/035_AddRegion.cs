@@ -46,7 +46,7 @@ namespace LeaguePackets.Game
             this.GrassRadius = reader.ReadFloat();
             this.SizeMultiplier = reader.ReadFloat();
             this.SizeAdditive = reader.ReadFloat();
-            byte flags = reader.ReadByte();
+            uint flags = reader.ReadUInt32();
             this.HasCollision = (flags & 1) != 0;
             this.GrantVision = (flags & 2) != 0;
             this.RevealStealth = (flags & 4) != 0;
@@ -67,7 +67,7 @@ namespace LeaguePackets.Game
             writer.WriteFloat(GrassRadius);
             writer.WriteFloat(SizeMultiplier);
             writer.WriteFloat(SizeAdditive);
-            byte flags = 0;
+            uint flags = 0;
             if(HasCollision)
             {
                 flags |= 1;
@@ -80,7 +80,7 @@ namespace LeaguePackets.Game
             {
                 flags |= 4;
             }
-            writer.WriteByte(flags);
+            writer.WriteUInt32(flags);
             writer.WriteFloat(BaseRadius);
         }
     }
