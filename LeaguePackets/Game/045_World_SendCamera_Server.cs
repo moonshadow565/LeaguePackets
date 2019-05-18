@@ -15,7 +15,7 @@ namespace LeaguePackets.Game
         public Vector3 CameraPosition { get; set; }
         public Vector3 CameraDirection { get; set; }
         public int ClientID { get; set; }
-        public byte SyncID { get; set; }
+        public SByte SyncID { get; set; }
 
         protected override void ReadBody(ByteReader reader)
         {
@@ -23,14 +23,14 @@ namespace LeaguePackets.Game
             this.CameraPosition = reader.ReadVector3();
             this.CameraDirection = reader.ReadVector3();
             this.ClientID = reader.ReadInt32();
-            this.SyncID = reader.ReadByte();
+            this.SyncID = reader.ReadSByte();
         }
         protected override void WriteBody(ByteWriter writer)
         {
             writer.WriteVector3(CameraPosition);
             writer.WriteVector3(CameraDirection);
             writer.WriteInt32(ClientID);
-            writer.WriteByte(SyncID);
+            writer.WriteSByte(SyncID);
         }
     }
 }

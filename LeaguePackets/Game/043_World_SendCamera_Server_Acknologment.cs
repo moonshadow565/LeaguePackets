@@ -11,16 +11,16 @@ namespace LeaguePackets.Game
     public class World_SendCamera_Server_Acknologment : GamePacket // 0x2C
     {
         public override GamePacketID ID => GamePacketID.World_SendCamera_Server_Acknologment;
-        public byte SyncID { get; set; }
+        public SByte SyncID { get; set; }
 
         protected override void ReadBody(ByteReader reader)
         {
 
-            this.SyncID = reader.ReadByte();
+            this.SyncID = reader.ReadSByte();
         }
         protected override void WriteBody(ByteWriter writer)
         {
-            writer.WriteByte(SyncID);
+            writer.WriteSByte(SyncID);
         }
     }
 }

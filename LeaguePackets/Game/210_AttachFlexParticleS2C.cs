@@ -14,7 +14,7 @@ namespace LeaguePackets.Game
         public uint NetID { get; set; }
         public byte ParticleFlexID { get; set; }
         public byte CpIndex { get; set; }
-        public uint ParticleAttachType { get; set; }
+        public byte ParticleAttachType { get; set; }
 
         protected override void ReadBody(ByteReader reader)
         {
@@ -22,14 +22,14 @@ namespace LeaguePackets.Game
             this.NetID = reader.ReadUInt32();
             this.ParticleFlexID = reader.ReadByte();
             this.CpIndex = reader.ReadByte();
-            this.ParticleAttachType = reader.ReadUInt32();
+            this.ParticleAttachType = reader.ReadByte();
         }
         protected override void WriteBody(ByteWriter writer)
         {
             writer.WriteUInt32(NetID);
             writer.WriteByte(ParticleFlexID);
             writer.WriteByte(CpIndex);
-            writer.WriteUInt32(ParticleAttachType);
+            writer.WriteByte(ParticleAttachType);
         }
     }
 }
