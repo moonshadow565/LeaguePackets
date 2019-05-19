@@ -28,10 +28,7 @@ namespace LeaguePackets.Game
         public uint BuffSideTeamID { get; set; }
         public int RevealEvent { get; set; }
         public int InitialLevel { get; set; }
-        public float SpawnDuration { get; set; }
-        public float SpawnTime { get; set; }
         public byte BehaviorTree { get; set; }
-        public string AIscript { get; set; } = "";
         public override GamePacketID ID => GamePacketID.S2C_CreateNeutral;
 
         protected override void ReadBody(ByteReader reader)
@@ -54,10 +51,7 @@ namespace LeaguePackets.Game
             this.BuffSideTeamID = reader.ReadUInt32();
             this.RevealEvent = reader.ReadInt32();
             this.InitialLevel = reader.ReadInt32();
-            this.SpawnDuration = reader.ReadFloat();
-            this.SpawnTime = reader.ReadFloat();
             this.BehaviorTree = reader.ReadByte();
-            this.AIscript = reader.ReadFixedStringLast(32);
         }
         protected override void WriteBody(ByteWriter writer)
         {
@@ -78,10 +72,7 @@ namespace LeaguePackets.Game
             writer.WriteUInt32(BuffSideTeamID);
             writer.WriteInt32(RevealEvent);
             writer.WriteInt32(InitialLevel);
-            writer.WriteFloat(SpawnDuration);
-            writer.WriteFloat(SpawnTime);
             writer.WriteByte(BehaviorTree);
-            writer.WriteFixedStringLast(AIscript, 32);
         }
     }
 }

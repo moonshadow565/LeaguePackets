@@ -15,18 +15,22 @@ namespace LeaguePackets.Game
         public Vector3 Position { get; set; }
         public string MinimapIcon { get; set; } = "";
         public byte CampIndex { get; set; }
+        // TODO: those should be 2 bytes?
+        public ushort Unknown { get; set; }
 
         protected override void ReadBody(ByteReader reader)
         {
             this.Position = reader.ReadVector3();
             this.MinimapIcon = reader.ReadFixedString(64);
             this.CampIndex = reader.ReadByte();
+            this.Unknown = reader.ReadUInt16();
         }
         protected override void WriteBody(ByteWriter writer)
         {
             writer.WriteVector3(Position);
             writer.WriteFixedString(MinimapIcon, 64);
             writer.WriteByte(CampIndex);
+            writer.WriteUInt16(Unknown);
         }
     }
 }

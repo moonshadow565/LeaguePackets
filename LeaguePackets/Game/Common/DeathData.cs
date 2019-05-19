@@ -10,6 +10,7 @@ namespace LeaguePackets.Game.Common
         public uint DamageSource { get; set; }
         public float DeathDuration { get; set; }
         public bool BecomeZombie { get; set; }
+        public byte DeathType { get; set; }
     }
 
     public static class DeathDataExtension
@@ -24,6 +25,8 @@ namespace LeaguePackets.Game.Common
 
             byte bitfield = reader.ReadByte();
             data.BecomeZombie = (bitfield & 1) != 0;
+
+            data.DeathType = reader.ReadByte();
             return data;
         }
 
@@ -43,6 +46,7 @@ namespace LeaguePackets.Game.Common
             if (data.BecomeZombie)
                 bitfield |= 1;
             writer.WriteByte(bitfield);
+            writer.WriteByte(data.DeathType);
         }
     }
 }

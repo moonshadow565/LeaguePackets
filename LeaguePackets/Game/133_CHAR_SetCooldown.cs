@@ -16,33 +16,25 @@ namespace LeaguePackets.Game
         public bool IsSummonerSpell { get; set; }
 
         public float Cooldown { get; set; }
-        public float MaxCooldownForDisplay { get; set; }
 
         protected override void ReadBody(ByteReader reader)
         {
 
-            this.Slot = reader.ReadByte();
-
             byte bitfield = reader.ReadByte();
-            this.PlayVOWhenCooldownReady = (bitfield & 0x01) != 0;
-            this.IsSummonerSpell = (bitfield & 0x02) != 0;
+            this.Slot = (byte)(bitfield & 0x3F);
+            this.IsSummonerSpell = (bitfield & 0x40) != 0;
 
             this.Cooldown = reader.ReadFloat();
-            this.MaxCooldownForDisplay = reader.ReadFloat();
         }
         protected override void WriteBody(ByteWriter writer)
         {
-            writer.WriteByte(Slot);
-
             byte bitfield = 0;
-            if (PlayVOWhenCooldownReady)
-                bitfield |= 0x01;
+            bitfield |= (byte)(Slot & 0x3F);
             if (IsSummonerSpell)
-                bitfield |= 0x02;
+                bitfield |= 0x40;
             writer.WriteByte(bitfield);
 
             writer.WriteFloat(Cooldown);
-            writer.WriteFloat(MaxCooldownForDisplay);
         }
     }
 }

@@ -103,7 +103,6 @@ namespace LeaguePacketsSender
                     answer.MapToLoad = mapNum;
                     answer.PlayerInfo[0] = playerLiteInfo;
                     answer.MapMode = "CLASSIC";
-                    answer.PlatformID = "EUW";
                     answer.GameFeatures |= (1 << 0x1);
                     answer.GameFeatures |= (1 << 0x4);
                     answer.GameFeatures |= (1 << 0x7);
@@ -134,7 +133,7 @@ namespace LeaguePacketsSender
                     var avatarInfo = new AvatarInfo_Server();
                     avatarInfo.SenderNetID = 0x40000001;
                     avatarInfo.SummonerIDs[0] = 106858133;
-                    avatarInfo.SummonerIDs2[0] = 106858133;
+                    avatarInfo.SummonerIDs[1] = 106858133;
                     server.SendEncrypted(cid, ChannelID.Broadcast, avatarInfo);
 
 

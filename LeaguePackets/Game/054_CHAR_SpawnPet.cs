@@ -16,7 +16,6 @@ namespace LeaguePackets.Game
         public byte NetNodeID { get; set; }
         public Vector3 Position { get; set; }
         public int CastSpellLevelPlusOne { get; set; }
-        public float Duration { get; set; }
         public uint TeamID { get; set; }
         public int DamageBonus { get; set; }
         public int HealthBonus { get; set; }
@@ -39,7 +38,6 @@ namespace LeaguePackets.Game
             this.NetNodeID = reader.ReadByte();
             this.Position = reader.ReadVector3();
             this.CastSpellLevelPlusOne = reader.ReadInt32();
-            this.Duration = reader.ReadFloat();
             this.TeamID = reader.ReadUInt32();
             this.DamageBonus = reader.ReadInt32();
             this.HealthBonus = reader.ReadInt32();
@@ -63,7 +61,6 @@ namespace LeaguePackets.Game
             writer.WriteByte(NetNodeID);
             writer.WriteVector3(Position);
             writer.WriteInt32(CastSpellLevelPlusOne);
-            writer.WriteFloat(Duration);
             writer.WriteUInt32(TeamID);
             writer.WriteInt32(DamageBonus);
             writer.WriteInt32(HealthBonus);

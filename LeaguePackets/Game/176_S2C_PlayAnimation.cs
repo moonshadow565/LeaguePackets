@@ -12,28 +12,25 @@ namespace LeaguePackets.Game
     {
         public override GamePacketID ID => GamePacketID.S2C_PlayAnimation;
         //TODO: figure out this stupid bitfield
-        public byte AnimationFlags { get; set; }
+        public uint AnimationFlags { get; set; }
         public float ScaleTime { get; set; }
         public float StartProgress { get; set; }
-        public float SpeedRatio { get; set; }
         public string AnimationName { get; set; } = "";
 
         protected override void ReadBody(ByteReader reader)
         {
 
-            this.AnimationFlags = reader.ReadByte();
+            this.AnimationFlags = reader.ReadUInt32();
             this.ScaleTime = reader.ReadFloat();
             this.StartProgress = reader.ReadFloat();
-            this.SpeedRatio = reader.ReadFloat();
             this.AnimationName = reader.ReadFixedStringLast(64);
         }
 
         protected override void WriteBody(ByteWriter writer)
         {
-            writer.WriteByte(AnimationFlags);
+            writer.WriteUInt32(AnimationFlags);
             writer.WriteFloat(ScaleTime);
             writer.WriteFloat(StartProgress);
-            writer.WriteFloat(SpeedRatio);
             writer.WriteFixedStringLast(AnimationName, 64);
         }
     }

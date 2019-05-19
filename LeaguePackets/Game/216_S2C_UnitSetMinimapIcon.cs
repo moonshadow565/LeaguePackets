@@ -16,17 +16,15 @@ namespace LeaguePackets.Game
         public string IconCategory { get; set; } = "";
         public bool ChangeBorder { get; set; }
         public string BorderCategory { get; set; } = "";
-        public string BorderScriptName { get; set; } = "";
 
         protected override void ReadBody(ByteReader reader)
         {
 
             this.UnitNetID = reader.ReadUInt32();
-            this.ChangeIcon = (reader.ReadByte() & 0x01) != 0;
+            this.ChangeIcon = reader.ReadBool();
             this.IconCategory = reader.ReadFixedString(64);
-            this.ChangeBorder = (reader.ReadByte() & 0x01) != 0;
+            this.ChangeBorder = reader.ReadBool();
             this.BorderCategory = reader.ReadFixedString(64);
-            this.BorderScriptName = reader.ReadFixedStringLast(64);
         }
         protected override void WriteBody(ByteWriter writer)
         {
@@ -35,7 +33,6 @@ namespace LeaguePackets.Game
             writer.WriteFixedString(IconCategory, 64);
             writer.WriteBool(ChangeBorder);
             writer.WriteFixedString(BorderCategory, 64);
-            writer.WriteFixedStringLast(BorderScriptName, 64);
         }
     }
 }

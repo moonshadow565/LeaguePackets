@@ -20,7 +20,7 @@ namespace LeaguePackets.Game
         protected override void ReadBody(ByteReader reader)
         {
 
-            int totalSize = (ushort)(reader.ReadUInt16() & 0x1FFF);
+            int totalSize = (ushort)(reader.ReadUInt16() & 0x7FFu);
             for (; totalSize > 0;)
             {
                 ushort size = reader.ReadUInt16();
@@ -44,7 +44,7 @@ namespace LeaguePackets.Game
                 foreach (var packet in Packets)
                 {
                     var data = packet.GetBytes();
-                    if (data.Length > 0x1FFF)
+                    if (data.Length > 0x7FF)
                     {
                         throw new IOException("Packet too big!");
                     }
@@ -52,11 +52,11 @@ namespace LeaguePackets.Game
                     writer.WriteBytes(data);
                 }
                 var buffer = writer2.GetBytes();
-                if (buffer.Length > 0x1FFF)
+                if (buffer.Length > 0x7FF)
                 {
                     throw new IOException("Packet data too big!");
                 }
-                writer.WriteUInt16((ushort)(buffer.Length & 0x1FFF));
+                writer.WriteUInt16((ushort)(buffer.Length & 0x7FFu));
                 writer.WriteBytes(buffer);
             }
 

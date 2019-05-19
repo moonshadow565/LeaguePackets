@@ -5,12 +5,10 @@ namespace LeaguePackets.Game.Common
 {
     public class TooltipVars
     {
-        private float[] _values = new float[16];
-        private bool[] _hideFromEnemy = new bool[16];
+        private float[] _values = new float[5];
         public uint OwnerNetID { get; set; }
         public byte SlotIndex { get; set; }
         public float[] Values => _values;
-        public bool[] HideFromEnemy => _hideFromEnemy;
     }
 
     public static class TooltipVarsExtension
@@ -23,10 +21,6 @@ namespace LeaguePackets.Game.Common
             for (int i = 0; i < data.Values.Length; i++)
             {
                 data.Values[i] = reader.ReadFloat();
-            }
-            for (int i = 0; i < data.HideFromEnemy.Length; i++)
-            {
-                data.HideFromEnemy[i] = reader.ReadBool();
             }
             return data;
         }
@@ -42,10 +36,6 @@ namespace LeaguePackets.Game.Common
             for (int i = 0; i < data.Values.Length; i++)
             {
                 writer.WriteFloat(data.Values[i]);
-            }
-            for (int i = 0; i < data.HideFromEnemy.Length; i++)
-            {
-                writer.WriteBool(data.HideFromEnemy[i]);
             }
         }
     }

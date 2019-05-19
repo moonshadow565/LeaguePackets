@@ -25,11 +25,6 @@ namespace LeaguePackets.Game
         public float SizeMultiplier { get; set; }
         public float SizeAdditive { get; set; }
 
-        public bool HasCollision { get; set; }
-        public bool GrantVision { get; set; }
-        public bool RevealStealth { get; set; }
-
-        public float BaseRadius { get; set; }
 
         protected override void ReadBody(ByteReader reader)
         {
@@ -46,12 +41,6 @@ namespace LeaguePackets.Game
             this.GrassRadius = reader.ReadFloat();
             this.SizeMultiplier = reader.ReadFloat();
             this.SizeAdditive = reader.ReadFloat();
-            uint flags = reader.ReadUInt32();
-            this.HasCollision = (flags & 1) != 0;
-            this.GrantVision = (flags & 2) != 0;
-            this.RevealStealth = (flags & 4) != 0;
-
-            this.BaseRadius = reader.ReadFloat();
         }
         protected override void WriteBody(ByteWriter writer)
         {
@@ -67,21 +56,7 @@ namespace LeaguePackets.Game
             writer.WriteFloat(GrassRadius);
             writer.WriteFloat(SizeMultiplier);
             writer.WriteFloat(SizeAdditive);
-            uint flags = 0;
-            if(HasCollision)
-            {
-                flags |= 1;
-            }
-            if(GrantVision)
-            {
-                flags |= 2;
-            }
-            if(RevealStealth)
-            {
-                flags |= 4;
-            }
-            writer.WriteUInt32(flags);
-            writer.WriteFloat(BaseRadius);
+
         }
     }
 }

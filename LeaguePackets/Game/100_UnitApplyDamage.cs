@@ -19,22 +19,24 @@ namespace LeaguePackets.Game
 
         protected override void ReadBody(ByteReader reader)
         {
+            byte bitfield = reader.ReadByte();
+            this.DamageResultType = (byte)(bitfield & 0x07);
+            this.DamageType = (byte)((bitfield >> 3) & 0x03);
 
-            this.DamageResultType = reader.ReadByte();
-            reader.ReadPad(1);
-            this.DamageType = reader.ReadByte();
-            this.Damage = reader.ReadFloat();
             this.TargetNetID = reader.ReadUInt32();
             this.SourceNetID = reader.ReadUInt32();
+            this.Damage = reader.ReadFloat();
         }
         protected override void WriteBody(ByteWriter writer)
         {
-            writer.WriteByte(DamageResultType);
-            writer.WritePad(1);
-            writer.WriteByte(DamageType);
-            writer.WriteFloat(Damage);
+            byte bitfield = 0;
+            bitfield |= (byte)(DamageResultType & 0x07);
+            bitfield |= (byte)((DamageType & 0x03) << 3);
+            writer.WriteByte(bitfield);
+
             writer.WriteUInt32(TargetNetID);
             writer.WriteUInt32(SourceNetID);
+            writer.WriteFloat(Damage);
         }
     }
 }

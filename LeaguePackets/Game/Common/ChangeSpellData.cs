@@ -21,12 +21,11 @@ namespace LeaguePackets.Game.Common
         {
             ChangeSpellData data;
 
-            byte spellSlot = reader.ReadByte();
-
             byte bitfield = reader.ReadByte();
-            bool isSummonerSpell = (bitfield & 0x01) != 0;
+            byte spellSlot = (byte)(bitfield & 0x3Fu);
+            bool isSummonerSpell = (bitfield & 0x40) != 0;
 
-            ChangeSlotSpellDataType type = (ChangeSlotSpellDataType)reader.ReadUInt32();
+            ChangeSlotSpellDataType type = (ChangeSlotSpellDataType)reader.ReadByte();
             switch (type)
             {
                 case ChangeSlotSpellDataType.TargetingType:
@@ -62,14 +61,13 @@ namespace LeaguePackets.Game.Common
         }
         public static void WriteChangeSpellData(this ByteWriter writer, ChangeSpellData data)
         {
-            writer.WriteByte(data.SpellSlot);
-
             byte bitfield = 0;
+            bitfield |= (byte)(data.SpellSlot & 0x3Fu);
             if (data.IsSummonerSpell)
-                bitfield |= 0x01;
+                bitfield |= 0x40;
 
             writer.WriteByte(bitfield);
-            writer.WriteUInt32((uint)data.ChangeSlotSpellDataType);
+            writer.WriteByte((byte)data.ChangeSlotSpellDataType);
             data.WriteBodyInternal(writer);
         }
     }
