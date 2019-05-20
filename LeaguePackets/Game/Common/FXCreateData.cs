@@ -8,7 +8,6 @@ namespace LeaguePackets.Game.Common
     {
         public uint TargetNetID { get; set; }
         public uint NetAssignedNetID { get; set; }
-        public uint CasterNetID { get; set; }
         public uint BindNetID { get; set; }
         public uint KeywordNetID { get; set; }
         public short PositionX { get; set; }
@@ -32,7 +31,6 @@ namespace LeaguePackets.Game.Common
             var data = new FXCreateData();
             data.TargetNetID = reader.ReadUInt32();
             data.NetAssignedNetID = reader.ReadUInt32();
-            data.CasterNetID = reader.ReadUInt32();
             data.BindNetID = reader.ReadUInt32();
             data.KeywordNetID = reader.ReadUInt32();
             data.PositionX = reader.ReadInt16();
@@ -54,7 +52,6 @@ namespace LeaguePackets.Game.Common
         {
             writer.WriteUInt32(data.TargetNetID);
             writer.WriteUInt32(data.NetAssignedNetID);
-            writer.WriteUInt32(data.CasterNetID);
             writer.WriteUInt32(data.BindNetID);
             writer.WriteUInt32(data.KeywordNetID);
             writer.WriteInt16(data.PositionX);

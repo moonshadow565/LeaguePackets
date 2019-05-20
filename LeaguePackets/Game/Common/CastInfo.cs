@@ -11,6 +11,7 @@ namespace LeaguePackets.Game.Common
         public struct Target
         {
             public uint UnitNetID { get; set; }
+            public Vector3 Position { get; set; }
             public byte HitResult { get; set; }
         }
 
@@ -19,7 +20,6 @@ namespace LeaguePackets.Game.Common
         public byte SpellLevel { get; set; } //10 - 11
         public float AttackSpeedModifier { get; set; } //11 - 15
         public uint CasterNetID { get; set; } //15 - 19
-        public uint SpellChainOwnerNetID { get; set; } //19 - 23
         public uint PackageHash { get; set; } //23-27
         public uint MissileNetID { get; set; } //27-31
         public Vector3 TargetPosition { get; set; } //31-35, 35-39, 39-43
@@ -62,7 +62,6 @@ namespace LeaguePackets.Game.Common
             data.SpellLevel = reader.ReadByte();
             data.AttackSpeedModifier = reader.ReadFloat();
             data.CasterNetID = reader.ReadUInt32();
-            data.SpellChainOwnerNetID = reader.ReadUInt32();
             data.PackageHash = reader.ReadUInt32();
             data.MissileNetID = reader.ReadUInt32();
             data.TargetPosition = reader.ReadVector3();
@@ -72,10 +71,12 @@ namespace LeaguePackets.Game.Common
             for (int i = 0; i < targetCount; i++)
             {
                 var unit = reader.ReadUInt32();
+                var position = reader.ReadVector3();
                 var hitResult = reader.ReadByte();
                 data.Targets.Add(new CastInfo.Target
                 {
                     UnitNetID = unit,
+                    Position = position,
                     HitResult = hitResult,
                 });
 
@@ -116,7 +117,6 @@ namespace LeaguePackets.Game.Common
                 writer.WriteByte(data.SpellLevel);
                 writer.WriteFloat(data.AttackSpeedModifier);
                 writer.WriteUInt32(data.CasterNetID);
-                writer.WriteUInt32(data.SpellChainOwnerNetID);
                 writer.WriteUInt32(data.PackageHash);
                 writer.WriteUInt32(data.MissileNetID);
                 writer.WriteVector3(data.TargetPosition);
@@ -131,6 +131,7 @@ namespace LeaguePackets.Game.Common
                 foreach(var target in data.Targets)
                 {
                     writer.WriteUInt32(target.UnitNetID);
+                    writer.WriteVector3(target.Position);
                     writer.WriteByte(target.HitResult);
                 }
 

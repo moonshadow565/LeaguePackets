@@ -18,17 +18,18 @@ namespace LeaguePackets.Game
         protected override void ReadBody(ByteReader reader)
         {
 
+            int size = reader.ReadUInt16();
             this.SyncID = reader.ReadInt32();
-            int size = reader.ReadInt16();
-            for (var i = 0; i < size; i += 16)
+            for (var i = 0; i < size; i ++)
             {
                 this.NavFlagCricles.Add(reader.ReadNavFlagCricle());
             }
         }
         protected override void WriteBody(ByteWriter writer)
         {
+            int size = NavFlagCricles.Count;
+            writer.WriteUInt16((ushort)(size));
             writer.WriteInt32(SyncID);
-            int size = NavFlagCricles.Count * 16;
             if(size > 0xFFFF)
             {
                 throw new IOException("NavFlagCircles list too big!");   

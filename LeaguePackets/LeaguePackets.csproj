@@ -75,7 +75,7 @@
     <Compile Include="Game\032_SwapItemReq.cs" />
     <Compile Include="Game\033_NPC_Die_EventHistory.cs" />
     <Compile Include="Game\034_UnitAddGold.cs" />
-    <Compile Include="Game\035_AddRegion.cs" />
+    <Compile Include="Game\035_AddUnitPerceptionBubble.cs" />
     <Compile Include="Game\036_S2C_MoveCameraToPoint.cs" />
     <Compile Include="Game\037_S2C_LineMissileHitList.cs" />
     <Compile Include="Game\038_S2C_MuteVolumeCategory.cs" />

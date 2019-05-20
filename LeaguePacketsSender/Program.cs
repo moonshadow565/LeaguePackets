@@ -103,11 +103,7 @@ namespace LeaguePacketsSender
                     answer.MapToLoad = mapNum;
                     answer.PlayerInfo[0] = playerLiteInfo;
                     answer.MapMode = "CLASSIC";
-                    answer.GameFeatures |= (1 << 0x1);
-                    answer.GameFeatures |= (1 << 0x4);
-                    answer.GameFeatures |= (1 << 0x7);
-                    answer.GameFeatures |= (1 << 0x8);
-                    answer.GameFeatures |= (1 << 0x6);
+                    answer.GameFeatures = 408;
                     server.SendEncrypted(cid, ChannelID.Broadcast, answer);
                 }
                 else if(packet is C2S_CharSelected reqSelected)

@@ -28,8 +28,7 @@ namespace LeaguePackets.Game
         public uint LookAtNetID { get; set; }
         public byte LookAtType { get; set; }
         public Vector3 LookAtPosition { get; set; }
-        public List<KeyValuePair<byte, int>> BuffCount { get; set; } = new List<KeyValuePair<byte, int>>();
-        public bool UnknownIsHero { get; set; }
+
         public MovementData MovementData { get; set; } = new MovementDataNone();
 
         protected override void ReadBody(ByteReader reader)
@@ -61,6 +60,7 @@ namespace LeaguePackets.Game
                 item.ItemsInSlot = reader.ReadByte();
                 item.SpellCharges = reader.ReadByte();
                 item.ItemID = reader.ReadUInt32();
+                Items.Add(item);
             }
 
             bool hasShield = reader.ReadBool();
@@ -90,17 +90,7 @@ namespace LeaguePackets.Game
             LookAtType = reader.ReadByte();
             LookAtPosition = reader.ReadVector3();
 
-            int numOfBuffCount = reader.ReadInt32();
-            for (int i = 0; i < numOfBuffCount; i++)
-            {
-                byte slot = reader.ReadByte();
-                int count = reader.ReadInt32();
-                BuffCount.Add(new KeyValuePair<byte, int>(slot, count));
-            }
-
-            UnknownIsHero = reader.ReadBool();
-
-            if(reader.BytesLeft < 5)
+            if(reader.BytesLeft < 1)
             {
                 return;
             }
@@ -178,15 +168,6 @@ namespace LeaguePackets.Game
             writer.WriteUInt32(LookAtNetID);
             writer.WriteByte(LookAtType);
             writer.WriteVector3(LookAtPosition);
-
-            writer.WriteInt32(BuffCount.Count);
-            foreach (var kvp in BuffCount)
-            {
-                writer.WriteByte(kvp.Key);
-                writer.WriteInt32(kvp.Value);
-            }
-
-            writer.WriteBool(UnknownIsHero);
 
             writer.WriteMovementDataWithHeader(MovementData);
         }

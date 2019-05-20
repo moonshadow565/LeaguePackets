@@ -17,18 +17,17 @@ namespace LeaguePackets.Game
 
         protected override void ReadBody(ByteReader reader)
         {
-            this.SpellSlot = reader.ReadByte();
 
             byte bitfield = reader.ReadByte();
-            this.ResetSpecified = (bitfield & 0x01) != 0;
+            this.SpellSlot = (byte)(bitfield & 0x3F);
+            this.ResetSpecified = (bitfield & 0x40) != 0;
         }
         protected override void WriteBody(ByteWriter writer)
         {
-            writer.WriteByte(SpellSlot);
-
             byte bitfield = 0;
+            bitfield |= (byte)((byte)SpellSlot & 0x3F);
             if (ResetSpecified)
-                bitfield |= 0x01;
+                bitfield |= 0x40;
             writer.WriteByte(bitfield);
         }
     }

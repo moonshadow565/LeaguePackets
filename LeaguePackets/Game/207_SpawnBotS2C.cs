@@ -29,6 +29,7 @@ namespace LeaguePackets.Game
             this.NetNodeID = reader.ReadByte();
             this.Position = reader.ReadVector3();
             this.BotRank = reader.ReadByte();
+
             ushort bitfield = reader.ReadUInt16();
             this.TeamID = (ushort)(bitfield & 0x1FF);
 
@@ -42,8 +43,9 @@ namespace LeaguePackets.Game
             writer.WriteByte(NetNodeID);
             writer.WriteVector3(Position);
             writer.WriteByte(BotRank);
+
             ushort bitfield = 0;
-            bitfield = (ushort)(TeamID & 0x1FF);
+            bitfield |= (ushort)(TeamID & 0x1FF);
             writer.WriteUInt16(bitfield);
 
             writer.WriteInt32(SkinID);

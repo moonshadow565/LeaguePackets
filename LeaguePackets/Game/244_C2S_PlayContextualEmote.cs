@@ -13,9 +13,10 @@ namespace LeaguePackets.Game
         public override GamePacketID ID => GamePacketID.C2S_PlayContextualEmote;
 
         protected override void ReadBody(ByteReader reader)
-        {
-            var result = new C2S_PlayContextualEmote(); 
+        { 
         }
-        protected override void WriteBody(ByteWriter writer) { }
+        protected override void WriteBody(ByteWriter writer)
+        {
+        }
     }
 }

@@ -13,6 +13,7 @@ namespace LeaguePackets.Game.Events
             ItemID = reader.ReadUInt32();
             ItemCount = reader.ReadUInt32();
             reader.ReadPad(24);
+            reader.ReadPad(24);
             TeamID = reader.ReadUInt32();
         }
         public override void WriteArgs(ByteWriter writer)
@@ -20,6 +21,7 @@ namespace LeaguePackets.Game.Events
             base.WriteArgs(writer);
             writer.WriteUInt32(ItemID);
             writer.WriteUInt32(ItemCount);
+            writer.WritePad(24);
             writer.WritePad(24);
             writer.WriteUInt32(TeamID);
         }

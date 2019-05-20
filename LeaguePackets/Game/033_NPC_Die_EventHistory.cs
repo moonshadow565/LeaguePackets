@@ -20,9 +20,11 @@ namespace LeaguePackets.Game
         protected override void ReadBody(ByteReader reader)
         {
 
-            this.EventSourceType = reader.ReadByte();
             this.KillerNetID = reader.ReadUInt32();
             this.Duration = reader.ReadFloat();
+            this.EventSourceType = reader.ReadByte();
+
+            int _bufferSize = reader.ReadInt32();
             int events = reader.ReadInt32();
             for (int i = 0; i < events; i++)
             {
@@ -31,14 +33,20 @@ namespace LeaguePackets.Game
         }
         protected override void WriteBody(ByteWriter writer)
         {
-            writer.WriteByte(EventSourceType);
             writer.WriteUInt32(KillerNetID);
             writer.WriteFloat(Duration);
-            writer.WriteInt32(Entries.Count);
+            writer.WriteByte(EventSourceType);
+
+            var buffer = new ByteWriter();
             foreach (var ev in Entries)
             {
-                writer.WriteEventHistoryEntry(ev);
+                buffer.WriteEventHistoryEntry(ev);
             }
+            var bufferData = buffer.GetBytes();
+
+            writer.WriteInt32(bufferData.Length);
+            writer.WriteInt32(Entries.Count);
+            writer.WriteBytes(bufferData);
         }
     }
 }

@@ -17,11 +17,15 @@ namespace LeaguePackets.Game
 
         protected override void ReadBody(ByteReader reader)
         {
-            this.Event = reader.ReadEvent();
+            var id = reader.ReadByte();
+            var ev = EventExtension.CreateEvent(id);
+            ev.ReadArgs(reader);
+            this.Event = ev;
         }
         protected override void WriteBody(ByteWriter writer)
         {
-            writer.WriteEvent(Event);
+            writer.WriteByte((byte)Event.ID);
+            Event.WriteArgs(writer);
         }
     }
 }
